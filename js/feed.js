@@ -105,15 +105,21 @@ const GlowFeed = (() => {
       });
     });
 
-    // Show pill after 1.8s
+    // Show both pills after 1.8s
     clearTimeout(pillTimer);
-    pillTimer = setTimeout(() => pill.classList.add('visible'), 1800);
+    pillTimer = setTimeout(() => {
+      pill.classList.add('visible');
+      const navPill = document.getElementById('reelNavPill');
+      if (navPill) navPill.classList.add('visible');
+    }, 1800);
   }
 
   function closeReel() {
     GlowApp.showScreen('feedScreen');
     const pill = document.getElementById('reelModePill');
+    const navPill = document.getElementById('reelNavPill');
     pill.classList.remove('visible');
+    if (navPill) navPill.classList.remove('visible');
     clearTimeout(pillTimer);
   }
 
