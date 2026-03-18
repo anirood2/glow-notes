@@ -1,5 +1,5 @@
-<!DOCTYPE html>
 
+<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
@@ -18,68 +18,68 @@
 /* Colors hardcoded to prevent smart-punctuation issues on mobile */
 
 html, body {
-height: 100%;
-overflow: hidden;
-background: #0f0a04;
-font-family: ‘Lora’, serif;
-color: #fdf6ec;
--webkit-font-smoothing: antialiased;
+  height: 100%;
+  overflow: hidden;
+  background: #0f0a04;
+  font-family: 'Lora', serif;
+  color: #fdf6ec;
+  -webkit-font-smoothing: antialiased;
 }
 
 /* ═══ PARTICLES ═══ */
 #particle-canvas {
-position: fixed; top: 0; left: 0;
-width: 100%; height: 100%;
-z-index: 0; pointer-events: none;
+  position: fixed; top: 0; left: 0;
+  width: 100%; height: 100%;
+  z-index: 0; pointer-events: none;
 }
 
 .ambient-glow {
-position: fixed; top: 0; left: 0;
-width: 100%; height: 100%;
-z-index: 0; pointer-events: none;
-background:
-radial-gradient(ellipse 80% 60% at 30% 80%, rgba(212,165,90,0.15) 0%, transparent 70%),
-radial-gradient(ellipse 60% 50% at 70% 20%, rgba(232,168,73,0.08) 0%, transparent 60%);
-animation: glowShift 12s ease-in-out infinite alternate;
+  position: fixed; top: 0; left: 0;
+  width: 100%; height: 100%;
+  z-index: 0; pointer-events: none;
+  background:
+    radial-gradient(ellipse 80% 60% at 30% 80%, rgba(212,165,90,0.15) 0%, transparent 70%),
+    radial-gradient(ellipse 60% 50% at 70% 20%, rgba(232,168,73,0.08) 0%, transparent 60%);
+  animation: glowShift 12s ease-in-out infinite alternate;
 }
 
 @keyframes glowShift {
-0% { opacity: 0.8; } 50% { opacity: 1; } 100% { opacity: 0.85; }
+  0% { opacity: 0.8; } 50% { opacity: 1; } 100% { opacity: 0.85; }
 }
 
 /* ═══ SCREENS ═══ */
 .screen {
-position: fixed; inset: 0; z-index: 5;
-display: none; flex-direction: column;
-overflow-y: auto; -webkit-overflow-scrolling: touch;
+  position: fixed; inset: 0; z-index: 5;
+  display: none; flex-direction: column;
+  overflow-y: auto; -webkit-overflow-scrolling: touch;
 }
 .screen.active { display: flex; }
 
 /* ═══ LOGIN ═══ */
 #loginScreen {
-justify-content: center; align-items: center;
-padding: 2rem; text-align: center;
+  justify-content: center; align-items: center;
+  padding: 2rem; text-align: center;
 }
 
 .login-container {
-max-width: 400px; width: 100%;
-opacity: 0; transform: translateY(30px);
-animation: fadeSlideUp 1s 0.3s ease forwards;
+  max-width: 400px; width: 100%;
+  opacity: 0; transform: translateY(30px);
+  animation: fadeSlideUp 1s 0.3s ease forwards;
 }
 
 .login-logo {
-font-family: ‘Cormorant Garamond’, serif;
-font-size: 2.5rem; font-weight: 300;
-color: #f5e6c8; letter-spacing: 0.05em;
-margin-bottom: 0.5rem;
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 2.5rem; font-weight: 300;
+  color: #f5e6c8; letter-spacing: 0.05em;
+  margin-bottom: 0.5rem;
 }
 .login-logo em { font-style: italic; color: #d4a55a; }
 
 .login-tagline {
-font-family: ‘Cormorant Garamond’, serif;
-font-size: 1rem; font-weight: 300;
-color: #e8c4a0; letter-spacing: 0.15em;
-margin-bottom: 3rem; opacity: 0.7;
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1rem; font-weight: 300;
+  color: #e8c4a0; letter-spacing: 0.15em;
+  margin-bottom: 3rem; opacity: 0.7;
 }
 
 .login-form { display: flex; flex-direction: column; gap: 1rem; }
@@ -87,166 +87,166 @@ margin-bottom: 3rem; opacity: 0.7;
 .input-group { text-align: left; }
 
 .input-group label {
-display: block;
-font-family: ‘Cormorant Garamond’, serif;
-font-size: 0.75rem; letter-spacing: 0.2em;
-text-transform: uppercase; color: #d4a55a;
-margin-bottom: 6px;
+  display: block;
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 0.75rem; letter-spacing: 0.2em;
+  text-transform: uppercase; color: #d4a55a;
+  margin-bottom: 6px;
 }
 
 .input-field {
-width: 100%;
-background: rgba(212,165,90,0.06);
-border: 1px solid rgba(212,165,90,0.2);
-border-radius: 3px; color: #fdf6ec;
-font-family: ‘Lora’, serif; font-size: 1rem;
-padding: 12px 16px; outline: none;
-transition: border-color 0.3s, box-shadow 0.3s;
+  width: 100%;
+  background: rgba(212,165,90,0.06);
+  border: 1px solid rgba(212,165,90,0.2);
+  border-radius: 3px; color: #fdf6ec;
+  font-family: 'Lora', serif; font-size: 1rem;
+  padding: 12px 16px; outline: none;
+  transition: border-color 0.3s, box-shadow 0.3s;
 }
 .input-field:focus {
-border-color: #d4a55a;
-box-shadow: 0 0 20px rgba(212,165,90,0.1);
+  border-color: #d4a55a;
+  box-shadow: 0 0 20px rgba(212,165,90,0.1);
 }
 .input-field::placeholder { color: rgba(232,196,160,0.3); }
 
 .btn-primary {
-margin-top: 1rem;
-font-family: ‘Cormorant Garamond’, serif;
-font-size: 0.85rem; letter-spacing: 0.2em;
-text-transform: uppercase; color: #0f0a04;
-background: linear-gradient(135deg, #d4a55a, #e8a849);
-border: none; border-radius: 3px;
-padding: 14px 28px; cursor: pointer;
-transition: all 0.3s ease; font-weight: 500;
+  margin-top: 1rem;
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 0.85rem; letter-spacing: 0.2em;
+  text-transform: uppercase; color: #0f0a04;
+  background: linear-gradient(135deg, #d4a55a, #e8a849);
+  border: none; border-radius: 3px;
+  padding: 14px 28px; cursor: pointer;
+  transition: all 0.3s ease; font-weight: 500;
 }
 .btn-primary:hover { transform: translateY(-1px); box-shadow: 0 4px 20px rgba(212,165,90,0.3); }
 .btn-primary:active { transform: translateY(0); }
 .btn-primary:disabled { opacity: 0.4; cursor: not-allowed; transform: none; }
 
 .login-privacy {
-margin-top: 1.5rem;
-font-family: ‘Cormorant Garamond’, serif;
-font-size: 0.7rem; color: #e8c4a0;
-opacity: 0.4; letter-spacing: 0.05em; line-height: 1.6;
+  margin-top: 1.5rem;
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 0.7rem; color: #e8c4a0;
+  opacity: 0.4; letter-spacing: 0.05em; line-height: 1.6;
 }
 
 /* ═══ HEADER ═══ */
 .site-header {
-position: fixed; top: 0; left: 0; right: 0; z-index: 20;
-padding: 1rem 1.2rem;
-display: flex; justify-content: space-between; align-items: center;
-background: linear-gradient(to bottom, rgba(15,10,4,0.95) 0%, transparent 100%);
+  position: fixed; top: 0; left: 0; right: 0; z-index: 20;
+  padding: 1rem 1.2rem;
+  display: flex; justify-content: space-between; align-items: center;
+  background: linear-gradient(to bottom, rgba(15,10,4,0.95) 0%, transparent 100%);
 }
 
 .logo {
-font-family: ‘Cormorant Garamond’, serif;
-font-size: 1.2rem; font-weight: 300;
-color: #f5e6c8; letter-spacing: 0.08em; cursor: pointer;
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.2rem; font-weight: 300;
+  color: #f5e6c8; letter-spacing: 0.08em; cursor: pointer;
 }
 .logo em { font-style: italic; color: #d4a55a; }
 
 .header-actions { display: flex; gap: 8px; align-items: center; }
 
 .btn-header {
-font-family: ‘Cormorant Garamond’, serif;
-font-size: 0.65rem; letter-spacing: 0.12em;
-text-transform: uppercase; color: #d4a55a;
-background: rgba(212,165,90,0.08);
-border: 1px solid rgba(212,165,90,0.2);
-padding: 7px 14px; border-radius: 2px;
-cursor: pointer; transition: all 0.3s ease; white-space: nowrap;
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 0.65rem; letter-spacing: 0.12em;
+  text-transform: uppercase; color: #d4a55a;
+  background: rgba(212,165,90,0.08);
+  border: 1px solid rgba(212,165,90,0.2);
+  padding: 7px 14px; border-radius: 2px;
+  cursor: pointer; transition: all 0.3s ease; white-space: nowrap;
 }
 .btn-header:hover { background: rgba(212,165,90,0.18); border-color: #d4a55a; }
 .btn-header.active-tab { background: rgba(212,165,90,0.2); border-color: #d4a55a; }
 
 /* User greeting in header */
 .user-greeting {
-font-family: ‘Cormorant Garamond’, serif;
-font-size: 0.65rem; letter-spacing: 0.1em;
-color: #e8c4a0; opacity: 0.6;
-margin-right: 4px;
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 0.65rem; letter-spacing: 0.1em;
+  color: #e8c4a0; opacity: 0.6;
+  margin-right: 4px;
 }
 
 /* ═══ FEED ═══ */
 #feedScreen { overflow: hidden; }
 
 .reels-viewport {
-position: relative; width: 100%; height: 100%;
-overflow: hidden; z-index: 1;
+  position: relative; width: 100%; height: 100%;
+  overflow: hidden; z-index: 1;
 }
 
 .reel-track {
-display: flex; flex-direction: column;
-transition: transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
-height: 100%;
+  display: flex; flex-direction: column;
+  transition: transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+  height: 100%;
 }
 
 .reel {
-min-height: 100vh; width: 100%;
-display: flex; flex-direction: column;
-justify-content: center; align-items: center;
-padding: 5rem 1.5rem 4rem;
-position: relative; flex-shrink: 0;
+  min-height: 100vh; width: 100%;
+  display: flex; flex-direction: column;
+  justify-content: center; align-items: center;
+  padding: 5rem 1.5rem 4rem;
+  position: relative; flex-shrink: 0;
 }
 
 .reel-content { max-width: 600px; width: 100%; text-align: center; }
 
 .reel-tag {
-font-family: ‘Cormorant Garamond’, serif;
-font-size: 0.72rem; font-weight: 300;
-letter-spacing: 0.3em; text-transform: uppercase;
-color: #d4a55a; opacity: 0;
-transform: translateY(20px); margin-bottom: 1.8rem;
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 0.72rem; font-weight: 300;
+  letter-spacing: 0.3em; text-transform: uppercase;
+  color: #d4a55a; opacity: 0;
+  transform: translateY(20px); margin-bottom: 1.8rem;
 }
 .reel-tag .line {
-display: inline-block; width: 24px; height: 1px;
-background: #d4a55a; vertical-align: middle;
-margin: 0 10px; opacity: 0.5;
+  display: inline-block; width: 24px; height: 1px;
+  background: #d4a55a; vertical-align: middle;
+  margin: 0 10px; opacity: 0.5;
 }
 
 .reel-title {
-font-family: ‘Cormorant Garamond’, serif;
-font-size: clamp(1.5rem, 5vw, 2.6rem);
-font-weight: 300; line-height: 1.5;
-color: #fdf6ec; margin-bottom: 1.5rem;
-opacity: 0; transform: translateY(30px);
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(1.5rem, 5vw, 2.6rem);
+  font-weight: 300; line-height: 1.5;
+  color: #fdf6ec; margin-bottom: 1.5rem;
+  opacity: 0; transform: translateY(30px);
 }
 
 .reel-body {
-font-family: ‘Lora’, serif;
-font-size: clamp(0.9rem, 2.5vw, 1.05rem);
-line-height: 1.9; color: #e8c4a0;
-opacity: 0; transform: translateY(30px);
+  font-family: 'Lora', serif;
+  font-size: clamp(0.9rem, 2.5vw, 1.05rem);
+  line-height: 1.9; color: #e8c4a0;
+  opacity: 0; transform: translateY(30px);
 }
 .reel-body p { margin-bottom: 1.4em; }
 .reel-body p:last-child { margin-bottom: 0; }
 
 .glow-word {
-color: #f5e6c8;
-text-shadow: 0 0 20px rgba(212,165,90,0.3);
+  color: #f5e6c8;
+  text-shadow: 0 0 20px rgba(212,165,90,0.3);
 }
 
 .reel-signature {
-margin-top: 2rem;
-font-family: ‘Cormorant Garamond’, serif;
-font-style: italic; font-size: 0.95rem;
-color: #d4a55a; opacity: 0;
-transform: translateY(20px);
+  margin-top: 2rem;
+  font-family: 'Cormorant Garamond', serif;
+  font-style: italic; font-size: 0.95rem;
+  color: #d4a55a; opacity: 0;
+  transform: translateY(20px);
 }
 
 .reel-meta {
-margin-top: 2.5rem;
-font-family: ‘Cormorant Garamond’, serif;
-font-size: 0.7rem; letter-spacing: 0.15em;
-text-transform: uppercase; color: #d4a55a;
-opacity: 0; transform: translateY(20px);
+  margin-top: 2.5rem;
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 0.7rem; letter-spacing: 0.15em;
+  text-transform: uppercase; color: #d4a55a;
+  opacity: 0; transform: translateY(20px);
 }
 .reel-meta span { opacity: 0.5; margin: 0 6px; }
 
 .reel-divider {
-width: 40px; height: 1px;
-background: linear-gradient(90deg, transparent, #d4a55a, transparent);
-margin: 1.2rem auto; opacity: 0;
+  width: 40px; height: 1px;
+  background: linear-gradient(90deg, transparent, #d4a55a, transparent);
+  margin: 1.2rem auto; opacity: 0;
 }
 
 .reel.active .reel-tag       { animation: fadeSlideUp 0.8s 0.3s ease forwards; }
@@ -260,356 +260,356 @@ margin: 1.2rem auto; opacity: 0;
 
 /* Nav dots */
 .reel-nav {
-position: fixed; right: 1rem; top: 50%;
-transform: translateY(-50%); z-index: 10;
-display: flex; flex-direction: column; gap: 8px;
+  position: fixed; right: 1rem; top: 50%;
+  transform: translateY(-50%); z-index: 10;
+  display: flex; flex-direction: column; gap: 8px;
 }
 
 .nav-dot {
-width: 7px; height: 7px; border-radius: 50%;
-border: 1px solid #d4a55a;
-background: transparent; cursor: pointer;
-transition: all 0.4s ease; padding: 0;
+  width: 7px; height: 7px; border-radius: 50%;
+  border: 1px solid #d4a55a;
+  background: transparent; cursor: pointer;
+  transition: all 0.4s ease; padding: 0;
 }
 .nav-dot.active-dot {
-background: #d4a55a;
-box-shadow: 0 0 12px rgba(212,165,90,0.5);
-transform: scale(1.3);
+  background: #d4a55a;
+  box-shadow: 0 0 12px rgba(212,165,90,0.5);
+  transform: scale(1.3);
 }
 
 .reel-counter {
-position: fixed; bottom: 1.5rem; left: 1.2rem;
-font-family: ‘Cormorant Garamond’, serif;
-font-size: 0.75rem; letter-spacing: 0.15em;
-color: #d4a55a; opacity: 0.35; z-index: 10;
+  position: fixed; bottom: 1.5rem; left: 1.2rem;
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 0.75rem; letter-spacing: 0.15em;
+  color: #d4a55a; opacity: 0.35; z-index: 10;
 }
 
 .scroll-hint {
-position: fixed; bottom: 1.5rem; left: 50%;
-transform: translateX(-50%); z-index: 10;
-display: flex; flex-direction: column;
-align-items: center; gap: 6px;
-opacity: 0; animation: fadeIn 1s 2.5s ease forwards;
-transition: opacity 0.4s ease;
+  position: fixed; bottom: 1.5rem; left: 50%;
+  transform: translateX(-50%); z-index: 10;
+  display: flex; flex-direction: column;
+  align-items: center; gap: 6px;
+  opacity: 0; animation: fadeIn 1s 2.5s ease forwards;
+  transition: opacity 0.4s ease;
 }
 .scroll-hint span {
-font-family: ‘Cormorant Garamond’, serif;
-font-size: 0.65rem; letter-spacing: 0.2em;
-text-transform: uppercase; color: #d4a55a; opacity: 0.5;
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 0.65rem; letter-spacing: 0.2em;
+  text-transform: uppercase; color: #d4a55a; opacity: 0.5;
 }
 .scroll-arrow {
-width: 14px; height: 14px;
-border-right: 1px solid #d4a55a;
-border-bottom: 1px solid #d4a55a;
-transform: rotate(45deg); opacity: 0.4;
-animation: bounceArrow 2s ease-in-out infinite;
+  width: 14px; height: 14px;
+  border-right: 1px solid #d4a55a;
+  border-bottom: 1px solid #d4a55a;
+  transform: rotate(45deg); opacity: 0.4;
+  animation: bounceArrow 2s ease-in-out infinite;
 }
 
 @keyframes bounceArrow {
-0%, 100% { transform: rotate(45deg) translateY(0); }
-50% { transform: rotate(45deg) translateY(5px); }
+  0%, 100% { transform: rotate(45deg) translateY(0); }
+  50% { transform: rotate(45deg) translateY(5px); }
 }
 @keyframes fadeIn { to { opacity: 1; } }
 
 /* ═══ CREATE FLOW ═══ */
 #createScreen {
-justify-content: center; align-items: center; padding: 2rem;
+  justify-content: center; align-items: center; padding: 2rem;
 }
 
 .create-container { max-width: 480px; width: 100%; text-align: center; }
 
 .step {
-display: none; flex-direction: column; align-items: center;
-opacity: 0; transform: translateY(20px);
+  display: none; flex-direction: column; align-items: center;
+  opacity: 0; transform: translateY(20px);
 }
 .step.active-step {
-display: flex;
-animation: fadeSlideUp 0.6s ease forwards;
+  display: flex;
+  animation: fadeSlideUp 0.6s ease forwards;
 }
 
 .step-progress { display: flex; gap: 6px; margin-bottom: 2.5rem; }
 
 .step-pip {
-width: 24px; height: 2px;
-background: rgba(212,165,90,0.2);
-border-radius: 1px; transition: background 0.4s;
+  width: 24px; height: 2px;
+  background: rgba(212,165,90,0.2);
+  border-radius: 1px; transition: background 0.4s;
 }
 .step-pip.filled { background: #d4a55a; }
 
 .step-question {
-font-family: ‘Cormorant Garamond’, serif;
-font-size: clamp(1.3rem, 4vw, 1.8rem);
-font-weight: 300; color: #fdf6ec;
-line-height: 1.5; margin-bottom: 0.6rem;
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(1.3rem, 4vw, 1.8rem);
+  font-weight: 300; color: #fdf6ec;
+  line-height: 1.5; margin-bottom: 0.6rem;
 }
 
 .step-sub {
-font-family: ‘Lora’, serif;
-font-size: 0.85rem; color: #e8c4a0;
-opacity: 0.6; margin-bottom: 2rem; line-height: 1.6;
+  font-family: 'Lora', serif;
+  font-size: 0.85rem; color: #e8c4a0;
+  opacity: 0.6; margin-bottom: 2rem; line-height: 1.6;
 }
 
 .step .input-field { text-align: center; }
 .step textarea.input-field {
-text-align: left; min-height: 140px;
-resize: vertical; line-height: 1.8;
+  text-align: left; min-height: 140px;
+  resize: vertical; line-height: 1.8;
 }
 
 /* Mood picker */
 .mood-grid {
-display: grid; grid-template-columns: 1fr 1fr;
-gap: 10px; width: 100%; margin-bottom: 1rem;
+  display: grid; grid-template-columns: 1fr 1fr;
+  gap: 10px; width: 100%; margin-bottom: 1rem;
 }
 
 .mood-card {
-background: rgba(212,165,90,0.05);
-border: 1px solid rgba(212,165,90,0.15);
-border-radius: 4px; padding: 18px 14px;
-cursor: pointer; transition: all 0.3s ease; text-align: center;
+  background: rgba(212,165,90,0.05);
+  border: 1px solid rgba(212,165,90,0.15);
+  border-radius: 4px; padding: 18px 14px;
+  cursor: pointer; transition: all 0.3s ease; text-align: center;
 }
 .mood-card:hover { border-color: rgba(212,165,90,0.4); }
 .mood-card.selected {
-border-color: #d4a55a;
-background: rgba(212,165,90,0.12);
-box-shadow: 0 0 20px rgba(212,165,90,0.1);
+  border-color: #d4a55a;
+  background: rgba(212,165,90,0.12);
+  box-shadow: 0 0 20px rgba(212,165,90,0.1);
 }
 
 .mood-emoji { font-size: 1.5rem; margin-bottom: 6px; }
 .mood-label {
-font-family: ‘Cormorant Garamond’, serif;
-font-size: 0.85rem; letter-spacing: 0.1em; color: #f5e6c8;
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 0.85rem; letter-spacing: 0.1em; color: #f5e6c8;
 }
 
 /* Message choice */
 .message-choice {
-display: flex; flex-direction: column;
-gap: 10px; width: 100%; margin-bottom: 1rem;
+  display: flex; flex-direction: column;
+  gap: 10px; width: 100%; margin-bottom: 1rem;
 }
 
 .choice-card {
-background: rgba(212,165,90,0.05);
-border: 1px solid rgba(212,165,90,0.15);
-border-radius: 4px; padding: 16px 20px;
-cursor: pointer; transition: all 0.3s ease; text-align: left;
+  background: rgba(212,165,90,0.05);
+  border: 1px solid rgba(212,165,90,0.15);
+  border-radius: 4px; padding: 16px 20px;
+  cursor: pointer; transition: all 0.3s ease; text-align: left;
 }
 .choice-card:hover { border-color: rgba(212,165,90,0.4); }
 .choice-card.selected {
-border-color: #d4a55a; background: rgba(212,165,90,0.12);
+  border-color: #d4a55a; background: rgba(212,165,90,0.12);
 }
 
 .choice-card h4 {
-font-family: ‘Cormorant Garamond’, serif;
-font-size: 0.95rem; color: #f5e6c8; font-weight: 400; margin-bottom: 4px;
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 0.95rem; color: #f5e6c8; font-weight: 400; margin-bottom: 4px;
 }
 .choice-card p {
-font-family: ‘Lora’, serif;
-font-size: 0.75rem; color: #e8c4a0; opacity: 0.6;
+  font-family: 'Lora', serif;
+  font-size: 0.75rem; color: #e8c4a0; opacity: 0.6;
 }
 
 /* Visibility toggle */
 .visibility-toggle { display: flex; gap: 10px; width: 100%; margin-bottom: 1rem; }
 
 .vis-option {
-flex: 1; background: rgba(212,165,90,0.05);
-border: 1px solid rgba(212,165,90,0.15);
-border-radius: 4px; padding: 16px;
-cursor: pointer; transition: all 0.3s ease; text-align: center;
+  flex: 1; background: rgba(212,165,90,0.05);
+  border: 1px solid rgba(212,165,90,0.15);
+  border-radius: 4px; padding: 16px;
+  cursor: pointer; transition: all 0.3s ease; text-align: center;
 }
 .vis-option:hover { border-color: rgba(212,165,90,0.4); }
 .vis-option.selected {
-border-color: #d4a55a; background: rgba(212,165,90,0.12);
+  border-color: #d4a55a; background: rgba(212,165,90,0.12);
 }
 .vis-option .vis-icon { font-size: 1.3rem; margin-bottom: 6px; }
 .vis-option h4 {
-font-family: ‘Cormorant Garamond’, serif;
-font-size: 0.85rem; color: #f5e6c8; font-weight: 400; margin-bottom: 3px;
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 0.85rem; color: #f5e6c8; font-weight: 400; margin-bottom: 3px;
 }
 .vis-option p {
-font-family: ‘Lora’, serif;
-font-size: 0.65rem; color: #e8c4a0; opacity: 0.5;
+  font-family: 'Lora', serif;
+  font-size: 0.65rem; color: #e8c4a0; opacity: 0.5;
 }
 
 /* Generating */
 .generating {
-display: none; flex-direction: column;
-align-items: center; gap: 1.5rem; padding: 3rem 0;
+  display: none; flex-direction: column;
+  align-items: center; gap: 1.5rem; padding: 3rem 0;
 }
 .generating.show { display: flex; }
 
 .gen-dots { display: flex; gap: 8px; }
 .gen-dot {
-width: 8px; height: 8px; border-radius: 50%;
-background: #d4a55a;
-animation: genPulse 1.4s ease-in-out infinite;
+  width: 8px; height: 8px; border-radius: 50%;
+  background: #d4a55a;
+  animation: genPulse 1.4s ease-in-out infinite;
 }
 .gen-dot:nth-child(2) { animation-delay: 0.2s; }
 .gen-dot:nth-child(3) { animation-delay: 0.4s; }
 
 @keyframes genPulse {
-0%, 100% { opacity: 0.2; transform: scale(0.8); }
-50% { opacity: 1; transform: scale(1.2); }
+  0%, 100% { opacity: 0.2; transform: scale(0.8); }
+  50% { opacity: 1; transform: scale(1.2); }
 }
 
 .gen-text {
-font-family: ‘Cormorant Garamond’, serif;
-font-size: 1.1rem; color: #f5e6c8; font-style: italic;
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.1rem; color: #f5e6c8; font-style: italic;
 }
 
 /* Step buttons */
 .step-actions {
-display: flex; gap: 10px; margin-top: 1.5rem;
-width: 100%; justify-content: center;
+  display: flex; gap: 10px; margin-top: 1.5rem;
+  width: 100%; justify-content: center;
 }
 
 .btn-step {
-font-family: ‘Cormorant Garamond’, serif;
-font-size: 0.78rem; letter-spacing: 0.15em;
-text-transform: uppercase; padding: 11px 24px;
-border-radius: 3px; cursor: pointer; transition: all 0.3s ease;
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 0.78rem; letter-spacing: 0.15em;
+  text-transform: uppercase; padding: 11px 24px;
+  border-radius: 3px; cursor: pointer; transition: all 0.3s ease;
 }
 
 .btn-back {
-background: none; border: 1px solid rgba(212,165,90,0.2); color: #e8c4a0;
+  background: none; border: 1px solid rgba(212,165,90,0.2); color: #e8c4a0;
 }
 .btn-back:hover { border-color: #e8c4a0; }
 
 .btn-next {
-background: linear-gradient(135deg, #d4a55a, #e8a849);
-border: none; color: #0f0a04; font-weight: 500;
+  background: linear-gradient(135deg, #d4a55a, #e8a849);
+  border: none; color: #0f0a04; font-weight: 500;
 }
 .btn-next:hover { box-shadow: 0 4px 20px rgba(212,165,90,0.3); }
 .btn-next:disabled { opacity: 0.3; cursor: not-allowed; }
 
 /* ═══ PREVIEW ═══ */
 #previewScreen {
-justify-content: center; align-items: center;
-padding: 5rem 1.5rem 4rem;
+  justify-content: center; align-items: center;
+  padding: 5rem 1.5rem 4rem;
 }
 
 .preview-container {
-max-width: 600px; width: 100%; text-align: center;
-opacity: 0; transform: translateY(20px);
-animation: fadeSlideUp 0.8s 0.2s ease forwards;
+  max-width: 600px; width: 100%; text-align: center;
+  opacity: 0; transform: translateY(20px);
+  animation: fadeSlideUp 0.8s 0.2s ease forwards;
 }
 
 .preview-label {
-font-family: ‘Cormorant Garamond’, serif;
-font-size: 0.7rem; letter-spacing: 0.3em;
-text-transform: uppercase; color: #d4a55a;
-margin-bottom: 2rem; opacity: 0.6;
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 0.7rem; letter-spacing: 0.3em;
+  text-transform: uppercase; color: #d4a55a;
+  margin-bottom: 2rem; opacity: 0.6;
 }
 
 .preview-actions {
-display: flex; gap: 10px; justify-content: center; margin-top: 2.5rem;
+  display: flex; gap: 10px; justify-content: center; margin-top: 2.5rem;
 }
 
 /* ═══ MY REELS ═══ */
 #myReelsScreen {
-padding: 5rem 1.5rem 2rem; align-items: center;
+  padding: 5rem 1.5rem 2rem; align-items: center;
 }
 
 .my-reels-container { max-width: 560px; width: 100%; }
 
 .my-reels-title {
-font-family: ‘Cormorant Garamond’, serif;
-font-size: 1.6rem; font-weight: 300;
-color: #f5e6c8; margin-bottom: 0.5rem; text-align: center;
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.6rem; font-weight: 300;
+  color: #f5e6c8; margin-bottom: 0.5rem; text-align: center;
 }
 
 .my-reels-sub {
-font-family: ‘Lora’, serif;
-font-size: 0.85rem; color: #e8c4a0;
-opacity: 0.5; text-align: center; margin-bottom: 2rem;
+  font-family: 'Lora', serif;
+  font-size: 0.85rem; color: #e8c4a0;
+  opacity: 0.5; text-align: center; margin-bottom: 2rem;
 }
 
 .my-reel-card {
-background: rgba(212,165,90,0.05);
-border: 1px solid rgba(212,165,90,0.12);
-border-radius: 4px; padding: 20px;
-margin-bottom: 12px; cursor: pointer;
-transition: all 0.3s ease;
+  background: rgba(212,165,90,0.05);
+  border: 1px solid rgba(212,165,90,0.12);
+  border-radius: 4px; padding: 20px;
+  margin-bottom: 12px; cursor: pointer;
+  transition: all 0.3s ease;
 }
 .my-reel-card:hover {
-border-color: rgba(212,165,90,0.3);
-background: rgba(212,165,90,0.08);
+  border-color: rgba(212,165,90,0.3);
+  background: rgba(212,165,90,0.08);
 }
 
 .my-reel-card h3 {
-font-family: ‘Cormorant Garamond’, serif;
-font-size: 1.15rem; font-weight: 400;
-color: #f5e6c8; margin-bottom: 6px;
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.15rem; font-weight: 400;
+  color: #f5e6c8; margin-bottom: 6px;
 }
 .my-reel-card .card-for {
-font-family: ‘Lora’, serif;
-font-size: 0.8rem; color: #e8c4a0; opacity: 0.7; margin-bottom: 4px;
+  font-family: 'Lora', serif;
+  font-size: 0.8rem; color: #e8c4a0; opacity: 0.7; margin-bottom: 4px;
 }
 .my-reel-card .card-meta {
-font-family: ‘Cormorant Garamond’, serif;
-font-size: 0.7rem; letter-spacing: 0.1em;
-color: #d4a55a; opacity: 0.4;
-display: flex; gap: 12px;
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 0.7rem; letter-spacing: 0.1em;
+  color: #d4a55a; opacity: 0.4;
+  display: flex; gap: 12px;
 }
 
 .my-reel-empty { text-align: center; padding: 3rem 1rem; }
 .my-reel-empty p {
-font-family: ‘Cormorant Garamond’, serif;
-font-size: 1.1rem; color: #e8c4a0; opacity: 0.5; margin-bottom: 1.5rem;
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.1rem; color: #e8c4a0; opacity: 0.5; margin-bottom: 1.5rem;
 }
 
 /* ═══ TOAST ═══ */
 .toast {
-position: fixed; bottom: 4rem; left: 50%;
-transform: translateX(-50%) translateY(20px);
-background: rgba(212,165,90,0.15);
-border: 1px solid rgba(212,165,90,0.3);
-backdrop-filter: blur(10px);
-padding: 10px 24px; border-radius: 3px;
-font-family: ‘Cormorant Garamond’, serif;
-font-size: 0.8rem; color: #f5e6c8;
-letter-spacing: 0.1em;
-opacity: 0; pointer-events: none;
-transition: all 0.4s ease;
-z-index: 60; white-space: nowrap;
+  position: fixed; bottom: 4rem; left: 50%;
+  transform: translateX(-50%) translateY(20px);
+  background: rgba(212,165,90,0.15);
+  border: 1px solid rgba(212,165,90,0.3);
+  backdrop-filter: blur(10px);
+  padding: 10px 24px; border-radius: 3px;
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 0.8rem; color: #f5e6c8;
+  letter-spacing: 0.1em;
+  opacity: 0; pointer-events: none;
+  transition: all 0.4s ease;
+  z-index: 60; white-space: nowrap;
 }
 .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
 
 /* ═══ LOADER ═══ */
 .loader {
-position: fixed; inset: 0; z-index: 100;
-background: #0f0a04;
-display: flex; align-items: center; justify-content: center;
-transition: opacity 0.8s ease;
+  position: fixed; inset: 0; z-index: 100;
+  background: #0f0a04;
+  display: flex; align-items: center; justify-content: center;
+  transition: opacity 0.8s ease;
 }
 .loader.hidden { opacity: 0; pointer-events: none; }
 .loader-text {
-font-family: ‘Cormorant Garamond’, serif;
-font-size: 1.5rem; font-weight: 300;
-color: #f5e6c8;
-animation: pulse 2s ease-in-out infinite;
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.5rem; font-weight: 300;
+  color: #f5e6c8;
+  animation: pulse 2s ease-in-out infinite;
 }
 
 @keyframes pulse { 0%, 100% { opacity: 0.4; } 50% { opacity: 1; } }
 
 /* ═══ MOBILE ═══ */
 @media (max-width: 600px) {
-.reel { padding: 5rem 1.3rem 4rem; }
-.reel-nav { right: 0.5rem; gap: 7px; }
-.nav-dot { width: 6px; height: 6px; }
-.site-header { padding: 0.8rem 1rem; }
-.btn-header { padding: 6px 10px; font-size: 0.6rem; }
-#createScreen, #previewScreen { padding: 1.5rem; }
-.mood-grid { gap: 8px; }
-.mood-card { padding: 14px 10px; }
-.user-greeting { display: none; }
+  .reel { padding: 5rem 1.3rem 4rem; }
+  .reel-nav { right: 0.5rem; gap: 7px; }
+  .nav-dot { width: 6px; height: 6px; }
+  .site-header { padding: 0.8rem 1rem; }
+  .btn-header { padding: 6px 10px; font-size: 0.6rem; }
+  #createScreen, #previewScreen { padding: 1.5rem; }
+  .mood-grid { gap: 8px; }
+  .mood-card { padding: 14px 10px; }
+  .user-greeting { display: none; }
 }
 </style>
-
 </head>
 <body>
 
 <div class="loader" id="loader"><div class="loader-text">Glow Notes</div></div>
 <canvas id="particle-canvas"></canvas>
 <div class="ambient-glow"></div>
+
 
 <div class="screen active" id="loginScreen">
   <div class="login-container">
@@ -634,6 +634,7 @@ animation: pulse 2s ease-in-out infinite;
   </div>
 </div>
 
+
 <div class="screen" id="feedScreen">
   <header class="site-header">
     <div class="logo" onclick="showScreen('feedScreen')">Glow <em>Notes</em></div>
@@ -655,101 +656,103 @@ animation: pulse 2s ease-in-out infinite;
   </div>
 </div>
 
+
 <div class="screen" id="createScreen">
   <div class="create-container">
 
-<div class="step active-step" data-step="1">
-  <div class="step-progress"><div class="step-pip filled"></div><div class="step-pip"></div><div class="step-pip"></div><div class="step-pip"></div><div class="step-pip"></div><div class="step-pip"></div></div>
-  <div class="step-question">Who is this reel for?</div>
-  <div class="step-sub">A friend, a partner, yourself — anyone who needs a lift.</div>
-  <input type="text" id="createFor" class="input-field" placeholder="Their name" maxlength="60">
-  <div class="step-actions">
-    <button class="btn-step btn-back" onclick="cancelCreate()">Cancel</button>
-    <button class="btn-step btn-next" onclick="nextStep(2)">Next</button>
-  </div>
-</div>
-
-
-<div class="step" data-step="2">
-  <div class="step-progress"><div class="step-pip filled"></div><div class="step-pip filled"></div><div class="step-pip"></div><div class="step-pip"></div><div class="step-pip"></div><div class="step-pip"></div></div>
-  <div class="step-question">Why are you sending this?</div>
-  <div class="step-sub">A little context helps create the perfect message.</div>
-  <textarea id="createWhy" class="input-field" placeholder="They've been going through a tough time and I want them to know I see their effort..." maxlength="500"></textarea>
-  <div class="step-actions">
-    <button class="btn-step btn-back" onclick="prevStep(1)">Back</button>
-    <button class="btn-step btn-next" onclick="nextStep(3)">Next</button>
-  </div>
-</div>
-
-
-<div class="step" data-step="3">
-  <div class="step-progress"><div class="step-pip filled"></div><div class="step-pip filled"></div><div class="step-pip filled"></div><div class="step-pip"></div><div class="step-pip"></div><div class="step-pip"></div></div>
-  <div class="step-question">What's the mood?</div>
-  <div class="step-sub">This shapes the tone and feel of the reel.</div>
-  <div class="mood-grid">
-    <div class="mood-card" data-mood="hopeful" onclick="selectMood(this)"><div class="mood-emoji">🌅</div><div class="mood-label">Hopeful</div></div>
-    <div class="mood-card" data-mood="strength" onclick="selectMood(this)"><div class="mood-emoji">🔥</div><div class="mood-label">Strength</div></div>
-    <div class="mood-card" data-mood="comfort" onclick="selectMood(this)"><div class="mood-emoji">🌙</div><div class="mood-label">Comfort</div></div>
-    <div class="mood-card" data-mood="celebration" onclick="selectMood(this)"><div class="mood-emoji">✨</div><div class="mood-label">Celebration</div></div>
-  </div>
-  <div class="step-actions">
-    <button class="btn-step btn-back" onclick="prevStep(2)">Back</button>
-    <button class="btn-step btn-next" id="moodNext" onclick="nextStep(4)" disabled>Next</button>
-  </div>
-</div>
-
-
-<div class="step" data-step="4">
-  <div class="step-progress"><div class="step-pip filled"></div><div class="step-pip filled"></div><div class="step-pip filled"></div><div class="step-pip filled"></div><div class="step-pip"></div><div class="step-pip"></div></div>
-  <div class="step-question">The message</div>
-  <div class="step-sub">Write your own words, or let us craft something for you.</div>
-  <div class="message-choice">
-    <div class="choice-card" data-choice="ai" onclick="selectMessageType(this)">
-      <h4>✨ Generate for me</h4>
-      <p>We'll craft a message based on who it's for and why</p>
+    
+    <div class="step active-step" data-step="1">
+      <div class="step-progress"><div class="step-pip filled"></div><div class="step-pip"></div><div class="step-pip"></div><div class="step-pip"></div><div class="step-pip"></div><div class="step-pip"></div></div>
+      <div class="step-question">Who is this reel for?</div>
+      <div class="step-sub">A friend, a partner, yourself — anyone who needs a lift.</div>
+      <input type="text" id="createFor" class="input-field" placeholder="Their name" maxlength="60">
+      <div class="step-actions">
+        <button class="btn-step btn-back" onclick="cancelCreate()">Cancel</button>
+        <button class="btn-step btn-next" onclick="nextStep(2)">Next</button>
+      </div>
     </div>
-    <div class="choice-card" data-choice="custom" onclick="selectMessageType(this)">
-      <h4>✍️ Write my own</h4>
-      <p>Pour your heart out in your own words</p>
+
+    
+    <div class="step" data-step="2">
+      <div class="step-progress"><div class="step-pip filled"></div><div class="step-pip filled"></div><div class="step-pip"></div><div class="step-pip"></div><div class="step-pip"></div><div class="step-pip"></div></div>
+      <div class="step-question">Why are you sending this?</div>
+      <div class="step-sub">A little context helps create the perfect message.</div>
+      <textarea id="createWhy" class="input-field" placeholder="They've been going through a tough time and I want them to know I see their effort..." maxlength="500"></textarea>
+      <div class="step-actions">
+        <button class="btn-step btn-back" onclick="prevStep(1)">Back</button>
+        <button class="btn-step btn-next" onclick="nextStep(3)">Next</button>
+      </div>
+    </div>
+
+    
+    <div class="step" data-step="3">
+      <div class="step-progress"><div class="step-pip filled"></div><div class="step-pip filled"></div><div class="step-pip filled"></div><div class="step-pip"></div><div class="step-pip"></div><div class="step-pip"></div></div>
+      <div class="step-question">What's the mood?</div>
+      <div class="step-sub">This shapes the tone and feel of the reel.</div>
+      <div class="mood-grid">
+        <div class="mood-card" data-mood="hopeful" onclick="selectMood(this)"><div class="mood-emoji">🌅</div><div class="mood-label">Hopeful</div></div>
+        <div class="mood-card" data-mood="strength" onclick="selectMood(this)"><div class="mood-emoji">🔥</div><div class="mood-label">Strength</div></div>
+        <div class="mood-card" data-mood="comfort" onclick="selectMood(this)"><div class="mood-emoji">🌙</div><div class="mood-label">Comfort</div></div>
+        <div class="mood-card" data-mood="celebration" onclick="selectMood(this)"><div class="mood-emoji">✨</div><div class="mood-label">Celebration</div></div>
+      </div>
+      <div class="step-actions">
+        <button class="btn-step btn-back" onclick="prevStep(2)">Back</button>
+        <button class="btn-step btn-next" id="moodNext" onclick="nextStep(4)" disabled>Next</button>
+      </div>
+    </div>
+
+    
+    <div class="step" data-step="4">
+      <div class="step-progress"><div class="step-pip filled"></div><div class="step-pip filled"></div><div class="step-pip filled"></div><div class="step-pip filled"></div><div class="step-pip"></div><div class="step-pip"></div></div>
+      <div class="step-question">The message</div>
+      <div class="step-sub">Write your own words, or let us craft something for you.</div>
+      <div class="message-choice">
+        <div class="choice-card" data-choice="ai" onclick="selectMessageType(this)">
+          <h4>✨ Generate for me</h4>
+          <p>We'll craft a message based on who it's for and why</p>
+        </div>
+        <div class="choice-card" data-choice="custom" onclick="selectMessageType(this)">
+          <h4>✍️ Write my own</h4>
+          <p>Pour your heart out in your own words</p>
+        </div>
+      </div>
+      <div id="customMessageArea" style="display:none; width:100%;">
+        <input type="text" id="createTitle" class="input-field" placeholder="Title (e.g. You Are Enough)" maxlength="80" style="margin-bottom:10px;">
+        <textarea id="createMessage" class="input-field" placeholder="Write your message here. Use blank lines between paragraphs. Wrap words in *asterisks* to make them glow." maxlength="2000"></textarea>
+        <input type="text" id="createSignature" class="input-field" placeholder="Closing line (optional)" maxlength="120" style="margin-top:10px;">
+      </div>
+      <div class="step-actions">
+        <button class="btn-step btn-back" onclick="prevStep(3)">Back</button>
+        <button class="btn-step btn-next" id="msgNext" onclick="nextStep(5)" disabled>Next</button>
+      </div>
+    </div>
+
+    
+    <div class="step" data-step="5">
+      <div class="step-progress"><div class="step-pip filled"></div><div class="step-pip filled"></div><div class="step-pip filled"></div><div class="step-pip filled"></div><div class="step-pip filled"></div><div class="step-pip"></div></div>
+      <div class="step-question">Who can see this?</div>
+      <div class="step-sub">Choose whether this reel appears in the public feed.</div>
+      <div class="visibility-toggle">
+        <div class="vis-option selected" data-vis="public" onclick="selectVisibility(this)">
+          <div class="vis-icon">🌍</div><h4>Public</h4><p>Visible to everyone in the feed</p>
+        </div>
+        <div class="vis-option" data-vis="private" onclick="selectVisibility(this)">
+          <div class="vis-icon">🔒</div><h4>Private</h4><p>Only you can see it</p>
+        </div>
+      </div>
+      <div class="step-actions">
+        <button class="btn-step btn-back" onclick="prevStep(4)">Back</button>
+        <button class="btn-step btn-next" onclick="generateReel()">Create Reel</button>
+      </div>
+    </div>
+
+    <div class="generating" id="generatingState">
+      <div class="gen-dots"><div class="gen-dot"></div><div class="gen-dot"></div><div class="gen-dot"></div></div>
+      <div class="gen-text">Crafting something beautiful...</div>
     </div>
   </div>
-  <div id="customMessageArea" style="display:none; width:100%;">
-    <input type="text" id="createTitle" class="input-field" placeholder="Title (e.g. You Are Enough)" maxlength="80" style="margin-bottom:10px;">
-    <textarea id="createMessage" class="input-field" placeholder="Write your message here. Use blank lines between paragraphs. Wrap words in *asterisks* to make them glow." maxlength="2000"></textarea>
-    <input type="text" id="createSignature" class="input-field" placeholder="Closing line (optional)" maxlength="120" style="margin-top:10px;">
-  </div>
-  <div class="step-actions">
-    <button class="btn-step btn-back" onclick="prevStep(3)">Back</button>
-    <button class="btn-step btn-next" id="msgNext" onclick="nextStep(5)" disabled>Next</button>
-  </div>
 </div>
 
-
-<div class="step" data-step="5">
-  <div class="step-progress"><div class="step-pip filled"></div><div class="step-pip filled"></div><div class="step-pip filled"></div><div class="step-pip filled"></div><div class="step-pip filled"></div><div class="step-pip"></div></div>
-  <div class="step-question">Who can see this?</div>
-  <div class="step-sub">Choose whether this reel appears in the public feed.</div>
-  <div class="visibility-toggle">
-    <div class="vis-option selected" data-vis="public" onclick="selectVisibility(this)">
-      <div class="vis-icon">🌍</div><h4>Public</h4><p>Visible to everyone in the feed</p>
-    </div>
-    <div class="vis-option" data-vis="private" onclick="selectVisibility(this)">
-      <div class="vis-icon">🔒</div><h4>Private</h4><p>Only you can see it</p>
-    </div>
-  </div>
-  <div class="step-actions">
-    <button class="btn-step btn-back" onclick="prevStep(4)">Back</button>
-    <button class="btn-step btn-next" onclick="generateReel()">Create Reel</button>
-  </div>
-</div>
-
-<div class="generating" id="generatingState">
-  <div class="gen-dots"><div class="gen-dot"></div><div class="gen-dot"></div><div class="gen-dot"></div></div>
-  <div class="gen-text">Crafting something beautiful...</div>
-</div>
-
-  </div>
-</div>
 
 <div class="screen" id="previewScreen">
   <div class="preview-container">
@@ -761,6 +764,7 @@ animation: pulse 2s ease-in-out infinite;
     </div>
   </div>
 </div>
+
 
 <div class="screen" id="myReelsScreen">
   <header class="site-header">
@@ -1500,6 +1504,5 @@ setTimeout(() => {
 
 init();
 </script>
-
 </body>
 </html>
