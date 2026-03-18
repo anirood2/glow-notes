@@ -15,27 +15,14 @@
 <style>
 *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
 
-:root {
-–gold-light: #f5e6c8;
-–gold: #d4a55a;
-–gold-deep: #b8860b;
-–amber: #e8a849;
-–warm-bg: #1a1008;
-–warm-dark: #0f0a04;
-–cream: #fdf6ec;
-–rose: #e8c4a0;
-–error: #c47070;
-–mood-primary: #d4a55a;
-–mood-glow: rgba(212,165,90,0.15);
-–mood-accent: #f5e6c8;
-}
+/* Colors hardcoded to prevent smart-punctuation issues on mobile */
 
 html, body {
 height: 100%;
 overflow: hidden;
-background: var(–warm-dark);
+background: #0f0a04;
 font-family: ‘Lora’, serif;
-color: var(–cream);
+color: #fdf6ec;
 -webkit-font-smoothing: antialiased;
 }
 
@@ -51,7 +38,7 @@ position: fixed; top: 0; left: 0;
 width: 100%; height: 100%;
 z-index: 0; pointer-events: none;
 background:
-radial-gradient(ellipse 80% 60% at 30% 80%, var(–mood-glow) 0%, transparent 70%),
+radial-gradient(ellipse 80% 60% at 30% 80%, rgba(212,165,90,0.15) 0%, transparent 70%),
 radial-gradient(ellipse 60% 50% at 70% 20%, rgba(232,168,73,0.08) 0%, transparent 60%);
 animation: glowShift 12s ease-in-out infinite alternate;
 }
@@ -83,15 +70,15 @@ animation: fadeSlideUp 1s 0.3s ease forwards;
 .login-logo {
 font-family: ‘Cormorant Garamond’, serif;
 font-size: 2.5rem; font-weight: 300;
-color: var(–gold-light); letter-spacing: 0.05em;
+color: #f5e6c8; letter-spacing: 0.05em;
 margin-bottom: 0.5rem;
 }
-.login-logo em { font-style: italic; color: var(–gold); }
+.login-logo em { font-style: italic; color: #d4a55a; }
 
 .login-tagline {
 font-family: ‘Cormorant Garamond’, serif;
 font-size: 1rem; font-weight: 300;
-color: var(–rose); letter-spacing: 0.15em;
+color: #e8c4a0; letter-spacing: 0.15em;
 margin-bottom: 3rem; opacity: 0.7;
 }
 
@@ -103,7 +90,7 @@ margin-bottom: 3rem; opacity: 0.7;
 display: block;
 font-family: ‘Cormorant Garamond’, serif;
 font-size: 0.75rem; letter-spacing: 0.2em;
-text-transform: uppercase; color: var(–gold);
+text-transform: uppercase; color: #d4a55a;
 margin-bottom: 6px;
 }
 
@@ -111,13 +98,13 @@ margin-bottom: 6px;
 width: 100%;
 background: rgba(212,165,90,0.06);
 border: 1px solid rgba(212,165,90,0.2);
-border-radius: 3px; color: var(–cream);
+border-radius: 3px; color: #fdf6ec;
 font-family: ‘Lora’, serif; font-size: 1rem;
 padding: 12px 16px; outline: none;
 transition: border-color 0.3s, box-shadow 0.3s;
 }
 .input-field:focus {
-border-color: var(–gold);
+border-color: #d4a55a;
 box-shadow: 0 0 20px rgba(212,165,90,0.1);
 }
 .input-field::placeholder { color: rgba(232,196,160,0.3); }
@@ -126,8 +113,8 @@ box-shadow: 0 0 20px rgba(212,165,90,0.1);
 margin-top: 1rem;
 font-family: ‘Cormorant Garamond’, serif;
 font-size: 0.85rem; letter-spacing: 0.2em;
-text-transform: uppercase; color: var(–warm-dark);
-background: linear-gradient(135deg, var(–gold), var(–amber));
+text-transform: uppercase; color: #0f0a04;
+background: linear-gradient(135deg, #d4a55a, #e8a849);
 border: none; border-radius: 3px;
 padding: 14px 28px; cursor: pointer;
 transition: all 0.3s ease; font-weight: 500;
@@ -139,7 +126,7 @@ transition: all 0.3s ease; font-weight: 500;
 .login-privacy {
 margin-top: 1.5rem;
 font-family: ‘Cormorant Garamond’, serif;
-font-size: 0.7rem; color: var(–rose);
+font-size: 0.7rem; color: #e8c4a0;
 opacity: 0.4; letter-spacing: 0.05em; line-height: 1.6;
 }
 
@@ -154,29 +141,29 @@ background: linear-gradient(to bottom, rgba(15,10,4,0.95) 0%, transparent 100%);
 .logo {
 font-family: ‘Cormorant Garamond’, serif;
 font-size: 1.2rem; font-weight: 300;
-color: var(–gold-light); letter-spacing: 0.08em; cursor: pointer;
+color: #f5e6c8; letter-spacing: 0.08em; cursor: pointer;
 }
-.logo em { font-style: italic; color: var(–gold); }
+.logo em { font-style: italic; color: #d4a55a; }
 
 .header-actions { display: flex; gap: 8px; align-items: center; }
 
 .btn-header {
 font-family: ‘Cormorant Garamond’, serif;
 font-size: 0.65rem; letter-spacing: 0.12em;
-text-transform: uppercase; color: var(–gold);
+text-transform: uppercase; color: #d4a55a;
 background: rgba(212,165,90,0.08);
 border: 1px solid rgba(212,165,90,0.2);
 padding: 7px 14px; border-radius: 2px;
 cursor: pointer; transition: all 0.3s ease; white-space: nowrap;
 }
-.btn-header:hover { background: rgba(212,165,90,0.18); border-color: var(–gold); }
-.btn-header.active-tab { background: rgba(212,165,90,0.2); border-color: var(–gold); }
+.btn-header:hover { background: rgba(212,165,90,0.18); border-color: #d4a55a; }
+.btn-header.active-tab { background: rgba(212,165,90,0.2); border-color: #d4a55a; }
 
 /* User greeting in header */
 .user-greeting {
 font-family: ‘Cormorant Garamond’, serif;
 font-size: 0.65rem; letter-spacing: 0.1em;
-color: var(–rose); opacity: 0.6;
+color: #e8c4a0; opacity: 0.6;
 margin-right: 4px;
 }
 
@@ -208,12 +195,12 @@ position: relative; flex-shrink: 0;
 font-family: ‘Cormorant Garamond’, serif;
 font-size: 0.72rem; font-weight: 300;
 letter-spacing: 0.3em; text-transform: uppercase;
-color: var(–gold); opacity: 0;
+color: #d4a55a; opacity: 0;
 transform: translateY(20px); margin-bottom: 1.8rem;
 }
 .reel-tag .line {
 display: inline-block; width: 24px; height: 1px;
-background: var(–gold); vertical-align: middle;
+background: #d4a55a; vertical-align: middle;
 margin: 0 10px; opacity: 0.5;
 }
 
@@ -221,21 +208,21 @@ margin: 0 10px; opacity: 0.5;
 font-family: ‘Cormorant Garamond’, serif;
 font-size: clamp(1.5rem, 5vw, 2.6rem);
 font-weight: 300; line-height: 1.5;
-color: var(–cream); margin-bottom: 1.5rem;
+color: #fdf6ec; margin-bottom: 1.5rem;
 opacity: 0; transform: translateY(30px);
 }
 
 .reel-body {
 font-family: ‘Lora’, serif;
 font-size: clamp(0.9rem, 2.5vw, 1.05rem);
-line-height: 1.9; color: var(–rose);
+line-height: 1.9; color: #e8c4a0;
 opacity: 0; transform: translateY(30px);
 }
 .reel-body p { margin-bottom: 1.4em; }
 .reel-body p:last-child { margin-bottom: 0; }
 
 .glow-word {
-color: var(–mood-accent);
+color: #f5e6c8;
 text-shadow: 0 0 20px rgba(212,165,90,0.3);
 }
 
@@ -243,7 +230,7 @@ text-shadow: 0 0 20px rgba(212,165,90,0.3);
 margin-top: 2rem;
 font-family: ‘Cormorant Garamond’, serif;
 font-style: italic; font-size: 0.95rem;
-color: var(–gold); opacity: 0;
+color: #d4a55a; opacity: 0;
 transform: translateY(20px);
 }
 
@@ -251,14 +238,14 @@ transform: translateY(20px);
 margin-top: 2.5rem;
 font-family: ‘Cormorant Garamond’, serif;
 font-size: 0.7rem; letter-spacing: 0.15em;
-text-transform: uppercase; color: var(–gold);
+text-transform: uppercase; color: #d4a55a;
 opacity: 0; transform: translateY(20px);
 }
 .reel-meta span { opacity: 0.5; margin: 0 6px; }
 
 .reel-divider {
 width: 40px; height: 1px;
-background: linear-gradient(90deg, transparent, var(–gold), transparent);
+background: linear-gradient(90deg, transparent, #d4a55a, transparent);
 margin: 1.2rem auto; opacity: 0;
 }
 
@@ -280,12 +267,12 @@ display: flex; flex-direction: column; gap: 8px;
 
 .nav-dot {
 width: 7px; height: 7px; border-radius: 50%;
-border: 1px solid var(–gold);
+border: 1px solid #d4a55a;
 background: transparent; cursor: pointer;
 transition: all 0.4s ease; padding: 0;
 }
 .nav-dot.active-dot {
-background: var(–gold);
+background: #d4a55a;
 box-shadow: 0 0 12px rgba(212,165,90,0.5);
 transform: scale(1.3);
 }
@@ -294,7 +281,7 @@ transform: scale(1.3);
 position: fixed; bottom: 1.5rem; left: 1.2rem;
 font-family: ‘Cormorant Garamond’, serif;
 font-size: 0.75rem; letter-spacing: 0.15em;
-color: var(–gold); opacity: 0.35; z-index: 10;
+color: #d4a55a; opacity: 0.35; z-index: 10;
 }
 
 .scroll-hint {
@@ -308,12 +295,12 @@ transition: opacity 0.4s ease;
 .scroll-hint span {
 font-family: ‘Cormorant Garamond’, serif;
 font-size: 0.65rem; letter-spacing: 0.2em;
-text-transform: uppercase; color: var(–gold); opacity: 0.5;
+text-transform: uppercase; color: #d4a55a; opacity: 0.5;
 }
 .scroll-arrow {
 width: 14px; height: 14px;
-border-right: 1px solid var(–gold);
-border-bottom: 1px solid var(–gold);
+border-right: 1px solid #d4a55a;
+border-bottom: 1px solid #d4a55a;
 transform: rotate(45deg); opacity: 0.4;
 animation: bounceArrow 2s ease-in-out infinite;
 }
@@ -347,18 +334,18 @@ width: 24px; height: 2px;
 background: rgba(212,165,90,0.2);
 border-radius: 1px; transition: background 0.4s;
 }
-.step-pip.filled { background: var(–gold); }
+.step-pip.filled { background: #d4a55a; }
 
 .step-question {
 font-family: ‘Cormorant Garamond’, serif;
 font-size: clamp(1.3rem, 4vw, 1.8rem);
-font-weight: 300; color: var(–cream);
+font-weight: 300; color: #fdf6ec;
 line-height: 1.5; margin-bottom: 0.6rem;
 }
 
 .step-sub {
 font-family: ‘Lora’, serif;
-font-size: 0.85rem; color: var(–rose);
+font-size: 0.85rem; color: #e8c4a0;
 opacity: 0.6; margin-bottom: 2rem; line-height: 1.6;
 }
 
@@ -382,7 +369,7 @@ cursor: pointer; transition: all 0.3s ease; text-align: center;
 }
 .mood-card:hover { border-color: rgba(212,165,90,0.4); }
 .mood-card.selected {
-border-color: var(–gold);
+border-color: #d4a55a;
 background: rgba(212,165,90,0.12);
 box-shadow: 0 0 20px rgba(212,165,90,0.1);
 }
@@ -390,7 +377,7 @@ box-shadow: 0 0 20px rgba(212,165,90,0.1);
 .mood-emoji { font-size: 1.5rem; margin-bottom: 6px; }
 .mood-label {
 font-family: ‘Cormorant Garamond’, serif;
-font-size: 0.85rem; letter-spacing: 0.1em; color: var(–gold-light);
+font-size: 0.85rem; letter-spacing: 0.1em; color: #f5e6c8;
 }
 
 /* Message choice */
@@ -407,16 +394,16 @@ cursor: pointer; transition: all 0.3s ease; text-align: left;
 }
 .choice-card:hover { border-color: rgba(212,165,90,0.4); }
 .choice-card.selected {
-border-color: var(–gold); background: rgba(212,165,90,0.12);
+border-color: #d4a55a; background: rgba(212,165,90,0.12);
 }
 
 .choice-card h4 {
 font-family: ‘Cormorant Garamond’, serif;
-font-size: 0.95rem; color: var(–gold-light); font-weight: 400; margin-bottom: 4px;
+font-size: 0.95rem; color: #f5e6c8; font-weight: 400; margin-bottom: 4px;
 }
 .choice-card p {
 font-family: ‘Lora’, serif;
-font-size: 0.75rem; color: var(–rose); opacity: 0.6;
+font-size: 0.75rem; color: #e8c4a0; opacity: 0.6;
 }
 
 /* Visibility toggle */
@@ -430,16 +417,16 @@ cursor: pointer; transition: all 0.3s ease; text-align: center;
 }
 .vis-option:hover { border-color: rgba(212,165,90,0.4); }
 .vis-option.selected {
-border-color: var(–gold); background: rgba(212,165,90,0.12);
+border-color: #d4a55a; background: rgba(212,165,90,0.12);
 }
 .vis-option .vis-icon { font-size: 1.3rem; margin-bottom: 6px; }
 .vis-option h4 {
 font-family: ‘Cormorant Garamond’, serif;
-font-size: 0.85rem; color: var(–gold-light); font-weight: 400; margin-bottom: 3px;
+font-size: 0.85rem; color: #f5e6c8; font-weight: 400; margin-bottom: 3px;
 }
 .vis-option p {
 font-family: ‘Lora’, serif;
-font-size: 0.65rem; color: var(–rose); opacity: 0.5;
+font-size: 0.65rem; color: #e8c4a0; opacity: 0.5;
 }
 
 /* Generating */
@@ -452,7 +439,7 @@ align-items: center; gap: 1.5rem; padding: 3rem 0;
 .gen-dots { display: flex; gap: 8px; }
 .gen-dot {
 width: 8px; height: 8px; border-radius: 50%;
-background: var(–gold);
+background: #d4a55a;
 animation: genPulse 1.4s ease-in-out infinite;
 }
 .gen-dot:nth-child(2) { animation-delay: 0.2s; }
@@ -465,7 +452,7 @@ animation: genPulse 1.4s ease-in-out infinite;
 
 .gen-text {
 font-family: ‘Cormorant Garamond’, serif;
-font-size: 1.1rem; color: var(–gold-light); font-style: italic;
+font-size: 1.1rem; color: #f5e6c8; font-style: italic;
 }
 
 /* Step buttons */
@@ -482,13 +469,13 @@ border-radius: 3px; cursor: pointer; transition: all 0.3s ease;
 }
 
 .btn-back {
-background: none; border: 1px solid rgba(212,165,90,0.2); color: var(–rose);
+background: none; border: 1px solid rgba(212,165,90,0.2); color: #e8c4a0;
 }
-.btn-back:hover { border-color: var(–rose); }
+.btn-back:hover { border-color: #e8c4a0; }
 
 .btn-next {
-background: linear-gradient(135deg, var(–gold), var(–amber));
-border: none; color: var(–warm-dark); font-weight: 500;
+background: linear-gradient(135deg, #d4a55a, #e8a849);
+border: none; color: #0f0a04; font-weight: 500;
 }
 .btn-next:hover { box-shadow: 0 4px 20px rgba(212,165,90,0.3); }
 .btn-next:disabled { opacity: 0.3; cursor: not-allowed; }
@@ -508,7 +495,7 @@ animation: fadeSlideUp 0.8s 0.2s ease forwards;
 .preview-label {
 font-family: ‘Cormorant Garamond’, serif;
 font-size: 0.7rem; letter-spacing: 0.3em;
-text-transform: uppercase; color: var(–gold);
+text-transform: uppercase; color: #d4a55a;
 margin-bottom: 2rem; opacity: 0.6;
 }
 
@@ -526,12 +513,12 @@ padding: 5rem 1.5rem 2rem; align-items: center;
 .my-reels-title {
 font-family: ‘Cormorant Garamond’, serif;
 font-size: 1.6rem; font-weight: 300;
-color: var(–gold-light); margin-bottom: 0.5rem; text-align: center;
+color: #f5e6c8; margin-bottom: 0.5rem; text-align: center;
 }
 
 .my-reels-sub {
 font-family: ‘Lora’, serif;
-font-size: 0.85rem; color: var(–rose);
+font-size: 0.85rem; color: #e8c4a0;
 opacity: 0.5; text-align: center; margin-bottom: 2rem;
 }
 
@@ -550,23 +537,23 @@ background: rgba(212,165,90,0.08);
 .my-reel-card h3 {
 font-family: ‘Cormorant Garamond’, serif;
 font-size: 1.15rem; font-weight: 400;
-color: var(–gold-light); margin-bottom: 6px;
+color: #f5e6c8; margin-bottom: 6px;
 }
 .my-reel-card .card-for {
 font-family: ‘Lora’, serif;
-font-size: 0.8rem; color: var(–rose); opacity: 0.7; margin-bottom: 4px;
+font-size: 0.8rem; color: #e8c4a0; opacity: 0.7; margin-bottom: 4px;
 }
 .my-reel-card .card-meta {
 font-family: ‘Cormorant Garamond’, serif;
 font-size: 0.7rem; letter-spacing: 0.1em;
-color: var(–gold); opacity: 0.4;
+color: #d4a55a; opacity: 0.4;
 display: flex; gap: 12px;
 }
 
 .my-reel-empty { text-align: center; padding: 3rem 1rem; }
 .my-reel-empty p {
 font-family: ‘Cormorant Garamond’, serif;
-font-size: 1.1rem; color: var(–rose); opacity: 0.5; margin-bottom: 1.5rem;
+font-size: 1.1rem; color: #e8c4a0; opacity: 0.5; margin-bottom: 1.5rem;
 }
 
 /* ═══ TOAST ═══ */
@@ -578,7 +565,7 @@ border: 1px solid rgba(212,165,90,0.3);
 backdrop-filter: blur(10px);
 padding: 10px 24px; border-radius: 3px;
 font-family: ‘Cormorant Garamond’, serif;
-font-size: 0.8rem; color: var(–gold-light);
+font-size: 0.8rem; color: #f5e6c8;
 letter-spacing: 0.1em;
 opacity: 0; pointer-events: none;
 transition: all 0.4s ease;
@@ -589,7 +576,7 @@ z-index: 60; white-space: nowrap;
 /* ═══ LOADER ═══ */
 .loader {
 position: fixed; inset: 0; z-index: 100;
-background: var(–warm-dark);
+background: #0f0a04;
 display: flex; align-items: center; justify-content: center;
 transition: opacity 0.8s ease;
 }
@@ -597,7 +584,7 @@ transition: opacity 0.8s ease;
 .loader-text {
 font-family: ‘Cormorant Garamond’, serif;
 font-size: 1.5rem; font-weight: 300;
-color: var(–gold-light);
+color: #f5e6c8;
 animation: pulse 2s ease-in-out infinite;
 }
 
@@ -624,8 +611,6 @@ animation: pulse 2s ease-in-out infinite;
 <canvas id="particle-canvas"></canvas>
 <div class="ambient-glow"></div>
 
-<!-- ═══ LOGIN ═══ -->
-
 <div class="screen active" id="loginScreen">
   <div class="login-container">
     <div class="login-logo">Glow <em>Notes</em></div>
@@ -649,8 +634,6 @@ animation: pulse 2s ease-in-out infinite;
   </div>
 </div>
 
-<!-- ═══ FEED ═══ -->
-
 <div class="screen" id="feedScreen">
   <header class="site-header">
     <div class="logo" onclick="showScreen('feedScreen')">Glow <em>Notes</em></div>
@@ -672,13 +655,10 @@ animation: pulse 2s ease-in-out infinite;
   </div>
 </div>
 
-<!-- ═══ CREATE FLOW ═══ -->
-
 <div class="screen" id="createScreen">
   <div class="create-container">
 
 ```
-<!-- Step 1: Who -->
 <div class="step active-step" data-step="1">
   <div class="step-progress"><div class="step-pip filled"></div><div class="step-pip"></div><div class="step-pip"></div><div class="step-pip"></div><div class="step-pip"></div><div class="step-pip"></div></div>
   <div class="step-question">Who is this reel for?</div>
@@ -690,7 +670,7 @@ animation: pulse 2s ease-in-out infinite;
   </div>
 </div>
 
-<!-- Step 2: Why -->
+
 <div class="step" data-step="2">
   <div class="step-progress"><div class="step-pip filled"></div><div class="step-pip filled"></div><div class="step-pip"></div><div class="step-pip"></div><div class="step-pip"></div><div class="step-pip"></div></div>
   <div class="step-question">Why are you sending this?</div>
@@ -702,7 +682,7 @@ animation: pulse 2s ease-in-out infinite;
   </div>
 </div>
 
-<!-- Step 3: Mood -->
+
 <div class="step" data-step="3">
   <div class="step-progress"><div class="step-pip filled"></div><div class="step-pip filled"></div><div class="step-pip filled"></div><div class="step-pip"></div><div class="step-pip"></div><div class="step-pip"></div></div>
   <div class="step-question">What's the mood?</div>
@@ -719,7 +699,7 @@ animation: pulse 2s ease-in-out infinite;
   </div>
 </div>
 
-<!-- Step 4: Message -->
+
 <div class="step" data-step="4">
   <div class="step-progress"><div class="step-pip filled"></div><div class="step-pip filled"></div><div class="step-pip filled"></div><div class="step-pip filled"></div><div class="step-pip"></div><div class="step-pip"></div></div>
   <div class="step-question">The message</div>
@@ -745,7 +725,7 @@ animation: pulse 2s ease-in-out infinite;
   </div>
 </div>
 
-<!-- Step 5: Visibility -->
+
 <div class="step" data-step="5">
   <div class="step-progress"><div class="step-pip filled"></div><div class="step-pip filled"></div><div class="step-pip filled"></div><div class="step-pip filled"></div><div class="step-pip filled"></div><div class="step-pip"></div></div>
   <div class="step-question">Who can see this?</div>
@@ -773,8 +753,6 @@ animation: pulse 2s ease-in-out infinite;
   </div>
 </div>
 
-<!-- ═══ PREVIEW ═══ -->
-
 <div class="screen" id="previewScreen">
   <div class="preview-container">
     <div class="preview-label">✨ Preview Your Reel</div>
@@ -785,8 +763,6 @@ animation: pulse 2s ease-in-out infinite;
     </div>
   </div>
 </div>
-
-<!-- ═══ MY REELS ═══ -->
 
 <div class="screen" id="myReelsScreen">
   <header class="site-header">
