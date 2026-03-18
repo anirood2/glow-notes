@@ -1,7 +1,7 @@
 /* ═══════════════════════════════════════
    GLOW NOTES — audio.js
-   Generative ambient music engine
-   Mood-matched, copyright-free, no network
+   Generative mood-matched ambient music
+   Copyright-free. No network. Pure Web Audio API.
 ═══════════════════════════════════════ */
 
 const GlowAudio = (() => {
@@ -12,103 +12,57 @@ const GlowAudio = (() => {
   let isPlaying = false;
   let fadeTimer = null;
 
-  // ── MOOD CONFIGS ──────────────────────────────────────
-  // Each mood has: root note (Hz), chord intervals,
-  // pad character, pulse rate, reverb size, brightness
-  const MOOD_CONFIGS = {
+  const MOODS = {
     hopeful: {
-      // Bright major — D major, open and warm
       root: 146.83, // D3
-      chord: [1, 1.259, 1.498, 2.0, 2.520], // D F# A D' A'
-      padDetune: [0, 4, -3, 7],
-      pulseRate: 0.18,
-      reverbSize: 3.2,
-      brightness: 0.55,
-      padGain: 0.12,
-      shimmerFreq: 880,
-      shimmerGain: 0.04,
-      bassNote: 73.42, // D2
-      tempo: 72,
-      label: 'D major — warm and open'
+      chord: [1, 1.259, 1.498, 2.0, 2.520],
+      padDetune: [0, 4, -3, 7, -2],
+      pulseRate: 0.18, reverbSize: 3.2, brightness: 0.55,
+      padGain: 0.12, shimmerFreq: 880, shimmerGain: 0.04,
+      bassNote: 73.42, bellIntervalMin: 4, bellIntervalMax: 9
     },
     strength: {
-      // Powerful — E minor, grounded with tension
       root: 164.81, // E3
-      chord: [1, 1.189, 1.498, 1.782, 2.0], // E G B D' E'
-      padDetune: [0, -5, 3, -8],
-      pulseRate: 0.14,
-      reverbSize: 4.5,
-      brightness: 0.35,
-      padGain: 0.14,
-      shimmerFreq: 659,
-      shimmerGain: 0.03,
-      bassNote: 82.41, // E2
-      tempo: 60,
-      label: 'E minor — grounded power'
+      chord: [1, 1.189, 1.498, 1.782, 2.0],
+      padDetune: [0, -5, 3, -8, 2],
+      pulseRate: 0.14, reverbSize: 4.5, brightness: 0.35,
+      padGain: 0.14, shimmerFreq: 659, shimmerGain: 0.03,
+      bassNote: 82.41, bellIntervalMin: 6, bellIntervalMax: 12
     },
     comfort: {
-      // Soft — C major with suspended feel
       root: 130.81, // C3
-      chord: [1, 1.189, 1.498, 1.587, 2.0], // C Eb G Ab C'
-      padDetune: [0, 6, -4, 2],
-      pulseRate: 0.10,
-      reverbSize: 5.5,
-      brightness: 0.28,
-      padGain: 0.11,
-      shimmerFreq: 523,
-      shimmerGain: 0.025,
-      bassNote: 65.41, // C2
-      tempo: 52,
-      label: 'C minor 7 — soft embrace'
+      chord: [1, 1.189, 1.498, 1.587, 2.0],
+      padDetune: [0, 6, -4, 2, -6],
+      pulseRate: 0.10, reverbSize: 5.5, brightness: 0.28,
+      padGain: 0.11, shimmerFreq: 523, shimmerGain: 0.025,
+      bassNote: 65.41, bellIntervalMin: 7, bellIntervalMax: 14
     },
     celebration: {
-      // Bright and lifted — G major
       root: 196.00, // G3
-      chord: [1, 1.259, 1.498, 1.587, 2.0, 2.520], // G B D Eb G' B'
-      padDetune: [0, 3, -2, 5],
-      pulseRate: 0.22,
-      reverbSize: 2.8,
-      brightness: 0.65,
-      padGain: 0.13,
-      shimmerFreq: 1047,
-      shimmerGain: 0.05,
-      bassNote: 98.00, // G2
-      tempo: 88,
-      label: 'G major — bright and lifted'
+      chord: [1, 1.259, 1.498, 1.587, 2.0, 2.520],
+      padDetune: [0, 3, -2, 5, -1],
+      pulseRate: 0.22, reverbSize: 2.8, brightness: 0.65,
+      padGain: 0.13, shimmerFreq: 1047, shimmerGain: 0.05,
+      bassNote: 98.00, bellIntervalMin: 3, bellIntervalMax: 7
     },
     grief: {
-      // Tender — A minor, slow and spacious
       root: 110.00, // A2
-      chord: [1, 1.189, 1.498, 1.782, 2.0], // A C E G A'
-      padDetune: [0, -6, 4, -2],
-      pulseRate: 0.07,
-      reverbSize: 7.0,
-      brightness: 0.18,
-      padGain: 0.10,
-      shimmerFreq: 440,
-      shimmerGain: 0.02,
-      bassNote: 55.00, // A1
-      tempo: 44,
-      label: 'A minor — tender and spacious'
+      chord: [1, 1.189, 1.498, 1.782, 2.0],
+      padDetune: [0, -6, 4, -2, 8],
+      pulseRate: 0.07, reverbSize: 7.0, brightness: 0.18,
+      padGain: 0.10, shimmerFreq: 440, shimmerGain: 0.02,
+      bassNote: 55.00, bellIntervalMin: 9, bellIntervalMax: 18
     },
     courage: {
-      // Activating — F major, building energy
       root: 174.61, // F3
-      chord: [1, 1.259, 1.498, 1.587, 2.0], // F A C Db F'
-      padDetune: [0, 2, -5, 8],
-      pulseRate: 0.20,
-      reverbSize: 3.8,
-      brightness: 0.50,
-      padGain: 0.13,
-      shimmerFreq: 698,
-      shimmerGain: 0.04,
-      bassNote: 87.31, // F2
-      tempo: 78,
-      label: 'F major — activating forward'
+      chord: [1, 1.259, 1.498, 1.587, 2.0],
+      padDetune: [0, 2, -5, 8, -3],
+      pulseRate: 0.20, reverbSize: 3.8, brightness: 0.50,
+      padGain: 0.13, shimmerFreq: 698, shimmerGain: 0.04,
+      bassNote: 87.31, bellIntervalMin: 4, bellIntervalMax: 10
     }
   };
 
-  // ── INIT AUDIO CONTEXT ────────────────────────────────
   function initContext() {
     if (ctx) return true;
     try {
@@ -117,211 +71,154 @@ const GlowAudio = (() => {
       masterGain.gain.setValueAtTime(0, ctx.currentTime);
       masterGain.connect(ctx.destination);
       return true;
-    } catch (e) {
-      console.warn('GlowAudio: WebAudio not available', e);
-      return false;
-    }
+    } catch(e) { return false; }
   }
 
-  // ── REVERB IMPULSE (convolution simulation) ───────────
-  function createReverb(size = 3) {
-    const convolver = ctx.createConvolver();
-    const rate = ctx.sampleRate;
-    const length = rate * size;
-    const impulse = ctx.createBuffer(2, length, rate);
+  function createReverb(size) {
+    const conv = ctx.createConvolver();
+    const len = ctx.sampleRate * size;
+    const buf = ctx.createBuffer(2, len, ctx.sampleRate);
     for (let c = 0; c < 2; c++) {
-      const data = impulse.getChannelData(c);
-      for (let i = 0; i < length; i++) {
-        data[i] = (Math.random() * 2 - 1) * Math.pow(1 - i / length, 2.5);
-      }
+      const d = buf.getChannelData(c);
+      for (let i = 0; i < len; i++) d[i] = (Math.random() * 2 - 1) * Math.pow(1 - i / len, 2.5);
     }
-    convolver.buffer = impulse;
-    return convolver;
+    conv.buffer = buf;
+    return conv;
   }
 
-  // ── OSCILLATOR HELPER ─────────────────────────────────
-  function makeOsc(freq, type = 'sine', gainVal = 0.1) {
+  function makeOsc(freq, type, gainVal) {
     const osc = ctx.createOscillator();
     const g = ctx.createGain();
-    osc.type = type;
+    osc.type = type || 'sine';
     osc.frequency.setValueAtTime(freq, ctx.currentTime);
     g.gain.setValueAtTime(gainVal, ctx.currentTime);
-    osc.connect(g);
-    osc.start();
+    osc.connect(g); osc.start();
     activeNodes.push(osc, g);
     return { osc, gain: g };
   }
 
-  // ── LFO for slow modulation ───────────────────────────
-  function makeLFO(rate, depth, target, offset = 0) {
+  function makeLFO(rate, depth, target, offset) {
     const lfo = ctx.createOscillator();
-    const lfoGain = ctx.createGain();
+    const lg = ctx.createGain();
     lfo.type = 'sine';
     lfo.frequency.setValueAtTime(rate, ctx.currentTime);
-    lfoGain.gain.setValueAtTime(depth, ctx.currentTime);
-    lfo.connect(lfoGain);
-    lfoGain.connect(target);
-    lfo.start(ctx.currentTime + offset);
-    activeNodes.push(lfo, lfoGain);
-    return lfo;
+    lg.gain.setValueAtTime(depth, ctx.currentTime);
+    lfo.connect(lg); lg.connect(target);
+    lfo.start(ctx.currentTime + (offset || 0));
+    activeNodes.push(lfo, lg);
   }
 
-  // ── FILTER ────────────────────────────────────────────
-  function makeFilter(type, freq, q = 1) {
+  function makeFilter(type, freq, q) {
     const f = ctx.createBiquadFilter();
     f.type = type;
     f.frequency.setValueAtTime(freq, ctx.currentTime);
-    f.Q.setValueAtTime(q, ctx.currentTime);
+    f.Q.setValueAtTime(q || 1, ctx.currentTime);
     activeNodes.push(f);
     return f;
   }
 
-  // ── BUILD SOUNDSCAPE ─────────────────────────────────
   function buildSoundscape(mood) {
-    const cfg = MOOD_CONFIGS[mood] || MOOD_CONFIGS.hopeful;
+    const cfg = MOODS[mood] || MOODS.hopeful;
     const reverb = createReverb(cfg.reverbSize);
-    const dryGain = ctx.createGain();
-    const wetGain = ctx.createGain();
-    dryGain.gain.setValueAtTime(0.4, ctx.currentTime);
-    wetGain.gain.setValueAtTime(0.6, ctx.currentTime);
-    reverb.connect(wetGain);
-    wetGain.connect(masterGain);
-    dryGain.connect(masterGain);
-    activeNodes.push(reverb, dryGain, wetGain);
+    const dry = ctx.createGain(); dry.gain.setValueAtTime(0.38, ctx.currentTime);
+    const wet = ctx.createGain(); wet.gain.setValueAtTime(0.62, ctx.currentTime);
+    reverb.connect(wet); wet.connect(masterGain); dry.connect(masterGain);
+    activeNodes.push(reverb, dry, wet);
 
-    const lowpass = makeFilter('lowpass', 800 + cfg.brightness * 1200, 0.8);
-    lowpass.connect(reverb);
-    lowpass.connect(dryGain);
+    const lp = makeFilter('lowpass', 750 + cfg.brightness * 1100, 0.8);
+    lp.connect(reverb); lp.connect(dry);
 
-    // ── 1. PAD LAYER — choir of detuned sines ──
+    // Pad voices
     cfg.chord.forEach((ratio, i) => {
       const freq = cfg.root * ratio;
-      const detune = (cfg.padDetune[i % cfg.padDetune.length] || 0);
-      const padGain = cfg.padGain / cfg.chord.length;
-
-      // Main voice
-      const { gain: g1 } = makeOsc(freq, 'sine', padGain);
-      // Detuned voice for richness
-      const { osc: o2, gain: g2 } = makeOsc(freq * 1.003, 'sine', padGain * 0.7);
-      o2.detune.setValueAtTime(detune, ctx.currentTime);
-
-      // Slow volume swell per voice
-      makeLFO(cfg.pulseRate + Math.random() * 0.03, padGain * 0.3, g1.gain, i * 0.8);
-      makeLFO(cfg.pulseRate + Math.random() * 0.02, padGain * 0.2, g2.gain, i * 1.1);
-
-      g1.connect(lowpass);
-      g2.connect(lowpass);
+      const det = cfg.padDetune[i % cfg.padDetune.length] || 0;
+      const pg = cfg.padGain / cfg.chord.length;
+      const { gain: g1 } = makeOsc(freq, 'sine', pg);
+      const { osc: o2, gain: g2 } = makeOsc(freq * 1.003, 'sine', pg * 0.7);
+      o2.detune.setValueAtTime(det, ctx.currentTime);
+      makeLFO(cfg.pulseRate + Math.random() * 0.03, pg * 0.3, g1.gain, i * 0.8);
+      makeLFO(cfg.pulseRate + Math.random() * 0.02, pg * 0.2, g2.gain, i * 1.1);
+      g1.connect(lp); g2.connect(lp);
     });
 
-    // ── 2. BASS DRONE — deep warm sub ──
-    const bassDrone = makeOsc(cfg.bassNote, 'sine', 0.06);
-    const bassFilter = makeFilter('lowpass', 180, 0.6);
-    bassDrone.gain.connect(bassFilter);
-    bassFilter.connect(masterGain);
-    makeLFO(0.05, 0.01, bassDrone.gain.gain, 0);
+    // Bass
+    const { gain: bg } = makeOsc(cfg.bassNote, 'sine', 0.06);
+    const bf = makeFilter('lowpass', 175, 0.6);
+    bg.connect(bf); bf.connect(masterGain);
+    makeLFO(0.05, 0.01, bg.gain, 0);
 
-    // ── 3. SHIMMER LAYER — high harmonic glint ──
-    const { osc: shimOsc, gain: shimGain } = makeOsc(cfg.shimmerFreq, 'sine', cfg.shimmerGain);
-    const shimFilter = makeFilter('highpass', cfg.shimmerFreq * 0.8, 1.2);
-    shimGain.connect(shimFilter);
-    shimFilter.connect(reverb);
-    makeLFO(cfg.pulseRate * 1.7, cfg.shimmerGain * 0.6, shimGain.gain, 2.0);
+    // Shimmer
+    const { gain: sg } = makeOsc(cfg.shimmerFreq, 'sine', cfg.shimmerGain);
+    const sf = makeFilter('highpass', cfg.shimmerFreq * 0.8, 1.2);
+    sg.connect(sf); sf.connect(reverb);
+    makeLFO(cfg.pulseRate * 1.7, cfg.shimmerGain * 0.6, sg.gain, 2.0);
 
-    // ── 4. BREATH NOISE — soft air texture ──
+    // Noise breath
     try {
-      const bufLen = ctx.sampleRate * 2;
-      const noiseBuf = ctx.createBuffer(1, bufLen, ctx.sampleRate);
-      const nd = noiseBuf.getChannelData(0);
-      for (let i = 0; i < bufLen; i++) nd[i] = (Math.random() * 2 - 1) * 0.015;
+      const blen = ctx.sampleRate * 2;
+      const nbuf = ctx.createBuffer(1, blen, ctx.sampleRate);
+      const nd = nbuf.getChannelData(0);
+      for (let i = 0; i < blen; i++) nd[i] = (Math.random() * 2 - 1) * 0.014;
       const noise = ctx.createBufferSource();
-      noise.buffer = noiseBuf;
-      noise.loop = true;
-      const noiseFilter = makeFilter('bandpass', 400 + cfg.brightness * 600, 0.5);
-      const noiseGain = ctx.createGain();
-      noiseGain.gain.setValueAtTime(0.018, ctx.currentTime);
-      noise.connect(noiseFilter);
-      noiseFilter.connect(noiseGain);
-      noiseGain.connect(reverb);
-      noise.start();
-      makeLFO(0.08, 0.008, noiseGain.gain, 1.5);
-      activeNodes.push(noise, noiseFilter, noiseGain);
+      noise.buffer = nbuf; noise.loop = true;
+      const nf = makeFilter('bandpass', 380 + cfg.brightness * 550, 0.5);
+      const ng = ctx.createGain(); ng.gain.setValueAtTime(0.016, ctx.currentTime);
+      noise.connect(nf); nf.connect(ng); ng.connect(reverb); noise.start();
+      makeLFO(0.07, 0.007, ng.gain, 1.5);
+      activeNodes.push(noise, ng);
     } catch(e) {}
 
-    // ── 5. PIANO BELL TONES — occasional gentle plucks ──
-    scheduleBellTones(cfg, reverb);
+    scheduleBells(cfg, reverb);
   }
 
-  // ── OCCASIONAL BELL TONES ─────────────────────────────
-  function scheduleBellTones(cfg, reverb) {
-    const notes = cfg.chord.map(r => cfg.root * r * 2); // Octave up
-    let time = ctx.currentTime + 3; // First bell after 3s
+  function scheduleBells(cfg, reverb) {
+    const notes = cfg.chord.map(r => cfg.root * r * 2);
+    let t = ctx.currentTime + 3;
 
-    const scheduleNext = () => {
+    const next = () => {
       if (!isPlaying) return;
       const note = notes[Math.floor(Math.random() * notes.length)];
-      const interval = 4 + Math.random() * 8; // 4-12s between bells
+      const interval = cfg.bellIntervalMin + Math.random() * (cfg.bellIntervalMax - cfg.bellIntervalMin);
 
-      // Bell envelope: instant attack, slow decay
-      const bellOsc = ctx.createOscillator();
-      const bellGain = ctx.createGain();
-      bellOsc.type = 'sine';
-      bellOsc.frequency.setValueAtTime(note, time);
-      bellGain.gain.setValueAtTime(0, time);
-      bellGain.gain.linearRampToValueAtTime(0.04, time + 0.01);
-      bellGain.gain.exponentialRampToValueAtTime(0.001, time + 3.5);
-      bellOsc.connect(bellGain);
-      bellGain.connect(reverb);
-      bellOsc.start(time);
-      bellOsc.stop(time + 4);
-      activeNodes.push(bellOsc, bellGain);
+      const bo = ctx.createOscillator(); const bg = ctx.createGain();
+      bo.type = 'sine'; bo.frequency.setValueAtTime(note, t);
+      bg.gain.setValueAtTime(0, t);
+      bg.gain.linearRampToValueAtTime(0.038, t + 0.01);
+      bg.gain.exponentialRampToValueAtTime(0.001, t + 3.5);
+      bo.connect(bg); bg.connect(reverb); bo.start(t); bo.stop(t + 4);
+      activeNodes.push(bo, bg);
 
-      // Harmonic overtone
-      const bellOsc2 = ctx.createOscillator();
-      const bellGain2 = ctx.createGain();
-      bellOsc2.type = 'sine';
-      bellOsc2.frequency.setValueAtTime(note * 2.756, time); // Inharmonic partial
-      bellGain2.gain.setValueAtTime(0, time);
-      bellGain2.gain.linearRampToValueAtTime(0.015, time + 0.01);
-      bellGain2.gain.exponentialRampToValueAtTime(0.001, time + 1.8);
-      bellOsc2.connect(bellGain2);
-      bellGain2.connect(reverb);
-      bellOsc2.start(time);
-      bellOsc2.stop(time + 2);
-      activeNodes.push(bellOsc2, bellGain2);
+      const bo2 = ctx.createOscillator(); const bg2 = ctx.createGain();
+      bo2.type = 'sine'; bo2.frequency.setValueAtTime(note * 2.756, t);
+      bg2.gain.setValueAtTime(0, t);
+      bg2.gain.linearRampToValueAtTime(0.014, t + 0.01);
+      bg2.gain.exponentialRampToValueAtTime(0.001, t + 1.8);
+      bo2.connect(bg2); bg2.connect(reverb); bo2.start(t); bo2.stop(t + 2);
+      activeNodes.push(bo2, bg2);
 
-      time += interval;
-      if (isPlaying) {
-        setTimeout(scheduleNext, interval * 1000 - 2000);
-      }
+      t += interval;
+      if (isPlaying) setTimeout(next, (interval - 2) * 1000);
     };
 
-    setTimeout(scheduleNext, 2800);
+    setTimeout(next, 2800);
   }
 
-  // ── PUBLIC API ────────────────────────────────────────
-  function play(mood = 'hopeful') {
+  function play(mood) {
     if (!initContext()) return;
     if (isPlaying) stop(false);
-
-    // Resume if suspended (iOS requires user gesture)
     if (ctx.state === 'suspended') ctx.resume();
-
     isPlaying = true;
-    buildSoundscape(mood);
-
-    // Fade in over 3s
+    buildSoundscape(mood || 'hopeful');
     clearTimeout(fadeTimer);
     masterGain.gain.cancelScheduledValues(ctx.currentTime);
     masterGain.gain.setValueAtTime(0, ctx.currentTime);
     masterGain.gain.linearRampToValueAtTime(isMuted ? 0 : 1, ctx.currentTime + 3);
   }
 
-  function stop(graceful = true) {
+  function stop(graceful) {
     isPlaying = false;
     if (!ctx || !masterGain) return;
-
-    if (graceful) {
-      // Fade out over 2s then kill nodes
+    if (graceful !== false) {
       masterGain.gain.cancelScheduledValues(ctx.currentTime);
       masterGain.gain.setValueAtTime(masterGain.gain.value, ctx.currentTime);
       masterGain.gain.linearRampToValueAtTime(0, ctx.currentTime + 2);
@@ -333,12 +230,7 @@ const GlowAudio = (() => {
   }
 
   function killNodes() {
-    activeNodes.forEach(n => {
-      try {
-        if (n.stop) n.stop();
-        n.disconnect();
-      } catch(e) {}
-    });
+    activeNodes.forEach(n => { try { if (n.stop) n.stop(); n.disconnect(); } catch(e) {} });
     activeNodes = [];
   }
 
@@ -362,8 +254,5 @@ const GlowAudio = (() => {
     else { mute(); return true; }
   }
 
-  function getMuted() { return isMuted; }
-  function getPlaying() { return isPlaying; }
-
-  return { play, stop, mute, unmute, toggleMute, getMuted, getPlaying };
+  return { play, stop, mute, unmute, toggleMute, getMuted: () => isMuted };
 })();
