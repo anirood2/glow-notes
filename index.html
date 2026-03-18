@@ -78,7 +78,11 @@
       </div>
       <button class="btn-primary" id="loginBtn" onclick="GlowApp.handleLogin()">Enter the Glow</button>
     </div>
-    <div class="login-privacy">Your information is stored securely and never shared.</div>
+    <div class="login-guest-divider">
+      <span>or</span>
+    </div>
+    <button class="btn-guest" onclick="GlowApp.enterAsGuest()">Browse without signing in</button>
+    <div class="login-privacy">Your information is stored securely and never shared.<br>Sign in to create and save your own reels.</div>
   </div>
 </div>
 
@@ -88,9 +92,10 @@
     <div class="logo" onclick="GlowApp.showScreen('landingScreen')">Glow <em>Notes</em></div>
     <div class="header-actions">
       <span class="user-greeting" id="userGreeting"></span>
-      <button class="btn-header" onclick="GlowApp.showScreen('myReelsScreen')">My Reels</button>
+      <button class="btn-header guest-hide" onclick="GlowApp.showScreen('myReelsScreen')">My Reels</button>
       <button class="btn-header" onclick="GlowApp.showScreen('feedScreen')">Browse</button>
       <button class="btn-header" onclick="GlowCreate.start()">+ Create</button>
+      <button class="btn-header guest-show" onclick="GlowApp.showScreen('loginScreen')" style="display:none;">Sign In</button>
     </div>
   </header>
   <div style="display:flex;flex-direction:column;justify-content:center;align-items:center;height:100%;padding:2rem;">
@@ -103,7 +108,7 @@
         Write one for someone you love — or find one that speaks to you right now.
       </p>
       <div class="landing-actions">
-        <button class="btn-landing-primary" onclick="GlowCreate.start()">Create a Reel</button>
+        <button class="btn-landing-primary" onclick="GlowApp.getIsGuest() ? GlowApp.showGuestNudge() : GlowCreate.start()">Create a Reel</button>
         <button class="btn-landing-secondary" onclick="GlowApp.showScreen('feedScreen')">Browse the Collection</button>
       </div>
       <div class="landing-note">Every message is personal. Every reel is yours to give.</div>
@@ -298,6 +303,17 @@
 </div>
 
 <div class="toast" id="toast"></div>
+
+<!-- GUEST NUDGE MODAL -->
+<div id="guestNudge" style="display:none;">
+  <div class="guest-nudge-backdrop" onclick="GlowApp.closeGuestNudge()"></div>
+  <div class="guest-nudge-card">
+    <div class="guest-nudge-logo">Glow <em>Notes</em></div>
+    <p class="guest-nudge-text">Sign in to create your own reels, save them, and send them to people you love. It only takes a moment.</p>
+    <button class="btn-primary" onclick="GlowApp.showScreen('loginScreen');GlowApp.closeGuestNudge();" style="width:100%;margin-top:0;">Sign In</button>
+    <button class="guest-nudge-skip" onclick="GlowApp.closeGuestNudge()">Maybe later</button>
+  </div>
+</div>
 
 <!-- ═══════════════════════════════════════
      SCRIPTS — load order is critical
