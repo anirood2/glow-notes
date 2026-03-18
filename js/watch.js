@@ -174,6 +174,9 @@ const GlowWatch = (() => {
       const readBtn = pill.querySelector('.pill-btn[data-mode="read"]');
       if (readBtn) readBtn.classList.add('active');
     }
+    // Re-show nav pill (watch was on top, reel view is still underneath)
+    const navPill = document.getElementById('reelNavPill');
+    if (navPill) navPill.classList.add('visible');
   }
 
   function replay() {
