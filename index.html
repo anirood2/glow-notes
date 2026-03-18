@@ -969,25 +969,25 @@ const aiTemplates = {
 };
 
 // ═══════════════════════════════════
-// STORAGE
+// STORAGE — localStorage for GitHub Pages
 // ═══════════════════════════════════
-async function saveUserData() {
-  try { await window.storage.set('glow-user', JSON.stringify(currentUser)); } catch(e) {}
+function saveUserData() {
+  try { localStorage.setItem('glow-user', JSON.stringify(currentUser)); } catch(e) {}
 }
-async function loadUserData() {
+function loadUserData() {
   try {
-    const r = await window.storage.get('glow-user');
-    if (r && r.value) { currentUser = JSON.parse(r.value); return true; }
+    const r = localStorage.getItem('glow-user');
+    if (r) { currentUser = JSON.parse(r); return true; }
   } catch(e) {}
   return false;
 }
-async function saveUserReels() {
-  try { await window.storage.set('glow-my-reels', JSON.stringify(userReels)); } catch(e) {}
+function saveUserReels() {
+  try { localStorage.setItem('glow-my-reels', JSON.stringify(userReels)); } catch(e) {}
 }
-async function loadUserReels() {
+function loadUserReels() {
   try {
-    const r = await window.storage.get('glow-my-reels');
-    if (r && r.value) { userReels = JSON.parse(r.value); }
+    const r = localStorage.getItem('glow-my-reels');
+    if (r) { userReels = JSON.parse(r); }
   } catch(e) {}
 }
 
@@ -1030,7 +1030,8 @@ async function sendConfirmationEmail(fromName, fromEmail, toName, reelUrl) {
 // ═══════════════════════════════════
 function showScreen(id) {
   document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
-  document.getElementById(id).classList.add('active');
+  const screen = document.getElementById(id);
+  if (screen) screen.classList.add('active');
   if (id === 'feedScreen') buildFeed();
   else if (id === 'myReelsScreen') buildMyReels();
 }
@@ -1054,7 +1055,7 @@ async function handleLogin() {
   currentUser = { name, email, location: location || '', joinedAt: new Date().toISOString() };
 
   // Save locally
-  await saveUserData();
+  saveUserData();
 
   // Send to Formspree (your dashboard)
   await submitToFormspree({
@@ -1345,7 +1346,7 @@ async function publishReel() {
 
   // Save reel
   userReels.push(pendingReel);
-  await saveUserReels();
+  saveUserReels();
 
   // Build reel URL
   const reelUrl = window.location.origin + window.location.pathname + '#' + pendingReel.id;
@@ -1492,17 +1493,36 @@ function showToast(msg) {
 window.addEventListener('resize', () => { resizeCanvas(); initParticles(); });
 resizeCanvas(); initParticles(); drawParticles();
 
-async function init() {
-  const hasUser = await loadUserData();
-  await loadUserReels();
-  setTimeout(() => {
+function init() {
+  try {
+    const hasUser = loadUserData();
+    loadUserReels();
+    setTimeout(() => {
+      document.getElementById('loader').classList.add('hidden');
+      if (hasUser && currentUser) {
+        showScreen('feedScreen');
+        showToast('Welcome back, ' + currentUser.name + ' ✨');
+      } else {
+        // Make sure login screen is visible
+        showScreen('loginScreen');
+      }
+    }, 1200);
+  } catch(e) {
+    console.error('Init error:', e);
+    // Always show login on error
     document.getElementById('loader').classList.add('hidden');
-    if (hasUser && currentUser) {
-      showScreen('feedScreen');
-      showToast('Welcome back, ' + currentUser.name + ' ✨');
-    }
-  }, 1200);
+    showScreen('loginScreen');
+  }
 }
+
+// Fallback: if loader is still visible after 3 seconds, force-hide it
+setTimeout(() => {
+  const loader = document.getElementById('loader');
+  if (loader && !loader.classList.contains('hidden')) {
+    loader.classList.add('hidden');
+    showScreen('loginScreen');
+  }
+}, 3000);
 
 init();
 </script>
