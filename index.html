@@ -1,0 +1,1507 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+<title>Glow Notes — Inspirational Reels</title>
+<meta name="description" content="Create and share warm, personal messages that uplift the people you care about.">
+<meta property="og:title" content="Glow Notes — Inspirational Reels">
+<meta property="og:description" content="Warm words for heavy days. Create a reel for someone you care about.">
+<meta name="theme-color" content="#1a1008">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>✨</text></svg>">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Lora:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+<style>
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+/* Colors hardcoded to prevent smart-punctuation issues on mobile */
+
+html, body {
+height: 100%;
+overflow: hidden;
+background: #0f0a04;
+font-family: ‘Lora’, serif;
+color: #fdf6ec;
+-webkit-font-smoothing: antialiased;
+}
+
+/* ═══ PARTICLES ═══ */
+#particle-canvas {
+position: fixed; top: 0; left: 0;
+width: 100%; height: 100%;
+z-index: 0; pointer-events: none;
+}
+
+.ambient-glow {
+position: fixed; top: 0; left: 0;
+width: 100%; height: 100%;
+z-index: 0; pointer-events: none;
+background:
+radial-gradient(ellipse 80% 60% at 30% 80%, rgba(212,165,90,0.15) 0%, transparent 70%),
+radial-gradient(ellipse 60% 50% at 70% 20%, rgba(232,168,73,0.08) 0%, transparent 60%);
+animation: glowShift 12s ease-in-out infinite alternate;
+}
+
+@keyframes glowShift {
+0% { opacity: 0.8; } 50% { opacity: 1; } 100% { opacity: 0.85; }
+}
+
+/* ═══ SCREENS ═══ */
+.screen {
+position: fixed; inset: 0; z-index: 5;
+display: none; flex-direction: column;
+overflow-y: auto; -webkit-overflow-scrolling: touch;
+}
+.screen.active { display: flex; }
+
+/* ═══ LOGIN ═══ */
+#loginScreen {
+justify-content: center; align-items: center;
+padding: 2rem; text-align: center;
+}
+
+.login-container {
+max-width: 400px; width: 100%;
+opacity: 0; transform: translateY(30px);
+animation: fadeSlideUp 1s 0.3s ease forwards;
+}
+
+.login-logo {
+font-family: ‘Cormorant Garamond’, serif;
+font-size: 2.5rem; font-weight: 300;
+color: #f5e6c8; letter-spacing: 0.05em;
+margin-bottom: 0.5rem;
+}
+.login-logo em { font-style: italic; color: #d4a55a; }
+
+.login-tagline {
+font-family: ‘Cormorant Garamond’, serif;
+font-size: 1rem; font-weight: 300;
+color: #e8c4a0; letter-spacing: 0.15em;
+margin-bottom: 3rem; opacity: 0.7;
+}
+
+.login-form { display: flex; flex-direction: column; gap: 1rem; }
+
+.input-group { text-align: left; }
+
+.input-group label {
+display: block;
+font-family: ‘Cormorant Garamond’, serif;
+font-size: 0.75rem; letter-spacing: 0.2em;
+text-transform: uppercase; color: #d4a55a;
+margin-bottom: 6px;
+}
+
+.input-field {
+width: 100%;
+background: rgba(212,165,90,0.06);
+border: 1px solid rgba(212,165,90,0.2);
+border-radius: 3px; color: #fdf6ec;
+font-family: ‘Lora’, serif; font-size: 1rem;
+padding: 12px 16px; outline: none;
+transition: border-color 0.3s, box-shadow 0.3s;
+}
+.input-field:focus {
+border-color: #d4a55a;
+box-shadow: 0 0 20px rgba(212,165,90,0.1);
+}
+.input-field::placeholder { color: rgba(232,196,160,0.3); }
+
+.btn-primary {
+margin-top: 1rem;
+font-family: ‘Cormorant Garamond’, serif;
+font-size: 0.85rem; letter-spacing: 0.2em;
+text-transform: uppercase; color: #0f0a04;
+background: linear-gradient(135deg, #d4a55a, #e8a849);
+border: none; border-radius: 3px;
+padding: 14px 28px; cursor: pointer;
+transition: all 0.3s ease; font-weight: 500;
+}
+.btn-primary:hover { transform: translateY(-1px); box-shadow: 0 4px 20px rgba(212,165,90,0.3); }
+.btn-primary:active { transform: translateY(0); }
+.btn-primary:disabled { opacity: 0.4; cursor: not-allowed; transform: none; }
+
+.login-privacy {
+margin-top: 1.5rem;
+font-family: ‘Cormorant Garamond’, serif;
+font-size: 0.7rem; color: #e8c4a0;
+opacity: 0.4; letter-spacing: 0.05em; line-height: 1.6;
+}
+
+/* ═══ HEADER ═══ */
+.site-header {
+position: fixed; top: 0; left: 0; right: 0; z-index: 20;
+padding: 1rem 1.2rem;
+display: flex; justify-content: space-between; align-items: center;
+background: linear-gradient(to bottom, rgba(15,10,4,0.95) 0%, transparent 100%);
+}
+
+.logo {
+font-family: ‘Cormorant Garamond’, serif;
+font-size: 1.2rem; font-weight: 300;
+color: #f5e6c8; letter-spacing: 0.08em; cursor: pointer;
+}
+.logo em { font-style: italic; color: #d4a55a; }
+
+.header-actions { display: flex; gap: 8px; align-items: center; }
+
+.btn-header {
+font-family: ‘Cormorant Garamond’, serif;
+font-size: 0.65rem; letter-spacing: 0.12em;
+text-transform: uppercase; color: #d4a55a;
+background: rgba(212,165,90,0.08);
+border: 1px solid rgba(212,165,90,0.2);
+padding: 7px 14px; border-radius: 2px;
+cursor: pointer; transition: all 0.3s ease; white-space: nowrap;
+}
+.btn-header:hover { background: rgba(212,165,90,0.18); border-color: #d4a55a; }
+.btn-header.active-tab { background: rgba(212,165,90,0.2); border-color: #d4a55a; }
+
+/* User greeting in header */
+.user-greeting {
+font-family: ‘Cormorant Garamond’, serif;
+font-size: 0.65rem; letter-spacing: 0.1em;
+color: #e8c4a0; opacity: 0.6;
+margin-right: 4px;
+}
+
+/* ═══ FEED ═══ */
+#feedScreen { overflow: hidden; }
+
+.reels-viewport {
+position: relative; width: 100%; height: 100%;
+overflow: hidden; z-index: 1;
+}
+
+.reel-track {
+display: flex; flex-direction: column;
+transition: transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+height: 100%;
+}
+
+.reel {
+min-height: 100vh; width: 100%;
+display: flex; flex-direction: column;
+justify-content: center; align-items: center;
+padding: 5rem 1.5rem 4rem;
+position: relative; flex-shrink: 0;
+}
+
+.reel-content { max-width: 600px; width: 100%; text-align: center; }
+
+.reel-tag {
+font-family: ‘Cormorant Garamond’, serif;
+font-size: 0.72rem; font-weight: 300;
+letter-spacing: 0.3em; text-transform: uppercase;
+color: #d4a55a; opacity: 0;
+transform: translateY(20px); margin-bottom: 1.8rem;
+}
+.reel-tag .line {
+display: inline-block; width: 24px; height: 1px;
+background: #d4a55a; vertical-align: middle;
+margin: 0 10px; opacity: 0.5;
+}
+
+.reel-title {
+font-family: ‘Cormorant Garamond’, serif;
+font-size: clamp(1.5rem, 5vw, 2.6rem);
+font-weight: 300; line-height: 1.5;
+color: #fdf6ec; margin-bottom: 1.5rem;
+opacity: 0; transform: translateY(30px);
+}
+
+.reel-body {
+font-family: ‘Lora’, serif;
+font-size: clamp(0.9rem, 2.5vw, 1.05rem);
+line-height: 1.9; color: #e8c4a0;
+opacity: 0; transform: translateY(30px);
+}
+.reel-body p { margin-bottom: 1.4em; }
+.reel-body p:last-child { margin-bottom: 0; }
+
+.glow-word {
+color: #f5e6c8;
+text-shadow: 0 0 20px rgba(212,165,90,0.3);
+}
+
+.reel-signature {
+margin-top: 2rem;
+font-family: ‘Cormorant Garamond’, serif;
+font-style: italic; font-size: 0.95rem;
+color: #d4a55a; opacity: 0;
+transform: translateY(20px);
+}
+
+.reel-meta {
+margin-top: 2.5rem;
+font-family: ‘Cormorant Garamond’, serif;
+font-size: 0.7rem; letter-spacing: 0.15em;
+text-transform: uppercase; color: #d4a55a;
+opacity: 0; transform: translateY(20px);
+}
+.reel-meta span { opacity: 0.5; margin: 0 6px; }
+
+.reel-divider {
+width: 40px; height: 1px;
+background: linear-gradient(90deg, transparent, #d4a55a, transparent);
+margin: 1.2rem auto; opacity: 0;
+}
+
+.reel.active .reel-tag       { animation: fadeSlideUp 0.8s 0.3s ease forwards; }
+.reel.active .reel-title     { animation: fadeSlideUp 1s 0.6s ease forwards; }
+.reel.active .reel-divider   { animation: fadeSlideUp 0.8s 0.9s ease forwards; }
+.reel.active .reel-body      { animation: fadeSlideUp 1s 1.1s ease forwards; }
+.reel.active .reel-signature { animation: fadeSlideUp 0.8s 1.5s ease forwards; }
+.reel.active .reel-meta      { animation: fadeSlideUp 0.6s 1.8s ease forwards; }
+
+@keyframes fadeSlideUp { to { opacity: 1; transform: translateY(0); } }
+
+/* Nav dots */
+.reel-nav {
+position: fixed; right: 1rem; top: 50%;
+transform: translateY(-50%); z-index: 10;
+display: flex; flex-direction: column; gap: 8px;
+}
+
+.nav-dot {
+width: 7px; height: 7px; border-radius: 50%;
+border: 1px solid #d4a55a;
+background: transparent; cursor: pointer;
+transition: all 0.4s ease; padding: 0;
+}
+.nav-dot.active-dot {
+background: #d4a55a;
+box-shadow: 0 0 12px rgba(212,165,90,0.5);
+transform: scale(1.3);
+}
+
+.reel-counter {
+position: fixed; bottom: 1.5rem; left: 1.2rem;
+font-family: ‘Cormorant Garamond’, serif;
+font-size: 0.75rem; letter-spacing: 0.15em;
+color: #d4a55a; opacity: 0.35; z-index: 10;
+}
+
+.scroll-hint {
+position: fixed; bottom: 1.5rem; left: 50%;
+transform: translateX(-50%); z-index: 10;
+display: flex; flex-direction: column;
+align-items: center; gap: 6px;
+opacity: 0; animation: fadeIn 1s 2.5s ease forwards;
+transition: opacity 0.4s ease;
+}
+.scroll-hint span {
+font-family: ‘Cormorant Garamond’, serif;
+font-size: 0.65rem; letter-spacing: 0.2em;
+text-transform: uppercase; color: #d4a55a; opacity: 0.5;
+}
+.scroll-arrow {
+width: 14px; height: 14px;
+border-right: 1px solid #d4a55a;
+border-bottom: 1px solid #d4a55a;
+transform: rotate(45deg); opacity: 0.4;
+animation: bounceArrow 2s ease-in-out infinite;
+}
+
+@keyframes bounceArrow {
+0%, 100% { transform: rotate(45deg) translateY(0); }
+50% { transform: rotate(45deg) translateY(5px); }
+}
+@keyframes fadeIn { to { opacity: 1; } }
+
+/* ═══ CREATE FLOW ═══ */
+#createScreen {
+justify-content: center; align-items: center; padding: 2rem;
+}
+
+.create-container { max-width: 480px; width: 100%; text-align: center; }
+
+.step {
+display: none; flex-direction: column; align-items: center;
+opacity: 0; transform: translateY(20px);
+}
+.step.active-step {
+display: flex;
+animation: fadeSlideUp 0.6s ease forwards;
+}
+
+.step-progress { display: flex; gap: 6px; margin-bottom: 2.5rem; }
+
+.step-pip {
+width: 24px; height: 2px;
+background: rgba(212,165,90,0.2);
+border-radius: 1px; transition: background 0.4s;
+}
+.step-pip.filled { background: #d4a55a; }
+
+.step-question {
+font-family: ‘Cormorant Garamond’, serif;
+font-size: clamp(1.3rem, 4vw, 1.8rem);
+font-weight: 300; color: #fdf6ec;
+line-height: 1.5; margin-bottom: 0.6rem;
+}
+
+.step-sub {
+font-family: ‘Lora’, serif;
+font-size: 0.85rem; color: #e8c4a0;
+opacity: 0.6; margin-bottom: 2rem; line-height: 1.6;
+}
+
+.step .input-field { text-align: center; }
+.step textarea.input-field {
+text-align: left; min-height: 140px;
+resize: vertical; line-height: 1.8;
+}
+
+/* Mood picker */
+.mood-grid {
+display: grid; grid-template-columns: 1fr 1fr;
+gap: 10px; width: 100%; margin-bottom: 1rem;
+}
+
+.mood-card {
+background: rgba(212,165,90,0.05);
+border: 1px solid rgba(212,165,90,0.15);
+border-radius: 4px; padding: 18px 14px;
+cursor: pointer; transition: all 0.3s ease; text-align: center;
+}
+.mood-card:hover { border-color: rgba(212,165,90,0.4); }
+.mood-card.selected {
+border-color: #d4a55a;
+background: rgba(212,165,90,0.12);
+box-shadow: 0 0 20px rgba(212,165,90,0.1);
+}
+
+.mood-emoji { font-size: 1.5rem; margin-bottom: 6px; }
+.mood-label {
+font-family: ‘Cormorant Garamond’, serif;
+font-size: 0.85rem; letter-spacing: 0.1em; color: #f5e6c8;
+}
+
+/* Message choice */
+.message-choice {
+display: flex; flex-direction: column;
+gap: 10px; width: 100%; margin-bottom: 1rem;
+}
+
+.choice-card {
+background: rgba(212,165,90,0.05);
+border: 1px solid rgba(212,165,90,0.15);
+border-radius: 4px; padding: 16px 20px;
+cursor: pointer; transition: all 0.3s ease; text-align: left;
+}
+.choice-card:hover { border-color: rgba(212,165,90,0.4); }
+.choice-card.selected {
+border-color: #d4a55a; background: rgba(212,165,90,0.12);
+}
+
+.choice-card h4 {
+font-family: ‘Cormorant Garamond’, serif;
+font-size: 0.95rem; color: #f5e6c8; font-weight: 400; margin-bottom: 4px;
+}
+.choice-card p {
+font-family: ‘Lora’, serif;
+font-size: 0.75rem; color: #e8c4a0; opacity: 0.6;
+}
+
+/* Visibility toggle */
+.visibility-toggle { display: flex; gap: 10px; width: 100%; margin-bottom: 1rem; }
+
+.vis-option {
+flex: 1; background: rgba(212,165,90,0.05);
+border: 1px solid rgba(212,165,90,0.15);
+border-radius: 4px; padding: 16px;
+cursor: pointer; transition: all 0.3s ease; text-align: center;
+}
+.vis-option:hover { border-color: rgba(212,165,90,0.4); }
+.vis-option.selected {
+border-color: #d4a55a; background: rgba(212,165,90,0.12);
+}
+.vis-option .vis-icon { font-size: 1.3rem; margin-bottom: 6px; }
+.vis-option h4 {
+font-family: ‘Cormorant Garamond’, serif;
+font-size: 0.85rem; color: #f5e6c8; font-weight: 400; margin-bottom: 3px;
+}
+.vis-option p {
+font-family: ‘Lora’, serif;
+font-size: 0.65rem; color: #e8c4a0; opacity: 0.5;
+}
+
+/* Generating */
+.generating {
+display: none; flex-direction: column;
+align-items: center; gap: 1.5rem; padding: 3rem 0;
+}
+.generating.show { display: flex; }
+
+.gen-dots { display: flex; gap: 8px; }
+.gen-dot {
+width: 8px; height: 8px; border-radius: 50%;
+background: #d4a55a;
+animation: genPulse 1.4s ease-in-out infinite;
+}
+.gen-dot:nth-child(2) { animation-delay: 0.2s; }
+.gen-dot:nth-child(3) { animation-delay: 0.4s; }
+
+@keyframes genPulse {
+0%, 100% { opacity: 0.2; transform: scale(0.8); }
+50% { opacity: 1; transform: scale(1.2); }
+}
+
+.gen-text {
+font-family: ‘Cormorant Garamond’, serif;
+font-size: 1.1rem; color: #f5e6c8; font-style: italic;
+}
+
+/* Step buttons */
+.step-actions {
+display: flex; gap: 10px; margin-top: 1.5rem;
+width: 100%; justify-content: center;
+}
+
+.btn-step {
+font-family: ‘Cormorant Garamond’, serif;
+font-size: 0.78rem; letter-spacing: 0.15em;
+text-transform: uppercase; padding: 11px 24px;
+border-radius: 3px; cursor: pointer; transition: all 0.3s ease;
+}
+
+.btn-back {
+background: none; border: 1px solid rgba(212,165,90,0.2); color: #e8c4a0;
+}
+.btn-back:hover { border-color: #e8c4a0; }
+
+.btn-next {
+background: linear-gradient(135deg, #d4a55a, #e8a849);
+border: none; color: #0f0a04; font-weight: 500;
+}
+.btn-next:hover { box-shadow: 0 4px 20px rgba(212,165,90,0.3); }
+.btn-next:disabled { opacity: 0.3; cursor: not-allowed; }
+
+/* ═══ PREVIEW ═══ */
+#previewScreen {
+justify-content: center; align-items: center;
+padding: 5rem 1.5rem 4rem;
+}
+
+.preview-container {
+max-width: 600px; width: 100%; text-align: center;
+opacity: 0; transform: translateY(20px);
+animation: fadeSlideUp 0.8s 0.2s ease forwards;
+}
+
+.preview-label {
+font-family: ‘Cormorant Garamond’, serif;
+font-size: 0.7rem; letter-spacing: 0.3em;
+text-transform: uppercase; color: #d4a55a;
+margin-bottom: 2rem; opacity: 0.6;
+}
+
+.preview-actions {
+display: flex; gap: 10px; justify-content: center; margin-top: 2.5rem;
+}
+
+/* ═══ MY REELS ═══ */
+#myReelsScreen {
+padding: 5rem 1.5rem 2rem; align-items: center;
+}
+
+.my-reels-container { max-width: 560px; width: 100%; }
+
+.my-reels-title {
+font-family: ‘Cormorant Garamond’, serif;
+font-size: 1.6rem; font-weight: 300;
+color: #f5e6c8; margin-bottom: 0.5rem; text-align: center;
+}
+
+.my-reels-sub {
+font-family: ‘Lora’, serif;
+font-size: 0.85rem; color: #e8c4a0;
+opacity: 0.5; text-align: center; margin-bottom: 2rem;
+}
+
+.my-reel-card {
+background: rgba(212,165,90,0.05);
+border: 1px solid rgba(212,165,90,0.12);
+border-radius: 4px; padding: 20px;
+margin-bottom: 12px; cursor: pointer;
+transition: all 0.3s ease;
+}
+.my-reel-card:hover {
+border-color: rgba(212,165,90,0.3);
+background: rgba(212,165,90,0.08);
+}
+
+.my-reel-card h3 {
+font-family: ‘Cormorant Garamond’, serif;
+font-size: 1.15rem; font-weight: 400;
+color: #f5e6c8; margin-bottom: 6px;
+}
+.my-reel-card .card-for {
+font-family: ‘Lora’, serif;
+font-size: 0.8rem; color: #e8c4a0; opacity: 0.7; margin-bottom: 4px;
+}
+.my-reel-card .card-meta {
+font-family: ‘Cormorant Garamond’, serif;
+font-size: 0.7rem; letter-spacing: 0.1em;
+color: #d4a55a; opacity: 0.4;
+display: flex; gap: 12px;
+}
+
+.my-reel-empty { text-align: center; padding: 3rem 1rem; }
+.my-reel-empty p {
+font-family: ‘Cormorant Garamond’, serif;
+font-size: 1.1rem; color: #e8c4a0; opacity: 0.5; margin-bottom: 1.5rem;
+}
+
+/* ═══ TOAST ═══ */
+.toast {
+position: fixed; bottom: 4rem; left: 50%;
+transform: translateX(-50%) translateY(20px);
+background: rgba(212,165,90,0.15);
+border: 1px solid rgba(212,165,90,0.3);
+backdrop-filter: blur(10px);
+padding: 10px 24px; border-radius: 3px;
+font-family: ‘Cormorant Garamond’, serif;
+font-size: 0.8rem; color: #f5e6c8;
+letter-spacing: 0.1em;
+opacity: 0; pointer-events: none;
+transition: all 0.4s ease;
+z-index: 60; white-space: nowrap;
+}
+.toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+
+/* ═══ LOADER ═══ */
+.loader {
+position: fixed; inset: 0; z-index: 100;
+background: #0f0a04;
+display: flex; align-items: center; justify-content: center;
+transition: opacity 0.8s ease;
+}
+.loader.hidden { opacity: 0; pointer-events: none; }
+.loader-text {
+font-family: ‘Cormorant Garamond’, serif;
+font-size: 1.5rem; font-weight: 300;
+color: #f5e6c8;
+animation: pulse 2s ease-in-out infinite;
+}
+
+@keyframes pulse { 0%, 100% { opacity: 0.4; } 50% { opacity: 1; } }
+
+/* ═══ MOBILE ═══ */
+@media (max-width: 600px) {
+.reel { padding: 5rem 1.3rem 4rem; }
+.reel-nav { right: 0.5rem; gap: 7px; }
+.nav-dot { width: 6px; height: 6px; }
+.site-header { padding: 0.8rem 1rem; }
+.btn-header { padding: 6px 10px; font-size: 0.6rem; }
+#createScreen, #previewScreen { padding: 1.5rem; }
+.mood-grid { gap: 8px; }
+.mood-card { padding: 14px 10px; }
+.user-greeting { display: none; }
+}
+</style>
+
+</head>
+<body>
+
+<div class="loader" id="loader"><div class="loader-text">Glow Notes</div></div>
+<canvas id="particle-canvas"></canvas>
+<div class="ambient-glow"></div>
+
+<div class="screen active" id="loginScreen">
+  <div class="login-container">
+    <div class="login-logo">Glow <em>Notes</em></div>
+    <div class="login-tagline">warm words for heavy days</div>
+    <div class="login-form">
+      <div class="input-group">
+        <label for="loginName">Your Name</label>
+        <input type="text" id="loginName" class="input-field" placeholder="What should we call you?" maxlength="50" autocomplete="name">
+      </div>
+      <div class="input-group">
+        <label for="loginEmail">Email</label>
+        <input type="email" id="loginEmail" class="input-field" placeholder="your@email.com" maxlength="100" autocomplete="email">
+      </div>
+      <div class="input-group">
+        <label for="loginLocation">Location <span style="opacity:0.4; font-size:0.65rem; letter-spacing:0.1em;">(optional)</span></label>
+        <input type="text" id="loginLocation" class="input-field" placeholder="Where in the world are you?" maxlength="80">
+      </div>
+      <button class="btn-primary" id="loginBtn" onclick="handleLogin()">Enter the Glow</button>
+    </div>
+    <div class="login-privacy">Your information is stored securely and never shared.<br>We only use your email to send you reel confirmations.</div>
+  </div>
+</div>
+
+<div class="screen" id="feedScreen">
+  <header class="site-header">
+    <div class="logo" onclick="showScreen('feedScreen')">Glow <em>Notes</em></div>
+    <div class="header-actions">
+      <span class="user-greeting" id="userGreeting"></span>
+      <button class="btn-header" onclick="showScreen('myReelsScreen')">My Reels</button>
+      <button class="btn-header" onclick="startCreate()">+ New</button>
+      <button class="btn-header" onclick="shareCurrentReel()">Share</button>
+    </div>
+  </header>
+  <nav class="reel-nav" id="reelNav"></nav>
+  <div class="reel-counter" id="reelCounter"></div>
+  <div class="scroll-hint" id="scrollHint">
+    <span>Swipe up</span>
+    <div class="scroll-arrow"></div>
+  </div>
+  <div class="reels-viewport" id="viewport">
+    <div class="reel-track" id="reelTrack"></div>
+  </div>
+</div>
+
+<div class="screen" id="createScreen">
+  <div class="create-container">
+
+```
+<div class="step active-step" data-step="1">
+  <div class="step-progress"><div class="step-pip filled"></div><div class="step-pip"></div><div class="step-pip"></div><div class="step-pip"></div><div class="step-pip"></div><div class="step-pip"></div></div>
+  <div class="step-question">Who is this reel for?</div>
+  <div class="step-sub">A friend, a partner, yourself — anyone who needs a lift.</div>
+  <input type="text" id="createFor" class="input-field" placeholder="Their name" maxlength="60">
+  <div class="step-actions">
+    <button class="btn-step btn-back" onclick="cancelCreate()">Cancel</button>
+    <button class="btn-step btn-next" onclick="nextStep(2)">Next</button>
+  </div>
+</div>
+
+
+<div class="step" data-step="2">
+  <div class="step-progress"><div class="step-pip filled"></div><div class="step-pip filled"></div><div class="step-pip"></div><div class="step-pip"></div><div class="step-pip"></div><div class="step-pip"></div></div>
+  <div class="step-question">Why are you sending this?</div>
+  <div class="step-sub">A little context helps create the perfect message.</div>
+  <textarea id="createWhy" class="input-field" placeholder="They've been going through a tough time and I want them to know I see their effort..." maxlength="500"></textarea>
+  <div class="step-actions">
+    <button class="btn-step btn-back" onclick="prevStep(1)">Back</button>
+    <button class="btn-step btn-next" onclick="nextStep(3)">Next</button>
+  </div>
+</div>
+
+
+<div class="step" data-step="3">
+  <div class="step-progress"><div class="step-pip filled"></div><div class="step-pip filled"></div><div class="step-pip filled"></div><div class="step-pip"></div><div class="step-pip"></div><div class="step-pip"></div></div>
+  <div class="step-question">What's the mood?</div>
+  <div class="step-sub">This shapes the tone and feel of the reel.</div>
+  <div class="mood-grid">
+    <div class="mood-card" data-mood="hopeful" onclick="selectMood(this)"><div class="mood-emoji">🌅</div><div class="mood-label">Hopeful</div></div>
+    <div class="mood-card" data-mood="strength" onclick="selectMood(this)"><div class="mood-emoji">🔥</div><div class="mood-label">Strength</div></div>
+    <div class="mood-card" data-mood="comfort" onclick="selectMood(this)"><div class="mood-emoji">🌙</div><div class="mood-label">Comfort</div></div>
+    <div class="mood-card" data-mood="celebration" onclick="selectMood(this)"><div class="mood-emoji">✨</div><div class="mood-label">Celebration</div></div>
+  </div>
+  <div class="step-actions">
+    <button class="btn-step btn-back" onclick="prevStep(2)">Back</button>
+    <button class="btn-step btn-next" id="moodNext" onclick="nextStep(4)" disabled>Next</button>
+  </div>
+</div>
+
+
+<div class="step" data-step="4">
+  <div class="step-progress"><div class="step-pip filled"></div><div class="step-pip filled"></div><div class="step-pip filled"></div><div class="step-pip filled"></div><div class="step-pip"></div><div class="step-pip"></div></div>
+  <div class="step-question">The message</div>
+  <div class="step-sub">Write your own words, or let us craft something for you.</div>
+  <div class="message-choice">
+    <div class="choice-card" data-choice="ai" onclick="selectMessageType(this)">
+      <h4>✨ Generate for me</h4>
+      <p>We'll craft a message based on who it's for and why</p>
+    </div>
+    <div class="choice-card" data-choice="custom" onclick="selectMessageType(this)">
+      <h4>✍️ Write my own</h4>
+      <p>Pour your heart out in your own words</p>
+    </div>
+  </div>
+  <div id="customMessageArea" style="display:none; width:100%;">
+    <input type="text" id="createTitle" class="input-field" placeholder="Title (e.g. You Are Enough)" maxlength="80" style="margin-bottom:10px;">
+    <textarea id="createMessage" class="input-field" placeholder="Write your message here. Use blank lines between paragraphs. Wrap words in *asterisks* to make them glow." maxlength="2000"></textarea>
+    <input type="text" id="createSignature" class="input-field" placeholder="Closing line (optional)" maxlength="120" style="margin-top:10px;">
+  </div>
+  <div class="step-actions">
+    <button class="btn-step btn-back" onclick="prevStep(3)">Back</button>
+    <button class="btn-step btn-next" id="msgNext" onclick="nextStep(5)" disabled>Next</button>
+  </div>
+</div>
+
+
+<div class="step" data-step="5">
+  <div class="step-progress"><div class="step-pip filled"></div><div class="step-pip filled"></div><div class="step-pip filled"></div><div class="step-pip filled"></div><div class="step-pip filled"></div><div class="step-pip"></div></div>
+  <div class="step-question">Who can see this?</div>
+  <div class="step-sub">Choose whether this reel appears in the public feed.</div>
+  <div class="visibility-toggle">
+    <div class="vis-option selected" data-vis="public" onclick="selectVisibility(this)">
+      <div class="vis-icon">🌍</div><h4>Public</h4><p>Visible to everyone in the feed</p>
+    </div>
+    <div class="vis-option" data-vis="private" onclick="selectVisibility(this)">
+      <div class="vis-icon">🔒</div><h4>Private</h4><p>Only you can see it</p>
+    </div>
+  </div>
+  <div class="step-actions">
+    <button class="btn-step btn-back" onclick="prevStep(4)">Back</button>
+    <button class="btn-step btn-next" onclick="generateReel()">Create Reel</button>
+  </div>
+</div>
+
+<div class="generating" id="generatingState">
+  <div class="gen-dots"><div class="gen-dot"></div><div class="gen-dot"></div><div class="gen-dot"></div></div>
+  <div class="gen-text">Crafting something beautiful...</div>
+</div>
+```
+
+  </div>
+</div>
+
+<div class="screen" id="previewScreen">
+  <div class="preview-container">
+    <div class="preview-label">✨ Preview Your Reel</div>
+    <div id="previewContent"></div>
+    <div class="preview-actions">
+      <button class="btn-step btn-back" onclick="backToEdit()">Edit</button>
+      <button class="btn-step btn-next" onclick="publishReel()">Publish</button>
+    </div>
+  </div>
+</div>
+
+<div class="screen" id="myReelsScreen">
+  <header class="site-header">
+    <div class="logo" onclick="showScreen('feedScreen')">Glow <em>Notes</em></div>
+    <div class="header-actions">
+      <button class="btn-header active-tab">My Reels</button>
+      <button class="btn-header" onclick="startCreate()">+ New</button>
+    </div>
+  </header>
+  <div class="my-reels-container" id="myReelsList"></div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+// ═══════════════════════════════════
+// CONFIG
+// ═══════════════════════════════════
+const FORMSPREE_URL = 'https://formspree.io/f/xyknbaoe';
+const EMAILJS_SERVICE = 'service_bw0teoh';
+const EMAILJS_TEMPLATE = 'template_ge7eydo';
+const EMAILJS_PUBLIC_KEY = 'V4yyR5SPdGIJ6zL29';
+
+// Init EmailJS
+emailjs.init(EMAILJS_PUBLIC_KEY);
+
+// ═══════════════════════════════════
+// STATE
+// ═══════════════════════════════════
+let currentUser = null;
+let userReels = [];
+let allReels = [];
+let currentFeedIndex = 0;
+let isTransitioning = false;
+let createState = {};
+let pendingReel = null;
+
+// Default reels
+const defaultReels = [
+  {
+    id: 'proud-of-you', tag: 'A Letter to You',
+    title: "I'm <span class='glow-word'>Proud</span> of You",
+    body: [
+      "I've seen the battles you've fought — the quiet ones, the ones no one else even knew were happening. You've carried so much and still managed to find <span class='glow-word'>light</span> in your days.",
+      "You've grown in ways that amaze me. You've turned struggle into wisdom, fear into focus, pain into patience. You're building yourself into someone <span class='glow-word'>strong and steady</span> — someone who knows how to bend without breaking.",
+      "I know there were days when you wondered if anyone noticed, if all the effort was even worth it — but I see it. I see how far you've come. I see the <span class='glow-word'>strength</span> behind your smile, the courage behind your calm.",
+      "So please don't forget this, even on the hard days: you're doing incredible. You're becoming the kind of person others look up to without even realizing it."
+    ],
+    signature: "And I'm proud of you — deeply, always.",
+    mood: 'hopeful', visibility: 'public', author: 'Glow Notes', forWho: ''
+  },
+  {
+    id: 'you-are-enough', tag: 'A Gentle Reminder',
+    title: "You Are <span class='glow-word'>Enough</span>",
+    body: [
+      "On the days when everything feels like too much — when the weight of the world settles on your shoulders and you wonder how you'll carry it — remember this:",
+      "You have already survived every single hard day that came before this one. That's not luck. That's <span class='glow-word'>you</span>.",
+      "You don't need to be perfect. You don't need to have it all figured out. You just need to keep going — one breath, one step, one moment at a time.",
+      "The world is better because you're in it. Not the version of you that you think you should be — <span class='glow-word'>the version of you that's here right now</span>."
+    ],
+    signature: "Keep going. You're closer than you think.",
+    mood: 'strength', visibility: 'public', author: 'Glow Notes', forWho: ''
+  },
+  {
+    id: 'your-light', tag: 'For the Quiet Ones',
+    title: "Your <span class='glow-word'>Light</span> Matters",
+    body: [
+      "You might not see it — the way your kindness ripples outward, the way your presence shifts a room, the way someone breathes a little easier just because you showed up.",
+      "But it's there. Your light isn't loud. It doesn't demand attention. It <span class='glow-word'>glows</span> — steady and warm — like sunrise through a window.",
+      "The people who matter? They see it. They feel it. And even when you can't feel it yourself, trust that it's still shining.",
+      "You were never meant to burn bright for everyone. You were meant to be <span class='glow-word'>a safe place</span> for the ones who need it most."
+    ],
+    signature: "Never dim your light for someone else's comfort.",
+    mood: 'comfort', visibility: 'public', author: 'Glow Notes', forWho: ''
+  },
+  {
+    id: 'storm-will-pass', tag: 'When It Gets Heavy',
+    title: "The Storm <span class='glow-word'>Will Pass</span>",
+    body: [
+      "Right now it might feel like the rain will never stop — like the clouds have made a permanent home above your head. I know that feeling. I know how exhausting it is to keep walking when you can't see the road ahead.",
+      "But here's what storms do: they <span class='glow-word'>end</span>. Every single one. And when this one passes — and it will — you'll find that the ground beneath you is still solid. You're still standing.",
+      "You don't have to be brave every minute. You just have to hold on. Let yourself feel it, let yourself rest, and trust that <span class='glow-word'>morning always comes</span>.",
+      "And when it does, you'll look back and realize you were stronger than you ever gave yourself credit for."
+    ],
+    signature: "After every storm, there is stillness. Yours is coming.",
+    mood: 'comfort', visibility: 'public', author: 'Glow Notes', forWho: ''
+  },
+  {
+    id: 'start-here', tag: 'A New Beginning',
+    title: "Start <span class='glow-word'>Where</span> You Are",
+    body: [
+      "You don't need the perfect plan. You don't need all the answers. You don't need permission from anyone to begin again.",
+      "Every great thing that ever happened started with a single, imperfect step — a decision made not because the path was clear, but because the <span class='glow-word'>staying still hurt more</span> than the moving forward.",
+      "Wherever you are right now — that's enough of a starting line. Your past doesn't own your future. Your mistakes don't define your direction. The only thing that matters is what you choose <span class='glow-word'>next</span>.",
+      "So take the step. Write the first word. Make the call. Open the door. You don't have to see the whole staircase — just the next step."
+    ],
+    signature: "Today is a perfectly good day to begin.",
+    mood: 'hopeful', visibility: 'public', author: 'Glow Notes', forWho: ''
+  }
+];
+
+// AI templates
+const aiTemplates = {
+  hopeful: {
+    tags: ['A Message of Hope', 'Looking Forward', 'Brighter Days Ahead'],
+    titles: ["Brighter Days Are <span class='glow-word'>Coming</span>", "Hold On to <span class='glow-word'>Hope</span>", "The Best Is <span class='glow-word'>Ahead</span>"],
+    bodies: [
+      [
+        "Dear {name}, I want you to know that the heaviness you're carrying right now — it won't last forever. I know it feels permanent, but nothing is.",
+        "Every sunrise is proof that <span class='glow-word'>the world begins again</span>. And so can you. Not perfectly, not all at once — but gently, at your own pace.",
+        "You've already shown more courage than you realize. The fact that you're still here, still trying, still hoping — that's everything.",
+        "So hold on. The chapter you're in right now is not the whole story. There are pages ahead that will <span class='glow-word'>take your breath away</span>."
+      ],
+      [
+        "{name}, I know the road has been long. I know there have been moments where you've wanted to stop walking.",
+        "But look at you — still here, still standing. There's something <span class='glow-word'>unbreakable</span> inside you, even when you can't feel it.",
+        "Hope isn't about knowing everything will be fine. It's about choosing to take the next step anyway. And you've been doing that all along.",
+        "The light at the end isn't a trick. It's <span class='glow-word'>real</span>. And you're closer to it than you think."
+      ]
+    ],
+    signatures: ["The dawn is coming. Hold on.", "Tomorrow belongs to you.", "Hope is your quiet superpower."]
+  },
+  strength: {
+    tags: ['You Are Stronger Than You Know', 'Inner Fire', 'Warrior Spirit'],
+    titles: ["You Are <span class='glow-word'>Unbreakable</span>", "Built From <span class='glow-word'>Fire</span>", "Your Strength Is <span class='glow-word'>Real</span>"],
+    bodies: [
+      [
+        "{name}, let me tell you something you might have forgotten: you are <span class='glow-word'>incredibly strong</span>.",
+        "Not strong because nothing hurts. Strong because it does hurt, and you keep going anyway. That's not ordinary — that's extraordinary.",
+        "Every challenge you've faced has forged something inside you — a quiet, steady <span class='glow-word'>resilience</span> that most people never develop.",
+        "So the next time you doubt yourself, remember: you've survived 100% of your hardest days. That's a perfect record."
+      ],
+      [
+        "{name}, I've watched you face things that would have broken most people. And you didn't just survive them — you <span class='glow-word'>grew through them</span>.",
+        "You've turned your wounds into wisdom. Your fears into fuel. Your setbacks into <span class='glow-word'>comebacks</span>.",
+        "The world may not always see the battles you fight in silence, but I do. And I'm in awe.",
+        "Never forget: you are not defined by what happened to you. You are defined by what you <span class='glow-word'>rose from</span>."
+      ]
+    ],
+    signatures: ["You're a force. Don't forget it.", "Steel is forged in fire. So were you.", "Your strength inspires more than you know."]
+  },
+  comfort: {
+    tags: ['A Warm Embrace', 'Rest Here a While', 'Soft Words for Hard Days'],
+    titles: ["It's Okay to <span class='glow-word'>Rest</span>", "You Don't Have to Be <span class='glow-word'>Okay</span>", "I'm <span class='glow-word'>Here</span>"],
+    bodies: [
+      [
+        "{name}, I know today is heavy. I know there are things weighing on you that words can't quite reach. And I just want you to know — <span class='glow-word'>you don't have to carry it alone</span>.",
+        "You don't have to be strong right now. You don't have to smile. You don't have to pretend.",
+        "Sometimes the bravest thing you can do is <span class='glow-word'>let yourself feel it</span>. To sit with the heaviness and trust that it will lift.",
+        "And when you're ready — whenever that is — there will be people waiting for you with open arms. Including me."
+      ],
+      [
+        "{name}, take a breath. A real, deep one. You deserve a moment of <span class='glow-word'>peace</span>.",
+        "I know the world asks a lot of you. I know you give more than anyone sees. And I know that sometimes, late at night, it all catches up.",
+        "But right now, in this moment, nothing is required of you. You are enough exactly as you are — <span class='glow-word'>tired, imperfect, and whole</span>.",
+        "Let this be your permission to rest. Tomorrow will wait."
+      ]
+    ],
+    signatures: ["Softly, gently — you'll get through this.", "Rest now. Tomorrow can wait.", "You are held, even when you can't feel it."]
+  },
+  celebration: {
+    tags: ["Look How Far You've Come", 'A Toast to You', 'You Did It'],
+    titles: ["Look at <span class='glow-word'>You</span>", "You <span class='glow-word'>Did That</span>", "This Is Your <span class='glow-word'>Moment</span>"],
+    bodies: [
+      [
+        "{name} — stop for a second and look at how far you've come. Seriously. <span class='glow-word'>Look</span>.",
+        "Do you remember when this felt impossible? When the goal seemed so far away it might as well have been a dream?",
+        "Well, you're here now. You showed up, did the work, pushed through the doubt — and you <span class='glow-word'>made it happen</span>.",
+        "This moment belongs to you. Not luck. Not timing. You. Celebrate that."
+      ],
+      [
+        "{name}, I just need you to hear this: <span class='glow-word'>I'm so proud of you</span>.",
+        "The late nights, the early mornings, the moments when you wanted to quit but didn't — they all led here.",
+        "You didn't just reach a goal. You proved something to yourself: that you are <span class='glow-word'>capable of extraordinary things</span>.",
+        "So soak this in. You've earned every bit of it."
+      ]
+    ],
+    signatures: ["Take a bow. You've earned it.", "This is just the beginning.", "The world better watch out."]
+  }
+};
+
+// ═══════════════════════════════════
+// STORAGE — localStorage for GitHub Pages
+// ═══════════════════════════════════
+function saveUserData() {
+  try { localStorage.setItem('glow-user', JSON.stringify(currentUser)); } catch(e) {}
+}
+function loadUserData() {
+  try {
+    const r = localStorage.getItem('glow-user');
+    if (r) { currentUser = JSON.parse(r); return true; }
+  } catch(e) {}
+  return false;
+}
+function saveUserReels() {
+  try { localStorage.setItem('glow-my-reels', JSON.stringify(userReels)); } catch(e) {}
+}
+function loadUserReels() {
+  try {
+    const r = localStorage.getItem('glow-my-reels');
+    if (r) { userReels = JSON.parse(r); }
+  } catch(e) {}
+}
+
+// ═══════════════════════════════════
+// FORMSPREE — capture signups
+// ═══════════════════════════════════
+async function submitToFormspree(data) {
+  try {
+    await fetch(FORMSPREE_URL, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+      body: JSON.stringify(data)
+    });
+  } catch(e) {
+    console.log('Formspree submission failed:', e);
+  }
+}
+
+// ═══════════════════════════════════
+// EMAILJS — send confirmation
+// ═══════════════════════════════════
+async function sendConfirmationEmail(fromName, fromEmail, toName, reelUrl) {
+  try {
+    await emailjs.send(EMAILJS_SERVICE, EMAILJS_TEMPLATE, {
+      from_name: fromName,
+      to_name: toName,
+      reel_url: reelUrl,
+      to_email: fromEmail,
+      reply_to: fromEmail
+    });
+    return true;
+  } catch(e) {
+    console.log('EmailJS send failed:', e);
+    return false;
+  }
+}
+
+// ═══════════════════════════════════
+// SCREENS
+// ═══════════════════════════════════
+function showScreen(id) {
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  const screen = document.getElementById(id);
+  if (screen) screen.classList.add('active');
+  if (id === 'feedScreen') buildFeed();
+  else if (id === 'myReelsScreen') buildMyReels();
+}
+
+// ═══════════════════════════════════
+// LOGIN
+// ═══════════════════════════════════
+async function handleLogin() {
+  const name = document.getElementById('loginName').value.trim();
+  const email = document.getElementById('loginEmail').value.trim();
+  const location = document.getElementById('loginLocation').value.trim();
+
+  if (!name) { showToast('Please enter your name'); return; }
+  if (!email || !email.includes('@')) { showToast('Please enter a valid email'); return; }
+
+  // Disable button while processing
+  const btn = document.getElementById('loginBtn');
+  btn.disabled = true;
+  btn.textContent = 'Entering...';
+
+  currentUser = { name, email, location: location || '', joinedAt: new Date().toISOString() };
+
+  // Save locally
+  saveUserData();
+
+  // Send to Formspree (your dashboard)
+  await submitToFormspree({
+    _subject: 'New Glow Notes Signup',
+    name: currentUser.name,
+    email: currentUser.email,
+    location: currentUser.location,
+    joined: currentUser.joinedAt
+  });
+
+  btn.textContent = 'Enter the Glow';
+  btn.disabled = false;
+
+  showScreen('feedScreen');
+  document.getElementById('userGreeting').textContent = name;
+  showToast('Welcome, ' + name + ' ✨');
+}
+
+// ═══════════════════════════════════
+// FEED
+// ═══════════════════════════════════
+function buildFeed() {
+  allReels = [...defaultReels];
+  userReels.forEach(r => { if (r.visibility === 'public') allReels.push(r); });
+
+  const track = document.getElementById('reelTrack');
+  track.innerHTML = '';
+  track.style.transform = 'translateY(0)';
+  currentFeedIndex = 0;
+
+  allReels.forEach((reel, i) => {
+    const section = document.createElement('section');
+    section.className = 'reel' + (i === 0 ? ' active' : '');
+    section.dataset.id = reel.id;
+    const forLine = reel.forWho ? `<div class="reel-meta">Created for ${reel.forWho}${reel.author ? ' <span>·</span> by ' + reel.author : ''}</div>` : '';
+    section.innerHTML = `
+      <div class="reel-content">
+        <div class="reel-tag"><span class="line"></span> ${reel.tag} <span class="line"></span></div>
+        <h2 class="reel-title">${reel.title}</h2>
+        <div class="reel-divider"></div>
+        <div class="reel-body">${reel.body.map(p => '<p>' + p + '</p>').join('')}</div>
+        ${reel.signature ? `<div class="reel-signature">${reel.signature}</div>` : ''}
+        ${forLine}
+      </div>`;
+    track.appendChild(section);
+  });
+
+  buildNav(); updateCounter();
+
+  if (currentUser) document.getElementById('userGreeting').textContent = currentUser.name;
+
+  const hash = window.location.hash.slice(1);
+  if (hash) {
+    const idx = allReels.findIndex(r => r.id === hash);
+    if (idx > 0) setTimeout(() => goToReel(idx), 200);
+  }
+}
+
+function buildNav() {
+  const nav = document.getElementById('reelNav');
+  nav.innerHTML = '';
+  allReels.forEach((_, i) => {
+    const dot = document.createElement('button');
+    dot.className = 'nav-dot' + (i === currentFeedIndex ? ' active-dot' : '');
+    dot.addEventListener('click', () => goToReel(i));
+    nav.appendChild(dot);
+  });
+}
+
+function updateCounter() {
+  document.getElementById('reelCounter').textContent = `${currentFeedIndex + 1} / ${allReels.length}`;
+}
+
+function goToReel(index) {
+  const reels = document.querySelectorAll('#reelTrack .reel');
+  if (isTransitioning || index === currentFeedIndex || index < 0 || index >= reels.length) return;
+  isTransitioning = true;
+  reels[currentFeedIndex].classList.remove('active');
+  resetAnimations(reels[currentFeedIndex]);
+  currentFeedIndex = index;
+  document.getElementById('reelTrack').style.transform = `translateY(-${currentFeedIndex * 100}vh)`;
+  document.querySelectorAll('.nav-dot').forEach((d, i) => d.classList.toggle('active-dot', i === currentFeedIndex));
+  if (currentFeedIndex > 0) document.getElementById('scrollHint').style.opacity = '0';
+  updateCounter();
+  setTimeout(() => { reels[currentFeedIndex].classList.add('active'); isTransitioning = false; }, 400);
+  history.replaceState(null, '', '#' + allReels[currentFeedIndex].id);
+}
+
+function resetAnimations(reel) {
+  reel.querySelectorAll('.reel-tag,.reel-title,.reel-divider,.reel-body,.reel-signature,.reel-meta').forEach(el => {
+    el.style.animation = 'none'; el.offsetHeight; el.style.animation = '';
+    el.style.opacity = '0'; el.style.transform = 'translateY(20px)';
+  });
+}
+
+// Swipe
+let touchStartY = 0, touchStartTime = 0;
+document.addEventListener('touchstart', e => {
+  if (!document.getElementById('feedScreen').classList.contains('active')) return;
+  touchStartY = e.touches[0].clientY; touchStartTime = Date.now();
+}, { passive: true });
+document.addEventListener('touchend', e => {
+  if (!document.getElementById('feedScreen').classList.contains('active')) return;
+  const dy = touchStartY - e.changedTouches[0].clientY;
+  if (Math.abs(dy) > 50 && (Date.now() - touchStartTime) < 500) {
+    dy > 0 ? goToReel(currentFeedIndex + 1) : goToReel(currentFeedIndex - 1);
+  }
+}, { passive: true });
+
+let wheelTimer;
+document.addEventListener('wheel', e => {
+  if (!document.getElementById('feedScreen').classList.contains('active')) return;
+  e.preventDefault();
+  clearTimeout(wheelTimer);
+  wheelTimer = setTimeout(() => {
+    e.deltaY > 30 ? goToReel(currentFeedIndex + 1) : e.deltaY < -30 ? goToReel(currentFeedIndex - 1) : null;
+  }, 50);
+}, { passive: false });
+
+document.addEventListener('keydown', e => {
+  if (!document.getElementById('feedScreen').classList.contains('active')) return;
+  if (e.key === 'ArrowDown') { e.preventDefault(); goToReel(currentFeedIndex + 1); }
+  if (e.key === 'ArrowUp') { e.preventDefault(); goToReel(currentFeedIndex - 1); }
+});
+
+function shareCurrentReel() {
+  const reel = allReels[currentFeedIndex];
+  const url = window.location.origin + window.location.pathname + '#' + reel.id;
+  const title = reel.title.replace(/<[^>]+>/g, '');
+  if (navigator.share) {
+    navigator.share({ title: 'Glow Notes — ' + title, text: 'Here\'s something I wanted to share with you.', url }).catch(() => {});
+  } else {
+    navigator.clipboard.writeText(url).then(() => showToast('Link copied'));
+  }
+}
+
+// ═══════════════════════════════════
+// CREATE FLOW
+// ═══════════════════════════════════
+function startCreate() {
+  createState = { forWho: '', why: '', mood: '', messageType: '', visibility: 'public', title: '', message: '', signature: '' };
+  document.querySelectorAll('#createScreen .step').forEach(s => { s.classList.remove('active-step'); s.style.display = 'none'; });
+  const s1 = document.querySelector('#createScreen .step[data-step="1"]');
+  s1.classList.add('active-step'); s1.style.display = '';
+  document.getElementById('createFor').value = '';
+  document.getElementById('createWhy').value = '';
+  document.getElementById('createTitle').value = '';
+  document.getElementById('createMessage').value = '';
+  document.getElementById('createSignature').value = '';
+  document.querySelectorAll('.mood-card,.choice-card,.vis-option').forEach(c => c.classList.remove('selected'));
+  document.querySelector('.vis-option[data-vis="public"]').classList.add('selected');
+  document.getElementById('customMessageArea').style.display = 'none';
+  document.getElementById('moodNext').disabled = true;
+  document.getElementById('msgNext').disabled = true;
+  document.getElementById('generatingState').classList.remove('show');
+  showScreen('createScreen');
+}
+
+function cancelCreate() { showScreen('feedScreen'); }
+
+function nextStep(n) {
+  if (n === 2) createState.forWho = document.getElementById('createFor').value.trim();
+  if (n === 3) createState.why = document.getElementById('createWhy').value.trim();
+  if (n === 5 && createState.messageType === 'custom') {
+    createState.title = document.getElementById('createTitle').value.trim();
+    createState.message = document.getElementById('createMessage').value.trim();
+    createState.signature = document.getElementById('createSignature').value.trim();
+    if (!createState.title || !createState.message) { showToast('Please fill in the title and message'); return; }
+  }
+  document.querySelectorAll('#createScreen .step').forEach(s => s.classList.remove('active-step'));
+  const next = document.querySelector(`#createScreen .step[data-step="${n}"]`);
+  if (next) {
+    next.style.opacity = '0'; next.style.transform = 'translateY(20px)';
+    next.style.animation = 'none'; next.offsetHeight;
+    next.classList.add('active-step'); next.style.animation = '';
+  }
+}
+
+function prevStep(n) {
+  document.querySelectorAll('#createScreen .step').forEach(s => s.classList.remove('active-step'));
+  const prev = document.querySelector(`#createScreen .step[data-step="${n}"]`);
+  if (prev) {
+    prev.style.opacity = '0'; prev.style.transform = 'translateY(20px)';
+    prev.style.animation = 'none'; prev.offsetHeight;
+    prev.classList.add('active-step'); prev.style.animation = '';
+  }
+}
+
+function selectMood(el) {
+  document.querySelectorAll('.mood-card').forEach(c => c.classList.remove('selected'));
+  el.classList.add('selected');
+  createState.mood = el.dataset.mood;
+  document.getElementById('moodNext').disabled = false;
+}
+
+function selectMessageType(el) {
+  document.querySelectorAll('.choice-card').forEach(c => c.classList.remove('selected'));
+  el.classList.add('selected');
+  createState.messageType = el.dataset.choice;
+  document.getElementById('customMessageArea').style.display = el.dataset.choice === 'custom' ? 'block' : 'none';
+  document.getElementById('msgNext').disabled = false;
+}
+
+function selectVisibility(el) {
+  document.querySelectorAll('.vis-option').forEach(c => c.classList.remove('selected'));
+  el.classList.add('selected');
+  createState.visibility = el.dataset.vis;
+}
+
+// ═══════════════════════════════════
+// GENERATE / PREVIEW / PUBLISH
+// ═══════════════════════════════════
+function generateReel() {
+  document.querySelectorAll('#createScreen .step').forEach(s => s.classList.remove('active-step'));
+  document.getElementById('generatingState').classList.add('show');
+  setTimeout(() => {
+    const reel = createState.messageType === 'ai' ? generateAIReel() : buildCustomReel();
+    document.getElementById('generatingState').classList.remove('show');
+    showPreview(reel);
+  }, 2000);
+}
+
+function generateAIReel() {
+  const mood = createState.mood || 'hopeful';
+  const t = aiTemplates[mood];
+  const name = createState.forWho || 'friend';
+  const ti = Math.floor(Math.random() * t.tags.length);
+  const bi = Math.floor(Math.random() * t.bodies.length);
+  const si = Math.floor(Math.random() * t.signatures.length);
+  return {
+    id: 'reel-' + Date.now(),
+    title: t.titles[ti], tag: t.tags[ti],
+    body: t.bodies[bi].map(p => p.replace(/{name}/g, name)),
+    signature: t.signatures[si], mood,
+    visibility: createState.visibility,
+    author: currentUser ? currentUser.name : 'Anonymous',
+    forWho: createState.forWho, why: createState.why,
+    createdAt: new Date().toISOString()
+  };
+}
+
+function buildCustomReel() {
+  const paragraphs = createState.message.split(/\n\n+/).filter(p => p.trim());
+  const body = paragraphs.map(p => p.trim().replace(/\*(.+?)\*/g, "<span class='glow-word'>$1</span>"));
+  const titleHTML = createState.title.replace(/\*(.+?)\*/g, "<span class='glow-word'>$1</span>");
+  const id = createState.title.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '') || 'reel-' + Date.now();
+  const moodTags = { hopeful: 'A Message of Hope', strength: 'Inner Strength', comfort: 'Comfort & Care', celebration: 'Celebration' };
+  return {
+    id, title: titleHTML, tag: moodTags[createState.mood] || 'A Personal Note',
+    body, signature: createState.signature || '', mood: createState.mood,
+    visibility: createState.visibility,
+    author: currentUser ? currentUser.name : 'Anonymous',
+    forWho: createState.forWho, why: createState.why,
+    createdAt: new Date().toISOString()
+  };
+}
+
+function showPreview(reel) {
+  pendingReel = reel;
+  const forLine = reel.forWho ? `<div class="reel-meta" style="opacity:0.5;">For ${reel.forWho} <span>·</span> by ${reel.author}</div>` : '';
+  document.getElementById('previewContent').innerHTML = `
+    <div class="reel-tag" style="opacity:1;transform:none;"><span class="line"></span> ${reel.tag} <span class="line"></span></div>
+    <h2 class="reel-title" style="opacity:1;transform:none;">${reel.title}</h2>
+    <div class="reel-divider" style="opacity:1;"></div>
+    <div class="reel-body" style="opacity:1;transform:none;">${reel.body.map(p => '<p>' + p + '</p>').join('')}</div>
+    ${reel.signature ? `<div class="reel-signature" style="opacity:1;transform:none;">${reel.signature}</div>` : ''}
+    ${forLine}`;
+  document.querySelector('.preview-label').textContent = '✨ Preview Your Reel';
+  document.querySelector('.preview-actions').innerHTML = `
+    <button class="btn-step btn-back" onclick="backToEdit()">Edit</button>
+    <button class="btn-step btn-next" onclick="publishReel()">Publish</button>`;
+  showScreen('previewScreen');
+}
+
+function backToEdit() {
+  showScreen('createScreen');
+  document.querySelectorAll('#createScreen .step').forEach(s => s.classList.remove('active-step'));
+  document.querySelector('#createScreen .step[data-step="4"]').classList.add('active-step');
+}
+
+async function publishReel() {
+  if (!pendingReel) return;
+
+  // Disable publish button
+  const pubBtn = document.querySelector('.preview-actions .btn-next');
+  pubBtn.disabled = true;
+  pubBtn.textContent = 'Publishing...';
+
+  // Save reel
+  userReels.push(pendingReel);
+  saveUserReels();
+
+  // Build reel URL
+  const reelUrl = window.location.origin + window.location.pathname + '#' + pendingReel.id;
+
+  // Send reel data to Formspree (your records)
+  await submitToFormspree({
+    _subject: 'New Reel Created: ' + pendingReel.title.replace(/<[^>]+>/g, ''),
+    creator_name: currentUser ? currentUser.name : 'Anonymous',
+    creator_email: currentUser ? currentUser.email : '',
+    reel_for: pendingReel.forWho,
+    reel_why: pendingReel.why || '',
+    reel_mood: pendingReel.mood,
+    reel_visibility: pendingReel.visibility,
+    reel_url: reelUrl,
+    reel_title: pendingReel.title.replace(/<[^>]+>/g, ''),
+    created_at: pendingReel.createdAt
+  });
+
+  // Send confirmation email to creator
+  if (currentUser && currentUser.email) {
+    const emailSent = await sendConfirmationEmail(
+      currentUser.name,
+      currentUser.email,
+      pendingReel.forWho || 'someone special',
+      reelUrl
+    );
+    if (emailSent) {
+      showToast('Reel published! Confirmation email sent ✨');
+    } else {
+      showToast('Reel published ✨');
+    }
+  } else {
+    showToast('Reel published ✨');
+  }
+
+  pubBtn.disabled = false;
+  pubBtn.textContent = 'Publish';
+
+  showScreen('feedScreen');
+  buildFeed();
+
+  if (pendingReel.visibility === 'public') {
+    const idx = allReels.findIndex(r => r.id === pendingReel.id);
+    if (idx >= 0) setTimeout(() => goToReel(idx), 300);
+  }
+
+  pendingReel = null;
+}
+
+// ═══════════════════════════════════
+// MY REELS
+// ═══════════════════════════════════
+function buildMyReels() {
+  const container = document.getElementById('myReelsList');
+  let html = `<div class="my-reels-title">My Reels</div>`;
+  html += `<div class="my-reels-sub">${userReels.length} reel${userReels.length !== 1 ? 's' : ''} created</div>`;
+
+  if (userReels.length === 0) {
+    html += `<div class="my-reel-empty"><p>You haven't created any reels yet.</p>
+      <button class="btn-primary" onclick="startCreate()" style="font-size:0.8rem;padding:12px 24px;">Create Your First Reel</button></div>`;
+  } else {
+    userReels.slice().reverse().forEach(reel => {
+      const plainTitle = reel.title.replace(/<[^>]+>/g, '');
+      const vis = reel.visibility === 'public' ? '🌍 Public' : '🔒 Private';
+      const date = new Date(reel.createdAt).toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+      html += `<div class="my-reel-card" onclick="viewMyReel('${reel.id}')">
+        <h3>${plainTitle}</h3>
+        ${reel.forWho ? `<div class="card-for">For ${reel.forWho}</div>` : ''}
+        <div class="card-meta"><span>${vis}</span><span>${date}</span></div></div>`;
+    });
+  }
+  container.innerHTML = html;
+}
+
+function viewMyReel(id) {
+  const reel = userReels.find(r => r.id === id);
+  if (!reel) return;
+  if (reel.visibility === 'public') {
+    showScreen('feedScreen');
+    const idx = allReels.findIndex(r => r.id === id);
+    if (idx >= 0) setTimeout(() => goToReel(idx), 200);
+  } else {
+    showPreview(reel);
+    document.querySelector('.preview-label').textContent = '🔒 Private Reel';
+    document.querySelector('.preview-actions').innerHTML = `
+      <button class="btn-step btn-back" onclick="showScreen('myReelsScreen')">Back</button>
+      <button class="btn-step btn-next" onclick="sharePrivateReel('${id}')">Share Link</button>`;
+  }
+}
+
+function sharePrivateReel(id) {
+  const url = window.location.origin + window.location.pathname + '#' + id;
+  if (navigator.clipboard) navigator.clipboard.writeText(url).then(() => showToast('Link copied'));
+}
+
+// ═══════════════════════════════════
+// PARTICLES
+// ═══════════════════════════════════
+const canvas = document.getElementById('particle-canvas');
+const ctx = canvas.getContext('2d');
+let particles = [];
+
+function resizeCanvas() { canvas.width = innerWidth; canvas.height = innerHeight; }
+function createParticle() {
+  return {
+    x: Math.random() * canvas.width, y: Math.random() * canvas.height,
+    size: Math.random() * 2.5 + 0.5,
+    speedY: -(Math.random() * 0.3 + 0.1), speedX: (Math.random() - 0.5) * 0.2,
+    opacity: Math.random() * 0.5 + 0.1,
+    pulse: Math.random() * Math.PI * 2, pulseSpeed: Math.random() * 0.02 + 0.005,
+  };
+}
+function initParticles() {
+  particles = Array.from({ length: Math.min(50, Math.floor(innerWidth * innerHeight / 18000)) }, createParticle);
+}
+function drawParticles() {
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  particles.forEach(p => {
+    p.x += p.speedX; p.y += p.speedY; p.pulse += p.pulseSpeed;
+    if (p.y < -10) { p.y = canvas.height + 10; p.x = Math.random() * canvas.width; }
+    if (p.x < -10) p.x = canvas.width + 10;
+    if (p.x > canvas.width + 10) p.x = -10;
+    const o = p.opacity * (0.6 + 0.4 * Math.sin(p.pulse));
+    ctx.beginPath(); ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+    ctx.fillStyle = `rgba(212,165,90,${o})`; ctx.fill();
+    ctx.beginPath(); ctx.arc(p.x, p.y, p.size * 3, 0, Math.PI * 2);
+    ctx.fillStyle = `rgba(212,165,90,${o * 0.15})`; ctx.fill();
+  });
+  requestAnimationFrame(drawParticles);
+}
+
+// ═══════════════════════════════════
+// TOAST
+// ═══════════════════════════════════
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg; t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 2500);
+}
+
+// ═══════════════════════════════════
+// INIT
+// ═══════════════════════════════════
+window.addEventListener('resize', () => { resizeCanvas(); initParticles(); });
+resizeCanvas(); initParticles(); drawParticles();
+
+function init() {
+  try {
+    const hasUser = loadUserData();
+    loadUserReels();
+    setTimeout(() => {
+      document.getElementById('loader').classList.add('hidden');
+      if (hasUser && currentUser) {
+        showScreen('feedScreen');
+        showToast('Welcome back, ' + currentUser.name + ' ✨');
+      } else {
+        // Make sure login screen is visible
+        showScreen('loginScreen');
+      }
+    }, 1200);
+  } catch(e) {
+    console.error('Init error:', e);
+    // Always show login on error
+    document.getElementById('loader').classList.add('hidden');
+    showScreen('loginScreen');
+  }
+}
+
+// Fallback: if loader is still visible after 3 seconds, force-hide it
+setTimeout(() => {
+  const loader = document.getElementById('loader');
+  if (loader && !loader.classList.contains('hidden')) {
+    loader.classList.add('hidden');
+    showScreen('loginScreen');
+  }
+}, 3000);
+
+init();
+</script>
+
+</body>
+</html>
