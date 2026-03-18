@@ -11,11 +11,10 @@
 <meta name="theme-color" content="#1a1008">
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>✨</text></svg>">
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Lora:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
-<script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+<!-- FIX 1: Load EmailJS async so it never blocks page rendering -->
+<script async src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
 <style>
 *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
-
-/* Colors hardcoded to prevent smart-punctuation issues on mobile */
 
 html, body {
   height: 100%;
@@ -159,7 +158,6 @@ html, body {
 .btn-header:hover { background: rgba(212,165,90,0.18); border-color: #d4a55a; }
 .btn-header.active-tab { background: rgba(212,165,90,0.2); border-color: #d4a55a; }
 
-/* User greeting in header */
 .user-greeting {
   font-family: 'Cormorant Garamond', serif;
   font-size: 0.65rem; letter-spacing: 0.1em;
@@ -258,7 +256,6 @@ html, body {
 
 @keyframes fadeSlideUp { to { opacity: 1; transform: translateY(0); } }
 
-/* Nav dots */
 .reel-nav {
   position: fixed; right: 1rem; top: 50%;
   transform: translateY(-50%); z-index: 10;
@@ -318,9 +315,10 @@ html, body {
 
 .create-container { max-width: 480px; width: 100%; text-align: center; }
 
+/* FIX 2: Steps use visibility-based hiding, not display:none, so layout stays stable */
 .step {
-  display: none; flex-direction: column; align-items: center;
-  opacity: 0; transform: translateY(20px);
+  display: none;
+  flex-direction: column; align-items: center;
 }
 .step.active-step {
   display: flex;
@@ -355,7 +353,6 @@ html, body {
   resize: vertical; line-height: 1.8;
 }
 
-/* Mood picker */
 .mood-grid {
   display: grid; grid-template-columns: 1fr 1fr;
   gap: 10px; width: 100%; margin-bottom: 1rem;
@@ -380,7 +377,6 @@ html, body {
   font-size: 0.85rem; letter-spacing: 0.1em; color: #f5e6c8;
 }
 
-/* Message choice */
 .message-choice {
   display: flex; flex-direction: column;
   gap: 10px; width: 100%; margin-bottom: 1rem;
@@ -406,7 +402,6 @@ html, body {
   font-size: 0.75rem; color: #e8c4a0; opacity: 0.6;
 }
 
-/* Visibility toggle */
 .visibility-toggle { display: flex; gap: 10px; width: 100%; margin-bottom: 1rem; }
 
 .vis-option {
@@ -429,7 +424,6 @@ html, body {
   font-size: 0.65rem; color: #e8c4a0; opacity: 0.5;
 }
 
-/* Generating */
 .generating {
   display: none; flex-direction: column;
   align-items: center; gap: 1.5rem; padding: 3rem 0;
@@ -455,7 +449,6 @@ html, body {
   font-size: 1.1rem; color: #f5e6c8; font-style: italic;
 }
 
-/* Step buttons */
 .step-actions {
   display: flex; gap: 10px; margin-top: 1.5rem;
   width: 100%; justify-content: center;
@@ -610,7 +603,6 @@ html, body {
 <canvas id="particle-canvas"></canvas>
 <div class="ambient-glow"></div>
 
-
 <div class="screen active" id="loginScreen">
   <div class="login-container">
     <div class="login-logo">Glow <em>Notes</em></div>
@@ -634,7 +626,6 @@ html, body {
   </div>
 </div>
 
-
 <div class="screen" id="feedScreen">
   <header class="site-header">
     <div class="logo" onclick="showScreen('feedScreen')">Glow <em>Notes</em></div>
@@ -656,11 +647,9 @@ html, body {
   </div>
 </div>
 
-
 <div class="screen" id="createScreen">
   <div class="create-container">
 
-    
     <div class="step active-step" data-step="1">
       <div class="step-progress"><div class="step-pip filled"></div><div class="step-pip"></div><div class="step-pip"></div><div class="step-pip"></div><div class="step-pip"></div><div class="step-pip"></div></div>
       <div class="step-question">Who is this reel for?</div>
@@ -672,19 +661,17 @@ html, body {
       </div>
     </div>
 
-    
     <div class="step" data-step="2">
       <div class="step-progress"><div class="step-pip filled"></div><div class="step-pip filled"></div><div class="step-pip"></div><div class="step-pip"></div><div class="step-pip"></div><div class="step-pip"></div></div>
       <div class="step-question">Why are you sending this?</div>
       <div class="step-sub">A little context helps create the perfect message.</div>
-      <textarea id="createWhy" class="input-field" placeholder="They've been going through a tough time and I want them to know I see their effort..." maxlength="500"></textarea>
+      <textarea id="createWhy" class="input-field" placeholder="They've been going through a tough time..." maxlength="500"></textarea>
       <div class="step-actions">
         <button class="btn-step btn-back" onclick="prevStep(1)">Back</button>
         <button class="btn-step btn-next" onclick="nextStep(3)">Next</button>
       </div>
     </div>
 
-    
     <div class="step" data-step="3">
       <div class="step-progress"><div class="step-pip filled"></div><div class="step-pip filled"></div><div class="step-pip filled"></div><div class="step-pip"></div><div class="step-pip"></div><div class="step-pip"></div></div>
       <div class="step-question">What's the mood?</div>
@@ -701,7 +688,6 @@ html, body {
       </div>
     </div>
 
-    
     <div class="step" data-step="4">
       <div class="step-progress"><div class="step-pip filled"></div><div class="step-pip filled"></div><div class="step-pip filled"></div><div class="step-pip filled"></div><div class="step-pip"></div><div class="step-pip"></div></div>
       <div class="step-question">The message</div>
@@ -727,7 +713,6 @@ html, body {
       </div>
     </div>
 
-    
     <div class="step" data-step="5">
       <div class="step-progress"><div class="step-pip filled"></div><div class="step-pip filled"></div><div class="step-pip filled"></div><div class="step-pip filled"></div><div class="step-pip filled"></div><div class="step-pip"></div></div>
       <div class="step-question">Who can see this?</div>
@@ -753,7 +738,6 @@ html, body {
   </div>
 </div>
 
-
 <div class="screen" id="previewScreen">
   <div class="preview-container">
     <div class="preview-label">✨ Preview Your Reel</div>
@@ -764,7 +748,6 @@ html, body {
     </div>
   </div>
 </div>
-
 
 <div class="screen" id="myReelsScreen">
   <header class="site-header">
@@ -788,8 +771,12 @@ const EMAILJS_SERVICE = 'service_bw0teoh';
 const EMAILJS_TEMPLATE = 'template_ge7eydo';
 const EMAILJS_PUBLIC_KEY = 'V4yyR5SPdGIJ6zL29';
 
-// Init EmailJS
-emailjs.init(EMAILJS_PUBLIC_KEY);
+// FIX 3: Init EmailJS safely — it may not be loaded yet if async
+function initEmailJS() {
+  if (typeof emailjs !== 'undefined') {
+    try { emailjs.init(EMAILJS_PUBLIC_KEY); } catch(e) {}
+  }
+}
 
 // ═══════════════════════════════════
 // STATE
@@ -947,7 +934,7 @@ const aiTemplates = {
 };
 
 // ═══════════════════════════════════
-// STORAGE — localStorage for GitHub Pages
+// STORAGE
 // ═══════════════════════════════════
 function saveUserData() {
   try { localStorage.setItem('glow-user', JSON.stringify(currentUser)); } catch(e) {}
@@ -970,7 +957,7 @@ function loadUserReels() {
 }
 
 // ═══════════════════════════════════
-// FORMSPREE — capture signups
+// FORMSPREE
 // ═══════════════════════════════════
 async function submitToFormspree(data) {
   try {
@@ -985,10 +972,13 @@ async function submitToFormspree(data) {
 }
 
 // ═══════════════════════════════════
-// EMAILJS — send confirmation
+// EMAILJS
 // ═══════════════════════════════════
 async function sendConfirmationEmail(fromName, fromEmail, toName, reelUrl) {
   try {
+    // Re-init in case async load just finished
+    initEmailJS();
+    if (typeof emailjs === 'undefined') return false;
     await emailjs.send(EMAILJS_SERVICE, EMAILJS_TEMPLATE, {
       from_name: fromName,
       to_name: toName,
@@ -1025,17 +1015,13 @@ async function handleLogin() {
   if (!name) { showToast('Please enter your name'); return; }
   if (!email || !email.includes('@')) { showToast('Please enter a valid email'); return; }
 
-  // Disable button while processing
   const btn = document.getElementById('loginBtn');
   btn.disabled = true;
   btn.textContent = 'Entering...';
 
   currentUser = { name, email, location: location || '', joinedAt: new Date().toISOString() };
-
-  // Save locally
   saveUserData();
 
-  // Send to Formspree (your dashboard)
   await submitToFormspree({
     _subject: 'New Glow Notes Signup',
     name: currentUser.name,
@@ -1049,7 +1035,7 @@ async function handleLogin() {
 
   showScreen('feedScreen');
   document.getElementById('userGreeting').textContent = name;
-  showToast('Welcome, ' + name + ' ✨');
+  showToast('Welcome, ' + name + ' \u2728');
 }
 
 // ═══════════════════════════════════
@@ -1068,7 +1054,7 @@ function buildFeed() {
     const section = document.createElement('section');
     section.className = 'reel' + (i === 0 ? ' active' : '');
     section.dataset.id = reel.id;
-    const forLine = reel.forWho ? `<div class="reel-meta">Created for ${reel.forWho}${reel.author ? ' <span>·</span> by ' + reel.author : ''}</div>` : '';
+    const forLine = reel.forWho ? `<div class="reel-meta">Created for ${reel.forWho}${reel.author ? ' <span>\u00b7</span> by ' + reel.author : ''}</div>` : '';
     section.innerHTML = `
       <div class="reel-content">
         <div class="reel-tag"><span class="line"></span> ${reel.tag} <span class="line"></span></div>
@@ -1164,7 +1150,7 @@ function shareCurrentReel() {
   const url = window.location.origin + window.location.pathname + '#' + reel.id;
   const title = reel.title.replace(/<[^>]+>/g, '');
   if (navigator.share) {
-    navigator.share({ title: 'Glow Notes — ' + title, text: 'Here\'s something I wanted to share with you.', url }).catch(() => {});
+    navigator.share({ title: 'Glow Notes \u2014 ' + title, text: "Here's something I wanted to share with you.", url }).catch(() => {});
   } else {
     navigator.clipboard.writeText(url).then(() => showToast('Link copied'));
   }
@@ -1175,15 +1161,23 @@ function shareCurrentReel() {
 // ═══════════════════════════════════
 function startCreate() {
   createState = { forWho: '', why: '', mood: '', messageType: '', visibility: 'public', title: '', message: '', signature: '' };
-  document.querySelectorAll('#createScreen .step').forEach(s => { s.classList.remove('active-step'); s.style.display = 'none'; });
+
+  // FIX 4: Properly reset all steps — remove active-step from all, then activate step 1
+  document.querySelectorAll('#createScreen .step').forEach(s => {
+    s.classList.remove('active-step');
+  });
+
   const s1 = document.querySelector('#createScreen .step[data-step="1"]');
-  s1.classList.add('active-step'); s1.style.display = '';
+  s1.classList.add('active-step');
+
+  // Reset all inputs
   document.getElementById('createFor').value = '';
   document.getElementById('createWhy').value = '';
   document.getElementById('createTitle').value = '';
   document.getElementById('createMessage').value = '';
   document.getElementById('createSignature').value = '';
-  document.querySelectorAll('.mood-card,.choice-card,.vis-option').forEach(c => c.classList.remove('selected'));
+  document.querySelectorAll('.mood-card,.choice-card').forEach(c => c.classList.remove('selected'));
+  document.querySelectorAll('.vis-option').forEach(c => c.classList.remove('selected'));
   document.querySelector('.vis-option[data-vis="public"]').classList.add('selected');
   document.getElementById('customMessageArea').style.display = 'none';
   document.getElementById('moodNext').disabled = true;
@@ -1194,6 +1188,7 @@ function startCreate() {
 
 function cancelCreate() { showScreen('feedScreen'); }
 
+// FIX 5: nextStep and prevStep — never touch display directly, only toggle active-step class
 function nextStep(n) {
   if (n === 2) createState.forWho = document.getElementById('createFor').value.trim();
   if (n === 3) createState.why = document.getElementById('createWhy').value.trim();
@@ -1206,9 +1201,7 @@ function nextStep(n) {
   document.querySelectorAll('#createScreen .step').forEach(s => s.classList.remove('active-step'));
   const next = document.querySelector(`#createScreen .step[data-step="${n}"]`);
   if (next) {
-    next.style.opacity = '0'; next.style.transform = 'translateY(20px)';
-    next.style.animation = 'none'; next.offsetHeight;
-    next.classList.add('active-step'); next.style.animation = '';
+    next.classList.add('active-step');
   }
 }
 
@@ -1216,9 +1209,7 @@ function prevStep(n) {
   document.querySelectorAll('#createScreen .step').forEach(s => s.classList.remove('active-step'));
   const prev = document.querySelector(`#createScreen .step[data-step="${n}"]`);
   if (prev) {
-    prev.style.opacity = '0'; prev.style.transform = 'translateY(20px)';
-    prev.style.animation = 'none'; prev.offsetHeight;
-    prev.classList.add('active-step'); prev.style.animation = '';
+    prev.classList.add('active-step');
   }
 }
 
@@ -1293,7 +1284,7 @@ function buildCustomReel() {
 
 function showPreview(reel) {
   pendingReel = reel;
-  const forLine = reel.forWho ? `<div class="reel-meta" style="opacity:0.5;">For ${reel.forWho} <span>·</span> by ${reel.author}</div>` : '';
+  const forLine = reel.forWho ? `<div class="reel-meta" style="opacity:0.5;">For ${reel.forWho} <span>\u00b7</span> by ${reel.author}</div>` : '';
   document.getElementById('previewContent').innerHTML = `
     <div class="reel-tag" style="opacity:1;transform:none;"><span class="line"></span> ${reel.tag} <span class="line"></span></div>
     <h2 class="reel-title" style="opacity:1;transform:none;">${reel.title}</h2>
@@ -1301,7 +1292,7 @@ function showPreview(reel) {
     <div class="reel-body" style="opacity:1;transform:none;">${reel.body.map(p => '<p>' + p + '</p>').join('')}</div>
     ${reel.signature ? `<div class="reel-signature" style="opacity:1;transform:none;">${reel.signature}</div>` : ''}
     ${forLine}`;
-  document.querySelector('.preview-label').textContent = '✨ Preview Your Reel';
+  document.querySelector('.preview-label').textContent = '\u2728 Preview Your Reel';
   document.querySelector('.preview-actions').innerHTML = `
     <button class="btn-step btn-back" onclick="backToEdit()">Edit</button>
     <button class="btn-step btn-next" onclick="publishReel()">Publish</button>`;
@@ -1317,19 +1308,15 @@ function backToEdit() {
 async function publishReel() {
   if (!pendingReel) return;
 
-  // Disable publish button
   const pubBtn = document.querySelector('.preview-actions .btn-next');
   pubBtn.disabled = true;
   pubBtn.textContent = 'Publishing...';
 
-  // Save reel
   userReels.push(pendingReel);
   saveUserReels();
 
-  // Build reel URL
   const reelUrl = window.location.origin + window.location.pathname + '#' + pendingReel.id;
 
-  // Send reel data to Formspree (your records)
   await submitToFormspree({
     _subject: 'New Reel Created: ' + pendingReel.title.replace(/<[^>]+>/g, ''),
     creator_name: currentUser ? currentUser.name : 'Anonymous',
@@ -1343,7 +1330,6 @@ async function publishReel() {
     created_at: pendingReel.createdAt
   });
 
-  // Send confirmation email to creator
   if (currentUser && currentUser.email) {
     const emailSent = await sendConfirmationEmail(
       currentUser.name,
@@ -1351,13 +1337,9 @@ async function publishReel() {
       pendingReel.forWho || 'someone special',
       reelUrl
     );
-    if (emailSent) {
-      showToast('Reel published! Confirmation email sent ✨');
-    } else {
-      showToast('Reel published ✨');
-    }
+    showToast(emailSent ? 'Reel published! Confirmation email sent \u2728' : 'Reel published \u2728');
   } else {
-    showToast('Reel published ✨');
+    showToast('Reel published \u2728');
   }
 
   pubBtn.disabled = false;
@@ -1388,7 +1370,7 @@ function buildMyReels() {
   } else {
     userReels.slice().reverse().forEach(reel => {
       const plainTitle = reel.title.replace(/<[^>]+>/g, '');
-      const vis = reel.visibility === 'public' ? '🌍 Public' : '🔒 Private';
+      const vis = reel.visibility === 'public' ? '\uD83C\uDF0D Public' : '\uD83D\uDD12 Private';
       const date = new Date(reel.createdAt).toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
       html += `<div class="my-reel-card" onclick="viewMyReel('${reel.id}')">
         <h3>${plainTitle}</h3>
@@ -1408,7 +1390,7 @@ function viewMyReel(id) {
     if (idx >= 0) setTimeout(() => goToReel(idx), 200);
   } else {
     showPreview(reel);
-    document.querySelector('.preview-label').textContent = '🔒 Private Reel';
+    document.querySelector('.preview-label').textContent = '\uD83D\uDD12 Private Reel';
     document.querySelector('.preview-actions').innerHTML = `
       <button class="btn-step btn-back" onclick="showScreen('myReelsScreen')">Back</button>
       <button class="btn-step btn-next" onclick="sharePrivateReel('${id}')">Share Link</button>`;
@@ -1471,36 +1453,42 @@ function showToast(msg) {
 window.addEventListener('resize', () => { resizeCanvas(); initParticles(); });
 resizeCanvas(); initParticles(); drawParticles();
 
+function hideLoader() {
+  const loader = document.getElementById('loader');
+  if (loader) loader.classList.add('hidden');
+}
+
 function init() {
   try {
     const hasUser = loadUserData();
     loadUserReels();
+    initEmailJS();
+
+    // FIX 6: Use 800ms loader — fast enough to not feel broken
     setTimeout(() => {
-      document.getElementById('loader').classList.add('hidden');
+      hideLoader();
       if (hasUser && currentUser) {
         showScreen('feedScreen');
-        showToast('Welcome back, ' + currentUser.name + ' ✨');
+        showToast('Welcome back, ' + currentUser.name + ' \u2728');
       } else {
-        // Make sure login screen is visible
         showScreen('loginScreen');
       }
-    }, 1200);
+    }, 800);
   } catch(e) {
     console.error('Init error:', e);
-    // Always show login on error
-    document.getElementById('loader').classList.add('hidden');
+    hideLoader();
     showScreen('loginScreen');
   }
 }
 
-// Fallback: if loader is still visible after 3 seconds, force-hide it
+// FIX 7: Hard failsafe — force show login after 2s no matter what
 setTimeout(() => {
-  const loader = document.getElementById('loader');
-  if (loader && !loader.classList.contains('hidden')) {
-    loader.classList.add('hidden');
+  hideLoader();
+  const anyActive = document.querySelector('.screen.active');
+  if (!anyActive || anyActive.id === 'loginScreen') {
     showScreen('loginScreen');
   }
-}, 3000);
+}, 2000);
 
 init();
 </script>
