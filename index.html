@@ -105,11 +105,12 @@
       <div class="landing-divider"></div>
       <p class="landing-desc">
         A personal message that arrives at exactly the right moment can change everything.
-        Write one for someone you love — or find one that speaks to you right now.
+        Write one for someone you love, or find one that speaks to you right now.
       </p>
       <div class="landing-actions">
         <button class="btn-landing-primary" onclick="GlowApp.getIsGuest() ? GlowApp.showGuestNudge() : GlowCreate.start()">Create a Reel</button>
         <button class="btn-landing-secondary" onclick="GlowApp.showScreen('feedScreen')">Browse the Collection</button>
+        <button class="btn-landing-secondary guest-show" onclick="GlowApp.showScreen('loginScreen')" style="display:none;border-color:rgba(212,165,90,.4);">Sign In to Create</button>
       </div>
       <div class="landing-note">Every message is personal. Every reel is yours to give.</div>
     </div>
@@ -168,7 +169,7 @@
         <div class="step-pip"></div><div class="step-pip"></div><div class="step-pip"></div>
       </div>
       <div class="step-question">Who is this reel for?</div>
-      <div class="step-sub">A friend, a partner, yourself — anyone who needs a lift.</div>
+      <div class="step-sub">A friend, a partner, yourself, or anyone who needs a lift.</div>
       <input type="text" id="createFor" class="input-field" placeholder="Their name" maxlength="60">
       <div class="step-actions">
         <button class="btn-step btn-back" onclick="GlowCreate.cancel()">Cancel</button>
@@ -219,7 +220,7 @@
         <div class="step-pip filled"></div><div class="step-pip filled"></div><div class="step-pip"></div>
       </div>
       <div class="step-question">The message</div>
-      <div class="step-sub">Let Claude write something just for them — or use your own words.</div>
+      <div class="step-sub">Let Claude write something just for them, or use your own words.</div>
       <div class="message-choice">
         <div class="choice-card" data-choice="ai" onclick="GlowCreate.selectMessageType(this)">
           <h4>&#10024; Write it for me</h4>
