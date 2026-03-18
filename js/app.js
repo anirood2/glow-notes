@@ -1,6 +1,6 @@
 /* ═══════════════════════════════════════
    GLOW NOTES — app.js
-   Core: screens, login, storage, particles
+   Core: screens, login, guest mode, storage, particles
 ═══════════════════════════════════════ */
 
 const GlowApp = (() => {
@@ -11,6 +11,7 @@ const GlowApp = (() => {
 
   let currentUser = null;
   let userReels   = [];
+  let isGuest     = false;
 
   // ── EMAILJS ──
   function initEJS() {
@@ -32,6 +33,7 @@ const GlowApp = (() => {
   function addReel(reel) { userReels.push(reel); saveReels(); }
   function getUser()     { return currentUser; }
   function getReels()    { return userReels; }
+  function getIsGuest()  { return isGuest; }
 
   // ── NETWORK ──
   async function postForm(data) {
@@ -50,10 +52,14 @@ const GlowApp = (() => {
   }
 
   // ── SCREENS ──
-  // Map screen id → setup function called on show
   const screenSetup = {};
 
   function showScreen(id) {
+    // If guest tries to access create or my reels, show nudge instead
+    if (isGuest && (id === 'createScreen' || id === 'myReelsScreen')) {
+      showGuestNudge();
+      return;
+    }
     document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
     const sc = document.getElementById(id);
     if (sc) sc.classList.add('active');
@@ -67,20 +73,65 @@ const GlowApp = (() => {
     const name  = document.getElementById('loginName').value.trim();
     const email = document.getElementById('loginEmail').value.trim();
     const loc   = document.getElementById('loginLocation').value.trim();
-    if (!name)                      { showToast('Please enter your name');  return; }
-    if (!email || !email.includes('@')) { showToast('Please enter a valid email'); return; }
+    if (!name)                           { showToast('Please enter your name');  return; }
+    if (!email || !email.includes('@'))  { showToast('Please enter a valid email'); return; }
 
     const btn = document.getElementById('loginBtn');
     btn.disabled = true; btn.textContent = 'Entering\u2026';
 
     currentUser = { name, email, location: loc || '', joinedAt: new Date().toISOString() };
+    isGuest = false;
     saveUser();
     await postForm({ _subject:'New Glow Notes Signup', name, email, location:loc, joined:currentUser.joinedAt });
 
     btn.textContent = 'Enter the Glow'; btn.disabled = false;
-    showScreen('landingScreen');
-    document.getElementById('userGreeting').textContent = name;
+    _showScreen('landingScreen');
+    updateHeaderForUser();
     showToast('Welcome, ' + name + ' \u2728');
+  }
+
+  // ── GUEST MODE ──
+  function enterAsGuest() {
+    isGuest = true;
+    currentUser = null;
+    _showScreen('landingScreen');
+    updateHeaderForGuest();
+    showToast('Browsing as guest');
+  }
+
+  function updateHeaderForUser() {
+    const greeting = document.getElementById('userGreeting');
+    if (greeting && currentUser) greeting.textContent = currentUser.name;
+    // Show My Reels, hide Sign In
+    document.querySelectorAll('.guest-hide').forEach(el => el.style.display = '');
+    document.querySelectorAll('.guest-show').forEach(el => el.style.display = 'none');
+  }
+
+  function updateHeaderForGuest() {
+    const greeting = document.getElementById('userGreeting');
+    if (greeting) greeting.textContent = '';
+    // Hide My Reels for guests, show Sign In
+    document.querySelectorAll('.guest-hide').forEach(el => el.style.display = 'none');
+    document.querySelectorAll('.guest-show').forEach(el => el.style.display = '');
+  }
+
+  // Guest nudge — slides up from bottom
+  function showGuestNudge() {
+    const nudge = document.getElementById('guestNudge');
+    if (nudge) nudge.style.display = 'block';
+  }
+
+  function closeGuestNudge() {
+    const nudge = document.getElementById('guestNudge');
+    if (nudge) nudge.style.display = 'none';
+  }
+
+  // Internal screen show that bypasses guest check
+  function _showScreen(id) {
+    document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+    const sc = document.getElementById(id);
+    if (sc) sc.classList.add('active');
+    if (screenSetup[id]) screenSetup[id]();
   }
 
   // ── TOAST ──
@@ -139,18 +190,24 @@ const GlowApp = (() => {
       setTimeout(() => {
         hideLoader();
         if (hasUser && currentUser) {
-          showScreen('landingScreen');
-          document.getElementById('userGreeting').textContent = currentUser.name;
+          _showScreen('landingScreen');
+          updateHeaderForUser();
           showToast('Welcome back, ' + currentUser.name + ' \u2728');
         } else {
-          showScreen('loginScreen');
+          _showScreen('loginScreen');
         }
       }, 900);
-    } catch(e) { hideLoader(); showScreen('loginScreen'); }
+    } catch(e) { hideLoader(); _showScreen('loginScreen'); }
   }
 
   // Hard failsafe
   setTimeout(() => hideLoader(), 2200);
 
-  return { init, handleLogin, showScreen, registerScreen, showToast, getUser, getReels, addReel, postForm, sendEmail };
+  return {
+    init, handleLogin, enterAsGuest,
+    showScreen, registerScreen, showToast,
+    showGuestNudge, closeGuestNudge,
+    getUser, getReels, addReel, getIsGuest,
+    postForm, sendEmail
+  };
 })();
