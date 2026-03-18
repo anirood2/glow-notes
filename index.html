@@ -4,7 +4,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-<title>Glow Notes — Inspirational Reels</title>
+<title>Glow Notes — Warm Words for Heavy Days</title>
 <meta name="description" content="Create and share warm, personal messages that uplift the people you care about.">
 <meta name="theme-color" content="#1a1008">
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>✨</text></svg>">
@@ -15,7 +15,12 @@
 <body>
 
 <!-- LOADER -->
-<div class="loader" id="loader"><div class="loader-text">Glow Notes</div></div>
+<div class="loader" id="loader">
+  <div class="loader-inner">
+    <div class="loader-logo">Glow <em>Notes</em></div>
+    <div class="loader-sub">loading</div>
+  </div>
+</div>
 
 <!-- BACKGROUND -->
 <canvas id="particle-canvas"></canvas>
@@ -26,13 +31,10 @@
   <canvas id="bokehCanvas"></canvas>
   <div class="watch-vignette"></div>
   <div class="watch-flicker"></div>
-
   <button class="watch-mute" id="watchMuteBtn"
-    onclick="GlowWatch.handleMute();event.stopPropagation();"
-    title="Mute">&#x1F50A;</button>
+    onclick="GlowWatch.handleMute();event.stopPropagation();">&#x1F50A;</button>
   <button class="watch-close"
     onclick="GlowWatch.close();event.stopPropagation();">&#x2715; Close</button>
-
   <div class="watch-content">
     <div class="watch-tag" id="watchTag">
       <span class="line"></span><span id="watchTagText"></span><span class="line"></span>
@@ -42,12 +44,10 @@
     <div class="watch-paragraph" id="watchParagraph"></div>
     <div class="watch-signature" id="watchSignature"></div>
   </div>
-
   <div class="watch-hint" id="watchHint">Tap to continue</div>
   <div class="watch-controls">
     <div class="watch-progress" id="watchProgress"></div>
   </div>
-
   <div class="watch-end" id="watchEnd">
     <div class="watch-end-logo">Glow <em>Notes</em></div>
     <div class="watch-end-sig" id="watchEndSig"></div>
@@ -82,24 +82,70 @@
   </div>
 </div>
 
-<!-- ═══ FEED ═══ -->
-<div class="screen" id="feedScreen">
+<!-- ═══ LANDING ═══ -->
+<div class="screen" id="landingScreen">
   <header class="site-header">
-    <div class="logo" onclick="GlowApp.showScreen('feedScreen')">Glow <em>Notes</em></div>
+    <div class="logo" onclick="GlowApp.showScreen('landingScreen')">Glow <em>Notes</em></div>
     <div class="header-actions">
       <span class="user-greeting" id="userGreeting"></span>
       <button class="btn-header" onclick="GlowApp.showScreen('myReelsScreen')">My Reels</button>
-      <button class="btn-header" onclick="GlowCreate.start()">+ New</button>
-      <button class="btn-header" onclick="GlowFeed.shareCurrent()">Share</button>
+      <button class="btn-header" onclick="GlowApp.showScreen('feedScreen')">Browse</button>
+      <button class="btn-header" onclick="GlowCreate.start()">+ Create</button>
     </div>
   </header>
-  <nav class="reel-nav" id="reelNav"></nav>
-  <div class="reel-counter" id="reelCounter"></div>
-  <div class="scroll-hint" id="scrollHint">
-    <span>Swipe up</span><div class="scroll-arrow"></div>
+  <div style="display:flex;flex-direction:column;justify-content:center;align-items:center;height:100%;padding:2rem;">
+    <div class="landing-inner">
+      <div class="landing-logo">Glow <em>Notes</em></div>
+      <div class="landing-tagline">warm words for heavy days</div>
+      <div class="landing-divider"></div>
+      <p class="landing-desc">
+        A personal message that arrives at exactly the right moment can change everything.
+        Write one for someone you love — or find one that speaks to you right now.
+      </p>
+      <div class="landing-actions">
+        <button class="btn-landing-primary" onclick="GlowCreate.start()">Create a Reel</button>
+        <button class="btn-landing-secondary" onclick="GlowApp.showScreen('feedScreen')">Browse the Collection</button>
+      </div>
+      <div class="landing-note">Every message is personal. Every reel is yours to give.</div>
+    </div>
   </div>
-  <div class="reels-viewport">
-    <div class="reel-track" id="reelTrack"></div>
+</div>
+
+<!-- ═══ FEED — TILE GRID ═══ -->
+<div class="screen" id="feedScreen">
+  <header class="site-header">
+    <div class="logo" onclick="GlowApp.showScreen('landingScreen')">Glow <em>Notes</em></div>
+    <div class="header-actions">
+      <button class="btn-header" onclick="GlowApp.showScreen('myReelsScreen')">My Reels</button>
+      <button class="btn-header" onclick="GlowCreate.start()">+ Create</button>
+    </div>
+  </header>
+  <div class="feed-grid-wrapper">
+    <div class="feed-intro">
+      <div class="feed-intro-title">The Collection</div>
+      <div class="feed-intro-sub">Tap any reel to read it in full</div>
+    </div>
+    <div class="feed-tile-grid" id="feedTileGrid">
+      <!-- tiles injected by feed.js -->
+    </div>
+  </div>
+</div>
+
+<!-- ═══ REEL FULL VIEW ═══ -->
+<div class="screen" id="reelViewScreen">
+  <!-- Back button -->
+  <button class="reel-back" onclick="GlowFeed.closeReel()">&#x2190; Back</button>
+
+  <!-- Read / Watch pill — fixed top-right -->
+  <div class="reel-mode-pill" id="reelModePill">
+    <button class="pill-btn active" data-mode="read" onclick="GlowFeed.setMode('read')">&#x1F4D6; Read</button>
+    <button class="pill-btn" data-mode="watch" onclick="GlowFeed.setMode('watch')">&#x25B6; Watch</button>
+  </div>
+
+  <div class="reel-view-inner" id="reelViewInner">
+    <div class="reel-content" id="reelViewContent">
+      <!-- injected by feed.js -->
+    </div>
   </div>
 </div>
 
@@ -107,7 +153,6 @@
 <div class="screen" id="createScreen">
   <div class="create-container">
 
-    <!-- Step 1: Who -->
     <div class="step active-step" data-step="1">
       <div class="step-progress">
         <div class="step-pip filled"></div><div class="step-pip"></div>
@@ -122,14 +167,13 @@
       </div>
     </div>
 
-    <!-- Step 2: Why -->
     <div class="step" data-step="2">
       <div class="step-progress">
         <div class="step-pip filled"></div><div class="step-pip filled"></div>
         <div class="step-pip"></div><div class="step-pip"></div><div class="step-pip"></div>
       </div>
       <div class="step-question">What's going on with them?</div>
-      <div class="step-sub">Be honest. The more real this is, the more the message will feel like it was written just for them.</div>
+      <div class="step-sub">Be honest. The more real this is, the more personal the message will feel.</div>
       <textarea id="createWhy" class="input-field"
         placeholder="She just lost her job and has been crying every night. She's convinced she's a failure but she's one of the strongest people I know..."
         maxlength="800"></textarea>
@@ -139,7 +183,6 @@
       </div>
     </div>
 
-    <!-- Step 3: Mood -->
     <div class="step" data-step="3">
       <div class="step-progress">
         <div class="step-pip filled"></div><div class="step-pip filled"></div>
@@ -148,24 +191,12 @@
       <div class="step-question">What's the mood?</div>
       <div class="step-sub">This shapes the emotional tone of the reel.</div>
       <div class="mood-grid">
-        <div class="mood-card" data-mood="hopeful" onclick="GlowCreate.selectMood(this)">
-          <div class="mood-emoji">&#127749;</div><div class="mood-label">Hopeful</div>
-        </div>
-        <div class="mood-card" data-mood="strength" onclick="GlowCreate.selectMood(this)">
-          <div class="mood-emoji">&#128293;</div><div class="mood-label">Strength</div>
-        </div>
-        <div class="mood-card" data-mood="comfort" onclick="GlowCreate.selectMood(this)">
-          <div class="mood-emoji">&#127769;</div><div class="mood-label">Comfort</div>
-        </div>
-        <div class="mood-card" data-mood="celebration" onclick="GlowCreate.selectMood(this)">
-          <div class="mood-emoji">&#10024;</div><div class="mood-label">Celebration</div>
-        </div>
-        <div class="mood-card" data-mood="grief" onclick="GlowCreate.selectMood(this)">
-          <div class="mood-emoji">&#129294;</div><div class="mood-label">Healing</div>
-        </div>
-        <div class="mood-card" data-mood="courage" onclick="GlowCreate.selectMood(this)">
-          <div class="mood-emoji">&#9889;</div><div class="mood-label">Courage</div>
-        </div>
+        <div class="mood-card" data-mood="hopeful"      onclick="GlowCreate.selectMood(this)"><div class="mood-emoji">&#127749;</div><div class="mood-label">Hopeful</div></div>
+        <div class="mood-card" data-mood="strength"     onclick="GlowCreate.selectMood(this)"><div class="mood-emoji">&#128293;</div><div class="mood-label">Strength</div></div>
+        <div class="mood-card" data-mood="comfort"      onclick="GlowCreate.selectMood(this)"><div class="mood-emoji">&#127769;</div><div class="mood-label">Comfort</div></div>
+        <div class="mood-card" data-mood="celebration"  onclick="GlowCreate.selectMood(this)"><div class="mood-emoji">&#10024;</div><div class="mood-label">Celebration</div></div>
+        <div class="mood-card" data-mood="grief"        onclick="GlowCreate.selectMood(this)"><div class="mood-emoji">&#129294;</div><div class="mood-label">Healing</div></div>
+        <div class="mood-card" data-mood="courage"      onclick="GlowCreate.selectMood(this)"><div class="mood-emoji">&#9889;</div><div class="mood-label">Courage</div></div>
       </div>
       <div class="step-actions">
         <button class="btn-step btn-back" onclick="GlowCreate.prevStep(2)">Back</button>
@@ -173,7 +204,6 @@
       </div>
     </div>
 
-    <!-- Step 4: Message type -->
     <div class="step" data-step="4">
       <div class="step-progress">
         <div class="step-pip filled"></div><div class="step-pip filled"></div>
@@ -192,13 +222,9 @@
         </div>
       </div>
       <div id="customMessageArea" style="display:none;width:100%;">
-        <input type="text" id="createTitle" class="input-field"
-          placeholder="Title (e.g. You Are Enough)" maxlength="80" style="margin-bottom:10px;">
-        <textarea id="createMessage" class="input-field"
-          placeholder="Write your message here. Use blank lines between paragraphs. Wrap words in *asterisks* to make them glow."
-          maxlength="2000"></textarea>
-        <input type="text" id="createSignature" class="input-field"
-          placeholder="Closing line (optional)" maxlength="120" style="margin-top:10px;">
+        <input type="text" id="createTitle" class="input-field" placeholder="Title (e.g. You Are Enough)" maxlength="80" style="margin-bottom:10px;">
+        <textarea id="createMessage" class="input-field" placeholder="Write your message. Use blank lines between paragraphs. Wrap words in *asterisks* to make them glow." maxlength="2000"></textarea>
+        <input type="text" id="createSignature" class="input-field" placeholder="Closing line (optional)" maxlength="120" style="margin-top:10px;">
       </div>
       <div class="step-actions">
         <button class="btn-step btn-back" onclick="GlowCreate.prevStep(3)">Back</button>
@@ -206,21 +232,19 @@
       </div>
     </div>
 
-    <!-- Step 5: Visibility -->
     <div class="step" data-step="5">
       <div class="step-progress">
         <div class="step-pip filled"></div><div class="step-pip filled"></div>
-        <div class="step-pip filled"></div><div class="step-pip filled"></div>
-        <div class="step-pip filled"></div>
+        <div class="step-pip filled"></div><div class="step-pip filled"></div><div class="step-pip filled"></div>
       </div>
       <div class="step-question">Who can see this?</div>
-      <div class="step-sub">Public reels appear in the feed for everyone.</div>
+      <div class="step-sub">Public reels appear in the collection.</div>
       <div class="visibility-toggle">
         <div class="vis-option selected" data-vis="public" onclick="GlowCreate.selectVisibility(this)">
-          <div class="vis-icon">&#127757;</div><h4>Public</h4><p>Visible in the feed</p>
+          <div class="vis-icon">&#127757;</div><h4>Public</h4><p>In the collection</p>
         </div>
         <div class="vis-option" data-vis="private" onclick="GlowCreate.selectVisibility(this)">
-          <div class="vis-icon">&#128274;</div><h4>Private</h4><p>Only you can see it</p>
+          <div class="vis-icon">&#128274;</div><h4>Private</h4><p>Only you</p>
         </div>
       </div>
       <div class="step-actions">
@@ -229,15 +253,11 @@
       </div>
     </div>
 
-    <!-- Generating state -->
     <div class="generating" id="generatingState">
-      <div class="gen-dots">
-        <div class="gen-dot"></div><div class="gen-dot"></div><div class="gen-dot"></div>
-      </div>
+      <div class="gen-dots"><div class="gen-dot"></div><div class="gen-dot"></div><div class="gen-dot"></div></div>
       <div class="gen-text" id="genText">Reading what you shared&#x2026;</div>
       <div class="gen-status" id="genStatus">Claude is writing something just for them</div>
     </div>
-
   </div>
 </div>
 
@@ -256,25 +276,52 @@
 <!-- ═══ MY REELS ═══ -->
 <div class="screen" id="myReelsScreen">
   <header class="site-header">
-    <div class="logo" onclick="GlowApp.showScreen('feedScreen')">Glow <em>Notes</em></div>
+    <div class="logo" onclick="GlowApp.showScreen('landingScreen')">Glow <em>Notes</em></div>
     <div class="header-actions">
       <button class="btn-header active-tab">My Reels</button>
-      <button class="btn-header" onclick="GlowCreate.start()">+ New</button>
+      <button class="btn-header" onclick="GlowCreate.start()">+ Create</button>
     </div>
   </header>
-  <div class="my-reels-container" id="myReelsList"></div>
+  <div class="my-reels-header" id="myReelsHeader">
+    <div class="my-reels-title">My Reels</div>
+    <div class="my-reels-sub">0 reels created</div>
+  </div>
+  <div class="my-reels-grid" id="myReelsGrid"></div>
+  <div class="my-reel-empty" id="myReelsEmpty" style="display:none;">
+    <p>You haven't created any reels yet.</p>
+    <button class="btn-primary" onclick="GlowCreate.start()" style="font-size:.8rem;padding:12px 24px;">Create Your First Reel</button>
+  </div>
 </div>
 
-<!-- TOAST -->
 <div class="toast" id="toast"></div>
 
-<!-- ═══ SCRIPTS — order matters ═══ -->
+<!-- ═══════════════════════════════════════
+     SCRIPTS — load order is critical
+     data → audio → app → feed → watch → create
+     app.init() called last via DOMContentLoaded
+═══════════════════════════════════════ -->
 <script src="js/data.js"></script>
 <script src="js/audio.js"></script>
 <script src="js/app.js"></script>
 <script src="js/feed.js"></script>
 <script src="js/watch.js"></script>
 <script src="js/create.js"></script>
+
+<script>
+// ── BOOT — runs after ALL scripts above are parsed ──
+document.addEventListener('DOMContentLoaded', () => {
+  // Register screen setup callbacks
+  GlowApp.registerScreen('landingScreen',  () => GlowFeed.buildLanding());
+  GlowApp.registerScreen('feedScreen',     () => GlowFeed.buildFeed());
+  GlowApp.registerScreen('myReelsScreen',  () => GlowCreate.buildMyReels());
+
+  // Init app
+  GlowApp.init();
+
+  // Handle deep-link after init settles
+  setTimeout(() => GlowFeed.checkHash(), 1200);
+});
+</script>
 
 </body>
 </html>
