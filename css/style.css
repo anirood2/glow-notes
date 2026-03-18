@@ -333,6 +333,21 @@ html, body {
 .reel-back:hover { color: var(--gold); }
 
 /* READ/WATCH TOGGLE — fixed pill top-right */
+/* Nav pill — top-left of reel view */
+.reel-nav-pill {
+  position: fixed;
+  top: .85rem; left: 1.2rem;
+  display: flex; align-items: center;
+  background: rgba(15,10,4,.8);
+  border: 1px solid rgba(212,165,90,.28);
+  border-radius: 20px; padding: 3px;
+  backdrop-filter: blur(16px);
+  z-index: 25;
+  opacity: 0; transform: translateY(-4px);
+  transition: opacity .5s ease, transform .5s ease;
+}
+.reel-nav-pill.visible { opacity: 1; transform: translateY(0); }
+
 .reel-mode-pill {
   position: fixed;
   top: .85rem; right: 1.2rem;
