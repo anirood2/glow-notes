@@ -538,3 +538,83 @@ html, body {
   .feed-tile { padding: 16px 12px; min-height: 140px; }
   .my-reels-grid { grid-template-columns: 1fr; }
 }
+
+/* ── GUEST MODE ── */
+.login-guest-divider {
+  display: flex; align-items: center;
+  gap: 12px; margin: 1.2rem 0 .8rem;
+}
+.login-guest-divider::before,
+.login-guest-divider::after {
+  content: ''; flex: 1; height: 1px;
+  background: rgba(212,165,90,.15);
+}
+.login-guest-divider span {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: .7rem; letter-spacing: .15em;
+  text-transform: uppercase; color: var(--gold);
+  opacity: .4;
+}
+
+.btn-guest {
+  width: 100%;
+  font-family: 'Cormorant Garamond', serif;
+  font-size: .8rem; letter-spacing: .15em;
+  text-transform: uppercase; color: var(--gold);
+  background: none;
+  border: 1px solid rgba(212,165,90,.22);
+  border-radius: 3px; padding: 12px 28px;
+  cursor: pointer; transition: all .3s ease;
+  margin-bottom: .8rem;
+}
+.btn-guest:hover {
+  border-color: rgba(212,165,90,.5);
+  background: rgba(212,165,90,.05);
+}
+
+/* Guest nudge modal */
+#guestNudge {
+  position: fixed; inset: 0; z-index: 400;
+}
+.guest-nudge-backdrop {
+  position: absolute; inset: 0;
+  background: rgba(0,0,0,.65);
+  backdrop-filter: blur(4px);
+}
+.guest-nudge-card {
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  background: #1a1208;
+  border-top: 1px solid rgba(212,165,90,.25);
+  border-radius: 16px 16px 0 0;
+  padding: 2rem 1.5rem 2.5rem;
+  text-align: center;
+  animation: slideUp .4s ease;
+}
+@keyframes slideUp {
+  from { transform: translateY(100%); }
+  to   { transform: translateY(0); }
+}
+.guest-nudge-logo {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.4rem; font-weight: 300;
+  color: var(--gold-pale); letter-spacing: .08em;
+  margin-bottom: 1rem;
+}
+.guest-nudge-logo em { font-style: italic; color: var(--gold); }
+.guest-nudge-text {
+  font-family: 'Lora', serif;
+  font-size: .9rem; line-height: 1.7;
+  color: var(--gold-light); opacity: .75;
+  margin-bottom: 1.5rem;
+}
+.guest-nudge-skip {
+  display: block; width: 100%;
+  font-family: 'Cormorant Garamond', serif;
+  font-size: .75rem; letter-spacing: .15em;
+  text-transform: uppercase; color: var(--gold);
+  opacity: .4; background: none; border: none;
+  cursor: pointer; padding: 10px;
+  margin-top: .8rem; transition: opacity .3s;
+}
+.guest-nudge-skip:hover { opacity: .7; }
