@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -132,8 +133,12 @@
 
 <!-- ═══ REEL FULL VIEW ═══ -->
 <div class="screen" id="reelViewScreen">
-  <!-- Back button -->
-  <button class="reel-back" onclick="GlowFeed.closeReel()">&#x2190; Back</button>
+
+  <!-- Nav pill — fixed top-left -->
+  <div class="reel-nav-pill" id="reelNavPill">
+    <button class="pill-btn active" onclick="GlowApp.showScreen('landingScreen')">&#x2302; Home</button>
+    <button class="pill-btn" onclick="GlowFeed.closeReel()">&#x2190; Collection</button>
+  </div>
 
   <!-- Read / Watch pill — fixed top-right -->
   <div class="reel-mode-pill" id="reelModePill">
